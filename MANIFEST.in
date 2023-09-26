@@ -1,0 +1,18 @@
+include MANIFEST.in
+include requirements.txt
+include *.json
+include *.md
+include *.py
+include *.txt
+recursive-include raindrop *.css
+recursive-include raindrop *.csv
+recursive-include raindrop *.html
+recursive-include raindrop *.ico
+recursive-include raindrop *.js
+recursive-include raindrop *.json
+recursive-include raindrop *.md
+recursive-include raindrop *.png
+recursive-include raindrop *.py
+recursive-include raindrop *.svg
+recursive-include raindrop *.txt
+recursive-exclude raindrop *.pyc
