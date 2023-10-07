@@ -215,3 +215,18 @@ doctype_js = {"Sales Invoice" : "public/js/sales_invoice.js"}
 # auth_hooks = [
 #	"raindrop.auth.validate"
 # ]
+
+fixtures = [
+
+     {
+        "dt": "Custom Field",
+        "filters": [
+            [
+                "module", "in", [
+                    "Raindrop"
+                ]
+            ]
+        ]
+
+    },
+]
