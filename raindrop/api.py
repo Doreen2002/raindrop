@@ -18,7 +18,7 @@ def get_nepali_date(date):
 import csv
 @frappe.whitelist()
 def create_charter_of_accounts():
-    url = "https://hpl.raindropinc.com/files/chart_of_account_error_rows_updated.csv" 
+    url = "https://hpl.raindropinc.com/files/chart_of_account_error_rows - Sheet1.csv" 
     response = requests.get(url)
     content = response.content.decode('utf-8')
     reader = csv.reader(content.splitlines(), delimiter=',')
