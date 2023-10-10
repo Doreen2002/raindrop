@@ -62,7 +62,7 @@ def create_upload_items():
     response = requests.get(url)
     content = response.content.decode('utf-8')
     reader = csv.reader(content.splitlines(), delimiter=',')
-     for row in reader:
+    for row in reader:
          try:
              doc = frappe.new_doc('Item Group')
              doc.item_group_name = row[0]
