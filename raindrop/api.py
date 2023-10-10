@@ -71,11 +71,11 @@ def create_upload_items():
              frappe.db.commit()
          except Exception as e:
              print(f'{e}')
-     create_second_item_group(reader)
-     create_third_item_group(reader)
-     create_uom(reader)
-     create_item(reader)
-     create_price_list(reader)
+    create_second_item_group(reader)
+    create_third_item_group(reader)
+    create_uom(reader)
+    create_item(reader)
+    create_price_list(reader)
 
 def create_second_item_group(reader):
     for row in reader:
