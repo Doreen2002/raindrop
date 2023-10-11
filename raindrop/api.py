@@ -71,12 +71,8 @@ def create_upload_items():
              frappe.db.commit()
          except Exception as e:
              print(f'{e}')
-    create_second_item_group(reader)
-    create_third_item_group(reader)
-    create_uom(reader)
-    create_item(reader)
-    create_price_list(reader)
 
+@frappe.whitelist()
 def create_second_item_group(reader):
     for row in reader:
         try:
@@ -89,6 +85,7 @@ def create_second_item_group(reader):
         except Exception as e:
             print(f'{e}')
 
+@frappe.whitelist()
 def create_third_item_group(reader):
     for row in reader:
         try:
@@ -102,6 +99,7 @@ def create_third_item_group(reader):
         except Exception as e:
             print(f'{e}')
 
+@frappe.whitelist()
 def create_uom(reader):
     for row in reader:
         try:
@@ -113,7 +111,8 @@ def create_uom(reader):
             frappe.db.commit()
         except Exception as e:
             print(f'{e}')
-  
+
+@frappe.whitelist() 
 def create_item(reader):
     for row in reader:
         try:
