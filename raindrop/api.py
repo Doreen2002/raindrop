@@ -117,11 +117,12 @@ def create_uom():
     reader = csv.reader(content.splitlines(), delimiter=',')
     for row in reader:
         try:
-            doc = frappe.new_doc('UOM')
-            doc.uom_name = row[37]
-            doc.enabled = 1
-            doc.insert(ignore_mandatory=True, ignore_links=True)
-            frappe.db.commit()
+            if row[37] != '' and  not frappe.db.exists('UOM', row[37]):
+                doc = frappe.new_doc('UOM')
+                doc.uom_name = row[37]
+                doc.enabled = 1
+                doc.insert(ignore_mandatory=True, ignore_links=True)
+                frappe.db.commit()
         except Exception as e:
             print(f'{e}')
 
@@ -135,7 +136,7 @@ def create_item():
         try:
             doc = frappe.new_doc('Item')
             doc.internal_id = row[8]
-            doc.item_name = row[6]
+            doc.item_name = row[11]
             doc.item_code = f'{row[9]} {row[11]}' 
             doc.item_group = row[5]
             doc.parent = row[10]
@@ -160,7 +161,10 @@ def create_item():
             if row[23] == "Yes":
                 doc.disabled= 1
             doc.costing_method = row[34]
-            doc.valuation_method = row[34]
+            if row[34] == "FIFO":
+                doc.valuation_method = "FIFO"
+            if row[34] == "Average":
+                doc.valuation_method = "Moving Average"
             doc.uom = row[37]
             doc.purchase_uom = row[37]
             doc.sales_uom = row[37]
