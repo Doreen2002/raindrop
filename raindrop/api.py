@@ -140,6 +140,7 @@ def create_item():
             doc.item_code = f'{row[9]} {row[11]}' 
             doc.item_group = row[5]
             doc.custom_parent = row[10]
+            doc.custom_name = row[9]
             doc.custom_display_name = row[11]
             doc.description = row[12]
             doc.custom_type = row[13]
@@ -153,9 +154,9 @@ def create_item():
             doc.custom_offer_support = row[21]
             doc.cost_center = row[22]
             if row[13] == "Inventory Item":
-                doc.stock_item= 1
+                doc.is_stock_item= 1
             if row[13] != "Inventory Item":
-               doc.stock_item= 0
+               doc.is_stock_item= 0
             if row[23] == "No":
                 doc.disabled= 0
             if row[23] == "Yes":
@@ -166,8 +167,8 @@ def create_item():
             if row[34] == "Average":
                 doc.valuation_method = "Moving Average"
             doc.stock_uom = row[37]
-            doc.custom_purchase_uom = row[37]
-            doc.custom_sales_uom = row[37]
+            doc.purchase_uom = row[37]
+            doc.sales_uom = row[37]
             doc.custom_primary_units_type = row[41]
             doc.custom_tax_schedule = row[33]
             doc.custom_subsidiary = row[45]
