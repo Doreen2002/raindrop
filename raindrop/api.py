@@ -134,23 +134,23 @@ def create_item():
     reader = csv.reader(content.splitlines(), delimiter=',')
     for row in reader:
         try:
-            doc = frappe.new_doc('Item')
-            doc.internal_id = row[8]
+            doc = frappe.new_doc('Item') 
+            doc.custom_internal_id = row[8]
             doc.item_name = row[11]
             doc.item_code = f'{row[9]} {row[11]}' 
             doc.item_group = row[5]
-            doc.parent = row[10]
-            doc.display_name = row[11]
+            doc.custom_parent = row[10]
+            doc.custom_display_name = row[11]
             doc.description = row[12]
-            doc.type = row[13]
-            doc.sub_type = row[14]
+            doc.custom_type = row[13]
+            doc.custom_sub_type = row[14]
             doc.standard_rate = row[15]
-            doc.item_collection = row[16]
-            doc.jobtech_code = row[17]
-            doc.old_item_code = row[18]
-            doc.ups_code = row[19]
-            doc.vendor = row[20]
-            doc.offer_support = row[21]
+            doc.custom_item_collection = row[16]
+            doc.custom_jobtech_code = row[17]
+            doc.custom_old_item_code = row[18]
+            doc.custom_ups_code = row[19]
+            doc.custom_vendor = row[20]
+            doc.custom_offer_support = row[21]
             doc.cost_center = row[22]
             if row[13] == "Inventory Item":
                 doc.stock_item= 1
@@ -160,19 +160,19 @@ def create_item():
                 doc.disabled= 0
             if row[23] == "Yes":
                 doc.disabled= 1
-            doc.costing_method = row[34]
+            doc.custom_costing_method = row[34]
             if row[34] == "FIFO":
                 doc.valuation_method = "FIFO"
             if row[34] == "Average":
                 doc.valuation_method = "Moving Average"
-            doc.uom = row[37]
-            doc.purchase_uom = row[37]
-            doc.sales_uom = row[37]
-            doc.primary_units_type = row[41]
-            doc.tax_schedule = row[33]
-            doc.subsidiary = row[45]
-            doc.include_children = row[46]
-            doc.location = row [47]
+            doc.stock_uom = row[37]
+            doc.custom_purchase_uom = row[37]
+            doc.custom_sales_uom = row[37]
+            doc.custom_primary_units_type = row[41]
+            doc.custom_tax_schedule = row[33]
+            doc.custom_subsidiary = row[45]
+            doc.custom_include_children = row[46]
+            doc.custom_location = row [47]
             doc.insert(ignore_mandatory=True, ignore_links=True)
             frappe.db.commit()
         except Exception as e:
