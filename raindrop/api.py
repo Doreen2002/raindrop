@@ -57,48 +57,50 @@ def create_charter_of_accounts():
 
 import csv
 @frappe.whitelist()
-def create_upload_items():
-    url = "https://hpl.raindropinc.com/files/NPR Item Master Final (1)fb08a4.csv" 
+def create_first_item_group():
+    url = "https://hpl.raindropinc.com/files/NPR Item Master Final (1) - Sheet1.csv" 
     response = requests.get(url)
     content = response.content.decode('utf-8')
     reader = csv.reader(content.splitlines(), delimiter=',')
     for row in reader:
          try:
-             doc = frappe.new_doc('Item Group')
-             doc.item_group_name = row[0]
-             doc.is_group = 1
-             doc.insert(ignore_mandatory=True, ignore_links=True)
-             frappe.db.commit()
+             if row[0] != '' and  not frappe.db.exists('Item Group', row[0]):
+                doc = frappe.new_doc('Item Group')
+                doc.item_group_name = row[0]
+                doc.is_group = 1
+                doc.insert(ignore_mandatory=True, ignore_links=True)
+                frappe.db.commit()
          except Exception as e:
              print(f'{e}')
 
 @frappe.whitelist()
 def create_second_item_group():
-    url = "https://hpl.raindropinc.com/files/NPR Item Master Final (1)fb08a4.csv" 
+    url = "https://hpl.raindropinc.com/files/NPR Item Master Final (1) - Sheet1.csv" 
     response = requests.get(url)
     content = response.content.decode('utf-8')
     reader = csv.reader(content.splitlines(), delimiter=',')
     for row in reader:
         try:
-            doc = frappe.new_doc('Item Group')
-            doc.item_group_name = row[1]
-            doc.is_group = 1
-            doc.parent_item_group = row[0]
-            doc.insert(ignore_mandatory=True, ignore_links=True)
-            frappe.db.commit()
+            if row[1] != '' and  not frappe.db.exists('Item Group', row[1]):
+                doc = frappe.new_doc('Item Group')
+                doc.item_group_name = row[1]
+                doc.is_group = 1
+                doc.parent_item_group = row[0]
+                doc.insert(ignore_mandatory=True, ignore_links=True)
+                frappe.db.commit()
         except Exception as e:
             print(f'{e}')
 
 @frappe.whitelist()
 def create_third_item_group():
-    url = "https://hpl.raindropinc.com/files/NPR Item Master Final (1)fb08a4.csv" 
+    url = "https://hpl.raindropinc.com/files/NPR Item Master Final (1) - Sheet1.csv" 
     response = requests.get(url)
     content = response.content.decode('utf-8')
     reader = csv.reader(content.splitlines(), delimiter=',')
     for row in reader:
         try:
             doc = frappe.new_doc('Item Group')
-            if type(row[2]) != int:
+            if row[2] != '' and  not frappe.db.exists('Item Group', row[2]):
                 doc.item_group_name = row[2]
                 doc.is_group = 1
                 doc.parent_item_group = row[1]
@@ -109,16 +111,15 @@ def create_third_item_group():
 
 @frappe.whitelist()
 def create_uom():
-    url = "https://hpl.raindropinc.com/files/NPR Item Master Final (1)fb08a4.csv" 
+    url = "https://hpl.raindropinc.com/files/NPR Item Master Final (1) - Sheet1.csv" 
     response = requests.get(url)
     content = response.content.decode('utf-8')
     reader = csv.reader(content.splitlines(), delimiter=',')
     for row in reader:
         try:
             doc = frappe.new_doc('UOM')
-            doc.uom_name = row[34]
+            doc.uom_name = row[37]
             doc.enabled = 1
-            doc.parent_group = row[0]
             doc.insert(ignore_mandatory=True, ignore_links=True)
             frappe.db.commit()
         except Exception as e:
@@ -126,41 +127,48 @@ def create_uom():
 
 @frappe.whitelist() 
 def create_item():
-    url = "https://hpl.raindropinc.com/files/NPR Item Master Final (1)fb08a4.csv" 
+    url = "https://hpl.raindropinc.com/files/NPR Item Master Final (1) - Sheet1.csv" 
     response = requests.get(url)
     content = response.content.decode('utf-8')
     reader = csv.reader(content.splitlines(), delimiter=',')
     for row in reader:
         try:
             doc = frappe.new_doc('Item')
-            doc.internal_id = row[5]
+            doc.internal_id = row[8]
             doc.item_name = row[6]
-            doc.item_code = row[6]
-            doc.parent = row[7]
-            doc.display_name = row[8]
-            doc.description = row[9]
-            doc.type = row[10]
-            doc.sub_type = row[11]
-            doc.standard_rate = row[12]
-            doc.item_collection = row[13]
-            doc.jobtech_code = row[14]
-            doc.old_item_code = row[15]
-            doc.ups_code = row[16]
-            doc.vendor = row[17]
-            doc.offer_support = row[18]
-            doc.cost_center = row[19]
-            if row[20] == "No":
+            doc.item_code = f'{row[9]} {row[11]}' 
+            doc.item_group = row[5]
+            doc.parent = row[10]
+            doc.display_name = row[11]
+            doc.description = row[12]
+            doc.type = row[13]
+            doc.sub_type = row[14]
+            doc.standard_rate = row[15]
+            doc.item_collection = row[16]
+            doc.jobtech_code = row[17]
+            doc.old_item_code = row[18]
+            doc.ups_code = row[19]
+            doc.vendor = row[20]
+            doc.offer_support = row[21]
+            doc.cost_center = row[22]
+            if row[13] == "Inventory Item":
+                doc.stock_item= 1
+            if row[13] != "Inventory Item":
+               doc.stock_item= 0
+            if row[23] == "No":
                 doc.disabled= 0
-            if row[20] == "Yes":
+            if row[23] == "Yes":
                 doc.disabled= 1
-            doc.costing_method = row[31]
-            doc.uom = row[34]
-            doc.primary_units_type = row[38]
-            doc.item_collection = row[13]
-            doc.tax_schedule = row[30]
-            doc.subsidiary = row[42]
-            doc.include_children = row[43]
-            doc.location = row [44]
+            doc.costing_method = row[34]
+            doc.valuation_method = row[34]
+            doc.uom = row[37]
+            doc.purchase_uom = row[37]
+            doc.sales_uom = row[37]
+            doc.primary_units_type = row[41]
+            doc.tax_schedule = row[33]
+            doc.subsidiary = row[45]
+            doc.include_children = row[46]
+            doc.location = row [47]
             doc.insert(ignore_mandatory=True, ignore_links=True)
             frappe.db.commit()
         except Exception as e:
@@ -168,16 +176,16 @@ def create_item():
   
                
 def create_price_list():
-    url = "https://hpl.raindropinc.com/files/NPR Item Master Final (1)fb08a4.csv" 
+    url = "https://hpl.raindropinc.com/files/NPR Item Master Final (1) - Sheet1.csv" 
     response = requests.get(url)
     content = response.content.decode('utf-8')
     reader = csv.reader(content.splitlines(), delimiter=',')
     for row in reader:
         try:
             doc = frappe.new_doc('Item Price')
-            doc.item_code = row[6]
+            doc.item_code =  f'{row[9]} {row[11]}'
             doc.price_list = "Standard Buying"
-            doc.price_list_rate = row[40]
+            doc.price_list_rate = row[43]
             doc.insert(ignore_mandatory=True, ignore_links=True)
             frappe.db.commit()
         except Exception as e:
@@ -185,16 +193,7 @@ def create_price_list():
 
             
           
-@frappe.whitelist()
-def update_account_naming():
-    account_like_name = ['1100 - Cash In Hand - HPL']
-    for value in account_like_name:
-        name = frappe.db.get_list('Account',  filters= {'name': value}, pluck='name')
-        print(name)
-        doc = frappe.get_doc('Account', name[0])
-        doc.name = '11000 - 19300 - Cash In Hand - HPL'
-        doc._save()
-        frappe.db.commit()
+
 
        
 
