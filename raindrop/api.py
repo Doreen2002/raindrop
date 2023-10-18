@@ -58,7 +58,7 @@ def create_charter_of_accounts():
 import csv
 @frappe.whitelist()
 def create_first_item_group():
-    url = "http://34.138.131.178/files/NPR Item Master Final (2) - Sheet1.csv" 
+    url = "http://34.135.158.114/files/NPR Item Master Final (2) - Sheet1.csv" 
     response = requests.get(url)
     content = response.content.decode('utf-8')
     reader = csv.reader(content.splitlines(), delimiter=',')
@@ -75,7 +75,7 @@ def create_first_item_group():
 
 @frappe.whitelist()
 def create_second_item_group():
-    url = "http://34.138.131.178/files/NPR Item Master Final (2) - Sheet1.csv" 
+    url = "http://34.135.158.114/files/NPR Item Master Final (2) - Sheet1.csv" 
     response = requests.get(url)
     content = response.content.decode('utf-8')
     reader = csv.reader(content.splitlines(), delimiter=',')
@@ -93,7 +93,7 @@ def create_second_item_group():
 
 @frappe.whitelist()
 def create_third_item_group():
-    url = "http://34.138.131.178/files/NPR Item Master Final (2) - Sheet1.csv" 
+    url = "http://34.135.158.114/files/NPR Item Master Final (2) - Sheet1.csv" 
     response = requests.get(url)
     content = response.content.decode('utf-8')
     reader = csv.reader(content.splitlines(), delimiter=',')
@@ -110,7 +110,7 @@ def create_third_item_group():
 
 @frappe.whitelist()
 def create_four_item_group():
-    url = "http://34.138.131.178/files/NPR Item Master Final (2) - Sheet1.csv" 
+    url = "http://34.135.158.114/files/NPR Item Master Final (2) - Sheet1.csv" 
     response = requests.get(url)
     content = response.content.decode('utf-8')
     reader = csv.reader(content.splitlines(), delimiter=',')
@@ -127,7 +127,7 @@ def create_four_item_group():
 
 @frappe.whitelist()
 def create_uom():
-    url = "http://34.138.131.178/files/NPR Item Master Final (2) - Sheet1.csv" 
+    url = "http://34.135.158.114/files/NPR Item Master Final (2) - Sheet1.csv" 
     response = requests.get(url)
     content = response.content.decode('utf-8')
     reader = csv.reader(content.splitlines(), delimiter=',')
@@ -144,7 +144,7 @@ def create_uom():
 
 @frappe.whitelist() 
 def create_item():
-    url = "http://34.138.131.178/files/NPR Item Master Final (1)fb08a4.csv" 
+    url = "http://34.135.158.114/files/NPR Item Master Final (2) - Sheet1.csv" 
     response = requests.get(url)
     content = response.content.decode('utf-8')
     reader = csv.reader(content.splitlines(), delimiter=',')
@@ -197,7 +197,7 @@ def create_item():
   
                
 def create_price_list():
-    url = "http://34.138.131.178/files/NPR Item Master Final (2) - Sheet1.csv" 
+    url = "http://34.135.158.114/files/NPR Item Master Final (2) - Sheet1.csv" 
     response = requests.get(url)
     content = response.content.decode('utf-8')
     reader = csv.reader(content.splitlines(), delimiter=',')
