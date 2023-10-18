@@ -18,7 +18,7 @@ def get_nepali_date(date):
 import csv
 @frappe.whitelist()
 def create_charter_of_accounts():
-    url = "https://hpl.raindropinc.com/files/chart_of_account_error_rows - Sheet1.csv" 
+    url = "http://34.138.131.178/files/chart_of_account_error_rows - Sheet1.csv" 
     response = requests.get(url)
     content = response.content.decode('utf-8')
     reader = csv.reader(content.splitlines(), delimiter=',')
@@ -58,7 +58,7 @@ def create_charter_of_accounts():
 import csv
 @frappe.whitelist()
 def create_first_item_group():
-    url = "https://hpl.raindropinc.com/files/NPR Item Master Final (1) - Sheet1.csv" 
+    url = "http://34.138.131.178/files/NPR Item Master Final (1) - Sheet1.csv" 
     response = requests.get(url)
     content = response.content.decode('utf-8')
     reader = csv.reader(content.splitlines(), delimiter=',')
@@ -75,7 +75,7 @@ def create_first_item_group():
 
 @frappe.whitelist()
 def create_second_item_group():
-    url = "https://hpl.raindropinc.com/files/NPR Item Master Final (1) - Sheet1.csv" 
+    url = "http://34.138.131.178/files/NPR Item Master Final (1) - Sheet1.csv" 
     response = requests.get(url)
     content = response.content.decode('utf-8')
     reader = csv.reader(content.splitlines(), delimiter=',')
@@ -93,7 +93,7 @@ def create_second_item_group():
 
 @frappe.whitelist()
 def create_third_item_group():
-    url = "https://hpl.raindropinc.com/files/NPR Item Master Final (1) - Sheet1.csv" 
+    url = "http://34.138.131.178/files/NPR Item Master Final (1) - Sheet1.csv" 
     response = requests.get(url)
     content = response.content.decode('utf-8')
     reader = csv.reader(content.splitlines(), delimiter=',')
@@ -110,7 +110,7 @@ def create_third_item_group():
 
 @frappe.whitelist()
 def create_uom():
-    url = "https://hpl.raindropinc.com/files/NPR Item Master Final (1) - Sheet1.csv" 
+    url = "http://34.138.131.178/files/NPR Item Master Final (1) - Sheet1.csv" 
     response = requests.get(url)
     content = response.content.decode('utf-8')
     reader = csv.reader(content.splitlines(), delimiter=',')
@@ -127,7 +127,7 @@ def create_uom():
 
 @frappe.whitelist() 
 def create_item():
-    url = "https://hpl.raindropinc.com/files/NPR Item Master Final (1) - Sheet1.csv" 
+    url = "http://34.138.131.178/files/NPR Item Master Final (1) - Sheet1.csv" 
     response = requests.get(url)
     content = response.content.decode('utf-8')
     reader = csv.reader(content.splitlines(), delimiter=',')
@@ -180,7 +180,7 @@ def create_item():
   
                
 def create_price_list():
-    url = "https://hpl.raindropinc.com/files/NPR Item Master Final (1) - Sheet1.csv" 
+    url = "http://34.138.131.178/files/NPR Item Master Final (1) - Sheet1.csv" 
     response = requests.get(url)
     content = response.content.decode('utf-8')
     reader = csv.reader(content.splitlines(), delimiter=',')
@@ -201,7 +201,7 @@ def create_price_list():
 #supplier apis
 
 def create_supplier():
-    url = "https://hpl.raindropinc.com/files/HPL Vendor Master Final - Sheet1.csv" 
+    url = "http://34.138.131.178/files/HPL Vendor Master Final - Sheet1.csv" 
     response = requests.get(url)
     content = response.content.decode('utf-8')
     reader = csv.reader(content.splitlines(), delimiter=',')
@@ -273,7 +273,7 @@ def create_supplier():
 
 
 def create_supplier_group():
-    url = "https://hpl.raindropinc.com/files/HPL Vendor Master Final - Sheet1.csv" 
+    url = "http://34.138.131.178/files/HPL Vendor Master Final - Sheet1.csv" 
     response = requests.get(url)
     content = response.content.decode('utf-8')
     reader = csv.reader(content.splitlines(), delimiter=',')
@@ -289,7 +289,7 @@ def create_supplier_group():
 
 
 def create_bank_account():
-    url = "https://hpl.raindropinc.com/files/HPL Vendor Master Final - Sheet1.csv" 
+    url = "http://34.138.131.178/files/HPL Vendor Master Final - Sheet1.csv" 
     response = requests.get(url)
     content = response.content.decode('utf-8')
     reader = csv.reader(content.splitlines(), delimiter=',')
@@ -305,9 +305,9 @@ def create_bank_account():
             doc.bank = create_bank(reader)
             doc.insert(ignore_mandatory=True, ignore_links=True)
             frappe.db.commit()
+        
         except Exception as e:
             print(f'{e}')
-
 
 
 def create_bank(reader):
@@ -321,7 +321,47 @@ def create_bank(reader):
             return doc.name
         except Exception as e:
             print(f'{e}')
-         
 
+puchase_order_number = []
+def append_po_number():
+    url = "http://34.138.131.178/files/HPL PO Transactio NPR - Sheet1.csv" 
+    response = requests.get(url)
+    content = response.content.decode('utf-8')
+    reader = csv.reader(content.splitlines(), delimiter=',')
+    for row in reader:
+        try:
+            puchase_order_number.append(row[2])
+        except Exception as e:
+            print(f'{e}')
 
-
+def create_purchase_order():
+    qty = 0
+    rate = 0
+    amount = 0
+    url = "http://34.138.131.178/files/HPL PO Transactio NPR - Sheet1.csv" 
+    response = requests.get(url)
+    content = response.content.decode('utf-8')
+    reader = csv.reader(content.splitlines(), delimiter=',')
+    for row in reader:
+        try:
+            doc = frappe.new_doc('Purchase Order')
+            doc.supplier = row[7].strip()
+            if row[44] != '':
+                qty = row[44].strip()
+            if row[45] != '':
+                rate = row[45].strip()
+            if row[39] != '':
+                amount = row[39].strip()
+            for val in puchase_order_number:
+                if row[2] == val:
+                    doc.append("items", {
+                                "item_code": row[43].strip(),
+                                "qty": qty,
+                                "rate": rate,
+                                "amount":rate,
+                                }
+                            )
+            doc.insert(ignore_mandatory=True, ignore_links=True)
+            frappe.db.commit()
+        except Exception as e:
+            print(f'{e}')
