@@ -109,6 +109,23 @@ def create_third_item_group():
             print(f'{e}')
 
 @frappe.whitelist()
+def create_four_item_group():
+    url = "http://34.138.131.178/files/NPR Item Master Final (1) - Sheet1.csv" 
+    response = requests.get(url)
+    content = response.content.decode('utf-8')
+    reader = csv.reader(content.splitlines(), delimiter=',')
+    for row in reader:
+        try:
+            doc = frappe.new_doc('Item Group')
+            doc.item_group_name = row[3].strip()
+            doc.is_group = 1
+            doc.parent_item_group = row[2].strip()
+            doc.insert(ignore_mandatory=True, ignore_links=True)
+            frappe.db.commit()
+        except Exception as e:
+            print(f'{e}')
+
+@frappe.whitelist()
 def create_uom():
     url = "http://34.138.131.178/files/NPR Item Master Final (1) - Sheet1.csv" 
     response = requests.get(url)
