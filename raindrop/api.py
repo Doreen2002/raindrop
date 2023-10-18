@@ -144,7 +144,7 @@ def create_uom():
 
 @frappe.whitelist() 
 def create_item():
-    url = "http://34.138.131.178/files/NPR Item Master Final (2) - Sheet1.csv" 
+    url = "http://34.138.131.178/files/NPR Item Master Final (1)fb08a4.csv" 
     response = requests.get(url)
     content = response.content.decode('utf-8')
     reader = csv.reader(content.splitlines(), delimiter=',')
