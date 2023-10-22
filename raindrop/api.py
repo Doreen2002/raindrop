@@ -349,49 +349,93 @@ def create_bank(reader):
             print(f'{e}')
 
 
-def create_purchase_order():
-    url_po = "http://test4:8000/files/po_number - Sheet1.csv" 
-    response_po = requests.get(url_po)
-    content_po = response_po.content.decode('utf-8')
-    reader_po= csv.reader(content_po.splitlines(), delimiter=',')
+import csv
+import requests
+import frappe
+from datetime import datetime
 
-    url = "http://test4:8000/files/HPL PO Transactio NPR - Sheet1 (4).csv" 
-    response = requests.get(url)
-    content = response.content.decode('utf-8')
-    reader = csv.reader(content.splitlines(), delimiter=',')
-    for value in reader_po:
-        items = []
-        try:
-            if value[31] is not None :
-                doc = frappe.new_doc('Purchase Order')
-                doc.supplier = value[31]
-                doc.transaction_date = "2023-10-21"
-                doc.schedule_date = "2023-10-21"
-                for row in reader:
-                    qty = 0
-                    rate = 0
-                    amount = 0
-                    if row[44]is not None:
-                        qty = row[44]
-                    if row[45] is not None:
-                        rate = float(row[45])
-                    if row[43] is not None and value[2] is not None and row[2] is not None:
-                        if value[2] == row[2]:
+def date_converter(date_str):
+    date_obj = datetime.strptime(date_str, "%m/%d/%Y")
+    formatted_date = date_obj.strftime("%Y-%m-%d")
+    return formatted_date
+
+
+def create_purchase_order():
+    with open('/home/doreenalita/Downloads/po_number - Sheet1.csv') as design_file:
+        reader_po = csv.reader(design_file, delimiter=',')
+        for value in reader_po:
+            try:
+                items = []
+                with open('/home/doreenalita/Downloads/HPL PO Transactio NPR - Sheet1 (4) (1).csv') as templates:
+                    reader = csv.reader(templates, delimiter=',')
+                    for row in reader:
+                        if  row[2].strip() == value[2].strip():
+                            if row[46] == '0':
+                                tax = ''
+                            elif row[46] != '0':
+                                tax = "Nepal Tax - HPL"
                             items.append(
-                                {
-                        "item_code":frappe.db.get_value('Item', {'custom_name':row[43]}, 'name'),
-                        "qty": qty,
-                        "rate": rate,
-                        "schedule_date":"2023-10-21"
-                            }
-                            )
+                            {
+                            "item_code":frappe.db.get_value('Item', {'custom_name':row[43]}, 'name'),
+                            "qty": row[44] or 0,
+                            "rate": row[45] or 0,
+                            "schedule_date":date_converter(value[1]),
+                            "item_tax_template":tax
+                                }
+                                )
                 if len(items) > 0:
+                    doc = frappe.new_doc('Purchase Order')
+                    doc.supplier = value[31]
+                    doc.custom_internal_id = value[0]
+                    doc.custom_subsidiary_ =value[4]
+                    if value[46] == '0':
+                        doc.taxes_and_charges =''
+                    if value[46] != '0':
+                        doc.taxes_and_charges = "Nepal Tax - HPL"
+                        doc.append('taxes',
+                                   {
+                                       'type':"On Net Total",
+                                       "rate":13,
+                                       "account_head":"VAT - HPL"
+                                   })
+                    if value[6] == "KIRNE (N)":
+                        doc.set_warehouse = "KIRNE (N) - HPL"
+                    if value[6] == "KATHMANDU (N)":
+                        doc.set_warehouse="KATHMANDU (N) - HPL"
+                    if value[6] == "PALATI (N)":
+                        doc.set_warehouse="PALATI (N) - HPL"
+                    if value[6] == "KATHMANDU":
+                        doc.set_warehouse="KATHMANDU - HPL"
+                    if value[6] == "KIRNE":
+                        doc.set_warehouse="KIRNE - HPL"
+                    doc.name = value[2]
+                    doc.custom_billable = value[48]
+                    doc.custom_match_bill_to_receipt = value[49]
+                    doc.custom_requested_by = value[11]
+                    doc.terms = value[9]
+                    doc.custom_tds_reclass_of = value[19]
+                    doc.custom_procurement_person = value[15]
+                    doc.custom_memo = value[14]
+                    doc.custom_created_by = value[3]
+                    doc.custom_vendor_price_ref = value[17]
+                    doc.custom_current_approver= value[22]
+                    doc.custom_resubmit= value[23]
+                    if frappe.db.exists('Project', value[30]) :
+                        doc.project = value[30]
+                    if not frappe.db.exists('Project', value[30]) and value[30] != '':
+                        pro = frappe.new_doc('Project')
+                        pro.project_name = value[30]
+                        pro.insert(ignore_mandatory=True )
+                        frappe.db.commit()
+                        doc.project = value[30]
+                    doc.custom_line_id= value[32]
+                    doc.transaction_date = date_converter(value[1])
+                    doc.schedule_date = date_converter(value[1])
                     for item in items:
                         doc.append("items", item)
-                doc.docstatus = 1
-                doc.insert(ignore_mandatory=True )
-                frappe.db.commit()
-        except Exception as e:
-           print(f'{e} {type(row[44])} {type(row[45])} {type(row[39])} {type(row[43])} {type(value[2])} {type(value[31])}')
-           break
-
+                    doc.docstatus = 1
+                    doc.insert(ignore_mandatory=True )
+                    frappe.db.commit()
+            except Exception as e:
+                print(f'{e}')
+   
