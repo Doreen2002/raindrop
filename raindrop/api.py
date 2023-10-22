@@ -58,7 +58,7 @@ def create_charter_of_accounts():
 import csv
 @frappe.whitelist()
 def create_first_item_group():
-    url = "http://34.135.158.114/files/NPR Item Master Final (2) - Sheet1.csv" 
+    url = "http://test4:8000/files/NPR Item Master Final (2) - Sheet1 (2).csv" 
     response = requests.get(url)
     content = response.content.decode('utf-8')
     reader = csv.reader(content.splitlines(), delimiter=',')
@@ -75,13 +75,13 @@ def create_first_item_group():
 
 @frappe.whitelist()
 def create_second_item_group():
-    url = "http://34.135.158.114/files/NPR Item Master Final (2) - Sheet1.csv" 
+    url = "http://test4:8000/files/NPR Item Master Final (2) - Sheet1 (2).csv" 
     response = requests.get(url)
     content = response.content.decode('utf-8')
     reader = csv.reader(content.splitlines(), delimiter=',')
     for row in reader:
         try:
-            if row[1] != '' and  not frappe.db.exists('Item Group', row[1]):
+            if row[1] != '' and  not frappe.db.exists('Item Group', row[1]) and row[1][:1] not in '0123456789':
                 doc = frappe.new_doc('Item Group')
                 doc.item_group_name = row[1].strip()
                 doc.is_group = 1
@@ -93,24 +93,25 @@ def create_second_item_group():
 
 @frappe.whitelist()
 def create_third_item_group():
-    url = "http://34.135.158.114/files/NPR Item Master Final (2) - Sheet1.csv" 
+    url = "http://test4:8000/files/NPR Item Master Final (2) - Sheet1 (2).csv" 
     response = requests.get(url)
     content = response.content.decode('utf-8')
     reader = csv.reader(content.splitlines(), delimiter=',')
     for row in reader:
         try:
-            doc = frappe.new_doc('Item Group')
-            doc.item_group_name = row[2].strip()
-            doc.is_group = 1
-            doc.parent_item_group = row[1].strip()
-            doc.insert(ignore_mandatory=True, ignore_links=True)
-            frappe.db.commit()
+            if  row[2][:1] not in '0123456789':
+                doc = frappe.new_doc('Item Group')
+                doc.item_group_name = row[2].strip()
+                doc.is_group = 1
+                doc.parent_item_group = row[1].strip()
+                doc.insert(ignore_mandatory=True, ignore_links=True)
+                frappe.db.commit()
         except Exception as e:
             print(f'{e}')
 
 @frappe.whitelist()
 def create_four_item_group():
-    url = "http://34.135.158.114/files/NPR Item Master Final (2) - Sheet1.csv" 
+    url = "http://test4:8000/files/NPR Item Master Final (2) - Sheet1 (2).csv" 
     response = requests.get(url)
     content = response.content.decode('utf-8')
     reader = csv.reader(content.splitlines(), delimiter=',')
@@ -127,7 +128,7 @@ def create_four_item_group():
 
 @frappe.whitelist()
 def create_uom():
-    url = "http://34.135.158.114/files/NPR Item Master Final (2) - Sheet1.csv" 
+    url = "http://test4:8000/files/NPR Item Master Final (2) - Sheet1 (2).csv" 
     response = requests.get(url)
     content = response.content.decode('utf-8')
     reader = csv.reader(content.splitlines(), delimiter=',')
@@ -144,18 +145,22 @@ def create_uom():
 
 @frappe.whitelist() 
 def create_item():
-    url = "https://hpl.raindropinc.com/files/NPR Item Master Final (1) - Sheet1.csv" 
+    url = "http://test4:8000/files/NPR Item Master Final (1) - Sheet1 (1).csv" 
     response = requests.get(url)
     content = response.content.decode('utf-8')
     reader = csv.reader(content.splitlines(), delimiter=',')
     for row in reader:
         try:
-            
             doc = frappe.new_doc('Item') 
             doc.custom_internal_id = row[8].strip()
             doc.item_name = row[11].strip()
             doc.item_code = f'{row[9].strip()} {row[11].strip()}' 
-            doc.item_group = row[5].strip()
+            if row[5].strip() != '':
+                doc.item_group = row[5].strip()
+            if row[5].strip() == '':
+                doc.item_group  = "No Group"
+            if row[5][:1]  in '0123456789':
+                doc.item_group  = "No Group"
             doc.custom_parent = row[10].strip()
             doc.custom_name = row[9].strip()
             doc.custom_display_name = row[11].strip()
@@ -173,7 +178,7 @@ def create_item():
             if row[13] == "Inventory Item":
                 doc.is_stock_item= 1
             if row[13] != "Inventory Item":
-               doc.is_stock_item= 0
+                doc.is_stock_item= 0
             if row[23] == "No":
                 doc.disabled= 0
             if row[23] == "Yes":
@@ -183,7 +188,10 @@ def create_item():
                 doc.valuation_method = "FIFO"
             if row[34] == "Average":
                 doc.valuation_method = "Moving Average"
-            doc.stock_uom = row[37].strip()
+            if row[37] != '':
+                doc.stock_uom = row[37].strip()
+            if row[37] == '':
+                doc.stock_uom = "No Uom"
             doc.purchase_uom = row[37].strip()
             doc.sales_uom = row[37].strip()
             doc.custom_primary_units_type = row[41].strip()
@@ -198,7 +206,7 @@ def create_item():
   
                
 def create_price_list():
-    url = "http://34.135.158.114/files/NPR Item Master Final (2) - Sheet1.csv" 
+    url = "http://test4:8000/files/NPR Item Master Final (2) - Sheet1 (2).csv" 
     response = requests.get(url)
     content = response.content.decode('utf-8')
     reader = csv.reader(content.splitlines(), delimiter=',')
@@ -219,7 +227,7 @@ def create_price_list():
 #supplier apis
 
 def create_supplier():
-    url = "http://34.138.131.178/files/HPL Vendor Master Final - Sheet1.csv" 
+    url = "http://test4:8000/files/HPL Vendor Master Final - Sheet1.csv" 
     response = requests.get(url)
     content = response.content.decode('utf-8')
     reader = csv.reader(content.splitlines(), delimiter=',')
@@ -291,7 +299,7 @@ def create_supplier():
 
 
 def create_supplier_group():
-    url = "http://34.138.131.178/files/HPL Vendor Master Final - Sheet1.csv" 
+    url = "http://test4:8000/files/HPL Vendor Master Final - Sheet1.csv" 
     response = requests.get(url)
     content = response.content.decode('utf-8')
     reader = csv.reader(content.splitlines(), delimiter=',')
@@ -307,7 +315,7 @@ def create_supplier_group():
 
 
 def create_bank_account():
-    url = "http://34.138.131.178/files/HPL Vendor Master Final - Sheet1.csv" 
+    url = "http://test4:8000/files/HPL Vendor Master Final - Sheet1.csv" 
     response = requests.get(url)
     content = response.content.decode('utf-8')
     reader = csv.reader(content.splitlines(), delimiter=',')
@@ -340,47 +348,50 @@ def create_bank(reader):
         except Exception as e:
             print(f'{e}')
 
-puchase_order_number = []
-def append_po_number():
-    url = "http://34.138.131.178/files/HPL PO Transactio NPR - Sheet1.csv" 
-    response = requests.get(url)
-    content = response.content.decode('utf-8')
-    reader = csv.reader(content.splitlines(), delimiter=',')
-    for row in reader:
-        try:
-            puchase_order_number.append(row[2])
-        except Exception as e:
-            print(f'{e}')
 
 def create_purchase_order():
-    qty = 0
-    rate = 0
-    amount = 0
-    url = "http://34.138.131.178/files/HPL PO Transactio NPR - Sheet1.csv" 
+    url_po = "http://test4:8000/files/po_number - Sheet1.csv" 
+    response_po = requests.get(url_po)
+    content_po = response_po.content.decode('utf-8')
+    reader_po= csv.reader(content_po.splitlines(), delimiter=',')
+
+    url = "http://test4:8000/files/HPL PO Transactio NPR - Sheet1 (4).csv" 
     response = requests.get(url)
     content = response.content.decode('utf-8')
     reader = csv.reader(content.splitlines(), delimiter=',')
-    for row in reader:
+    for value in reader_po:
+        items = []
         try:
-          
-            doc = frappe.new_doc('Purchase Order')
-            doc.supplier = row[31].strip()
-            if row[44] != '':
-                qty = row[44].strip()
-            if row[45] != '':
-                rate = row[45].strip()
-            if row[39] != '':
-                amount = row[39].strip()
-            for val in puchase_order_number:
-                if row[2] == val:
-                    doc.append("items", {
-                                "item_code": row[43].strip(),
-                                "qty": qty,
-                                "rate": rate,
-                                "amount":rate,
-                                }
+            if value[31] is not None :
+                doc = frappe.new_doc('Purchase Order')
+                doc.supplier = value[31]
+                doc.transaction_date = "2023-10-21"
+                doc.schedule_date = "2023-10-21"
+                for row in reader:
+                    qty = 0
+                    rate = 0
+                    amount = 0
+                    if row[44]is not None:
+                        qty = row[44]
+                    if row[45] is not None:
+                        rate = float(row[45])
+                    if row[43] is not None and value[2] is not None and row[2] is not None:
+                        if value[2] == row[2]:
+                            items.append(
+                                {
+                        "item_code":frappe.db.get_value('Item', {'custom_name':row[43]}, 'name'),
+                        "qty": qty,
+                        "rate": rate,
+                        "schedule_date":"2023-10-21"
+                            }
                             )
-            doc.insert(ignore_mandatory=True, ignore_links=True, )
-            frappe.db.commit()
+                if len(items) > 0:
+                    for item in items:
+                        doc.append("items", item)
+                doc.docstatus = 1
+                doc.insert(ignore_mandatory=True )
+                frappe.db.commit()
         except Exception as e:
-            print(f'{e}')
+           print(f'{e} {type(row[44])} {type(row[45])} {type(row[39])} {type(row[43])} {type(value[2])} {type(value[31])}')
+           break
+
