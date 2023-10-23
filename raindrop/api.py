@@ -360,34 +360,63 @@ def date_converter(date_str):
     return formatted_date
 
 
+
+
 def create_purchase_order():
-    with open('/home/doreenalita/Downloads/po_number - Sheet1.csv') as design_file:
+    with open('/home/doreenalita/Downloads/po_number  - Sheet1.csv') as design_file:
         reader_po = csv.reader(design_file, delimiter=',')
         for value in reader_po:
             try:
                 items = []
-                with open('/home/doreenalita/Downloads/HPL PO Transactio NPR - Sheet1 (4) (1).csv') as templates:
+                with open('/home/doreenalita/Downloads/po - Sheet1.csv') as templates:
                     reader = csv.reader(templates, delimiter=',')
+                    items.clear()
                     for row in reader:
                         if  row[2].strip() == value[2].strip():
                             if row[46] == '0':
                                 tax = ''
                             elif row[46] != '0':
                                 tax = "Nepal Tax - HPL"
-                            items.append(
-                            {
-                            "item_code":frappe.db.get_value('Item', {'custom_name':row[43]}, 'name'),
-                            "qty": row[44] or 0,
-                            "rate": row[45] or 0,
-                            "schedule_date":date_converter(value[1]),
-                            "item_tax_template":tax
-                                }
-                                )
+                            if row[43] == '':
+                                item = "Virtual Item"
+                            elif row[43] != '':
+                                item = frappe.db.get_value('Item', {'custom_name':row[43]}, 'name')
+                            if row[45] != '' and float(row[45]) >= 1:
+                                qty = row[45]
+                            else:
+                                qty = 1
+                                rate = 0
+                            if row[44] != '' and (row[45] != '' and float(row[45]) >= 1):
+                                rate = row[44]
+                            elif row[44] == '':
+                                rate = 0
+                            if row[43] == '':
+                                items.append(
+                                {
+                                "item_code":"Virtual Item",
+                                "qty": 1,
+                                "rate": row[40],
+                                "schedule_date":date_converter(value[1]),
+                                "description":row[14]
+                                    }
+                                    )
+                            elif row[43] != '':
+                                items.append(
+                                {
+                                "item_code":frappe.db.get_value('Item', {'custom_name':row[43]}, 'name'),
+                                "qty": qty ,
+                                "rate": rate,
+                                "schedule_date":date_converter(value[1]),
+                                "description":row[14]
+                                    }
+                                    )
+               
                 if len(items) > 0:
                     doc = frappe.new_doc('Purchase Order')
                     doc.supplier = value[31]
                     doc.custom_internal_id = value[0]
                     doc.custom_subsidiary_ =value[4]
+                    doc.custom_document_number = value[2]
                     if value[46] == '0':
                         doc.taxes_and_charges =''
                     if value[46] != '0':
@@ -396,7 +425,8 @@ def create_purchase_order():
                                    {
                                        'type':"On Net Total",
                                        "rate":13,
-                                       "account_head":"VAT - HPL"
+                                       "account_head":"VAT - HPL",
+                                       "description":value[14]
                                    })
                     if value[6] == "KIRNE (N)":
                         doc.set_warehouse = "KIRNE (N) - HPL"
@@ -408,14 +438,13 @@ def create_purchase_order():
                         doc.set_warehouse="KATHMANDU - HPL"
                     if value[6] == "KIRNE":
                         doc.set_warehouse="KIRNE - HPL"
-                    doc.name = value[2]
                     doc.custom_billable = value[48]
                     doc.custom_match_bill_to_receipt = value[49]
                     doc.custom_requested_by = value[11]
                     doc.terms = value[9]
                     doc.custom_tds_reclass_of = value[19]
                     doc.custom_procurement_person = value[15]
-                    doc.custom_memo = value[14]
+                    doc.memo = value[14]
                     doc.custom_created_by = value[3]
                     doc.custom_vendor_price_ref = value[17]
                     doc.custom_current_approver= value[22]
@@ -434,8 +463,10 @@ def create_purchase_order():
                     for item in items:
                         doc.append("items", item)
                     doc.docstatus = 1
-                    doc.insert(ignore_mandatory=True )
+                    doc.submit()
                     frappe.db.commit()
             except Exception as e:
-                print(f'{e}')
+                print(f'{e} {value[2]}')
+   
+
    
