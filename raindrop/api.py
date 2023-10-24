@@ -363,12 +363,12 @@ def date_converter(date_str):
 
 
 def create_purchase_order():
-    with open('/home/doreenalita/Downloads/po_number  - Sheet1.csv') as design_file:
+    with open('/home/frappe/frappe-bench/apps/raindrop/po_number  - Sheet1.csv') as design_file:
         reader_po = csv.reader(design_file, delimiter=',')
         for value in reader_po:
             try:
                 items = []
-                with open('/home/doreenalita/Downloads/po - Sheet1.csv') as templates:
+                with open('/home/frappe/frappe-bench/apps/raindrop/po - Sheet1.csv') as templates:
                     reader = csv.reader(templates, delimiter=',')
                     items.clear()
                     for row in reader:
