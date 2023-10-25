@@ -372,7 +372,7 @@ def create_purchase_order():
                     reader = csv.reader(templates, delimiter=',')
                     items.clear()
                     for row in reader:
-                        if  row[2].strip() == value[2].strip():
+                        if  row[0].strip() == value[0].strip():
                             if row[46] == '0':
                                 tax = ''
                             elif row[46] != '0':
@@ -463,6 +463,7 @@ def create_purchase_order():
                     for item in items:
                         doc.append("items", item)
                     doc.docstatus = 1
+                    
                     doc.submit()
                     frappe.db.commit()
             except Exception as e:
