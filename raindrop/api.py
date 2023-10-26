@@ -439,6 +439,10 @@ def create_purchase_order():
                     if value[6] == "KIRNE":
                         doc.set_warehouse="KIRNE - HPL"
                     doc.custom_billable = value[48]
+                    doc.cost_center = f'{36} - HPL'
+                    doc.custom_billing_address = value[26]
+                    doc.custom_shipping_address = value [27]
+                    doc.custom_expense_category = value[33]
                     doc.custom_match_bill_to_receipt = value[49]
                     doc.custom_requested_by = value[11]
                     doc.terms = value[9]
