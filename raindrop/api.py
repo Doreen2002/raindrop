@@ -486,7 +486,7 @@ def create_purchase_order_2023():
         for value in reader_po:
             try:
                 items = []
-                with open('/home/doreenalita/frappe/frappe-bench/apps/raindrop/PO  2020 to 2023 - Sheet1.csv') as templates:
+                with open('/home/frappe/frappe-bench/apps/raindrop/PO  2020 to 2023 - Sheet1.csv') as templates:
                     reader = csv.reader(templates, delimiter=',')
                     items.clear()
                     for row in reader:
