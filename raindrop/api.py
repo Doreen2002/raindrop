@@ -397,7 +397,10 @@ def create_purchase_order():
                                 "qty": 1,
                                 "rate": row[40],
                                 "schedule_date":date_converter(value[1]),
-                                "description":row[14]
+                                "description":row[14],
+                                "expense_account":"Vitual Item Expenses - HPL",
+                                "custom_expense_category":value[33],
+                                "cost_center":f'{row[36]} - HPL'
                                     }
                                     )
                             elif row[43] != '':
@@ -407,7 +410,9 @@ def create_purchase_order():
                                 "qty": qty ,
                                 "rate": rate,
                                 "schedule_date":date_converter(value[1]),
-                                "description":row[14]
+                                "description":row[14],
+                                "custom_expense_category":value[33],
+                                "cost_center":f'{row[36]} - HPL'
                                     }
                                     )
                
@@ -474,4 +479,223 @@ def create_purchase_order():
                 print(f'{e} {value[2]}')
    
 
+
+def create_purchase_order_2023():
+    with open('/home/frappe/frappe-bench/apps/raindrop/PO Number 2020 to 2023 - Sheet1.csv') as design_file:
+        reader_po = csv.reader(design_file, delimiter=',')
+        for value in reader_po:
+            try:
+                items = []
+                with open('/home/doreenalita/frappe/frappe-bench/apps/raindrop/PO  2020 to 2023 - Sheet1.csv') as templates:
+                    reader = csv.reader(templates, delimiter=',')
+                    items.clear()
+                    for row in reader:
+                        if  row[0].strip() == value[0].strip():
+                            if row[38] == '0%':
+                                tax = ''
+                            elif row[38] != '0%':
+                                tax = "Nepal Tax - HPL"
+                            if row[39] == '':
+                                item = "Virtual Item"
+                            elif row[43] != '':
+                                item = frappe.db.get_value('Item', {'custom_name':row[43]}, 'name')
+                            if row[43] != '' and float(row[43]) >= 1:
+                                qty = row[43]
+                            else:
+                                qty = 1
+                                rate = 0
+                            if row[40] != '' and (row[40] != '' and float(row[40]) >= 1):
+                                rate = row[40]
+                            elif row[40] == '':
+                                rate = 0
+                            if row[39] == '':
+                                items.append(
+                                {
+                                "item_code":"Virtual Item",
+                                "qty": 1,
+                                "rate": row[40],
+                                "schedule_date":date_converter(value[1]),
+                                "description":row[14],
+                                 "expense_account":"Vitual Item Expenses - HPL",
+                                 "custom_expense_category":value[33],
+                                 "cost_center":f'{row[36]} - HPL'
+                                    }
+                                    )
+                            elif row[39] != '':
+                                items.append(
+                                {
+                                "item_code":frappe.db.get_value('Item', {'custom_name':row[39]}, 'name'),
+                                "qty": qty ,
+                                "rate": rate,
+                                "schedule_date":date_converter(value[1]),
+                                "description":row[14],
+                                "custom_expense_category":value[33],
+                                "cost_center":f'{row[36]} - HPL'
+                                    }
+                                    )
+               
+                if len(items) > 0:
+                    doc = frappe.new_doc('Purchase Order')
+                    doc.supplier = value[31]
+                    if value[5] == "Nepalese Rupee":
+                        doc.currency = "NPR"
+                    elif value[5] == "Euro":
+                        doc.currency = "EUR"
+                    elif value[5] == "US Dollar":
+                        doc.currency = "USD"
+                    elif value[5] == "Indian Rupees":
+                        doc.currency = "INR"
+                    elif value[5] == "British Pound":
+                        doc.currency = "GBP"
+                    elif value[5] == "Norwegian Krone":
+                        doc.currency = "NOK"
+                    doc.conversion_rate = value[25]
+                    doc.custom_internal_id = value[0]
+                    doc.custom_subsidiary_ =value[4]
+                    doc.custom_document_number = value[2]
+                    if value[38] == '0%':
+                        doc.taxes_and_charges =''
+                    if value[38] != '0%':
+                        doc.taxes_and_charges = "Nepal Tax - HPL"
+                        doc.append('taxes',
+                                   {
+                                       'type':"On Net Total",
+                                       "rate":13,
+                                       "account_head":"VAT - HPL",
+                                       "description":value[14]
+                                   })
+                    if value[6] == "KIRNE (N)":
+                        doc.set_warehouse = "KIRNE (N) - HPL"
+                    if value[6] == "KATHMANDU (N)":
+                        doc.set_warehouse="KATHMANDU (N) - HPL"
+                    if value[6] == "PALATI (N)":
+                        doc.set_warehouse="PALATI (N) - HPL"
+                    if value[6] == "KATHMANDU":
+                        doc.set_warehouse="KATHMANDU - HPL"
+                    if value[6] == "KIRNE":
+                        doc.set_warehouse="KIRNE - HPL"
+                    doc.custom_billable = value[48]
+                    doc.cost_center = f'{value[36]} - HPL'
+                    doc.custom_billing_address = value[26]
+                    doc.custom_shipping_address = value [27]
+                    doc.custom_expense_category = value[33]
+                    doc.custom_match_bill_to_receipt = value[49]
+                    doc.custom_requested_by = value[11]
+                    doc.terms = value[9]
+                    doc.custom_tds_reclass_of = value[19]
+                    doc.custom_procurement_person = value[15]
+                    doc.memo = value[14]
+                    doc.custom_created_by = value[3]
+                    doc.custom_vendor_price_ref = value[17]
+                    doc.custom_current_approver= value[22]
+                    doc.custom_resubmit= value[23]
+                    if frappe.db.exists('Project', value[30]) :
+                        doc.project = value[30]
+                    if not frappe.db.exists('Project', value[30]) and value[30] != '':
+                        pro = frappe.new_doc('Project')
+                        pro.project_name = value[30]
+                        pro.insert(ignore_mandatory=True )
+                        frappe.db.commit()
+                        doc.project = value[30]
+                    doc.custom_line_id= value[32]
+                    doc.transaction_date = date_converter(value[1])
+                    doc.schedule_date = date_converter(value[1])
+                    for item in items:
+                        doc.append("items", item)
+                    doc.docstatus = 1
+                    doc.submit()
+                    frappe.db.commit()
+            except Exception as e:
+                print(f'{e} {value[2]}')
    
+
+
+def create_goods_received_2023():
+    with open('/home/frappe/frappe-bench/apps/raindrop/GRN HPL 2020 to 2023 - Sheet1 (1).csv' ) as design_file:
+        reader_po = csv.reader(design_file, delimiter=',')
+        for value in  reader_po:
+            try:
+                po_items = frappe.db.get_all('Purchase Order Item', filters={"parent":frappe.db.get_value("Purchase Order", {"custom_document_number":value[31]}, 'name')}, fields=['*'])
+                po_taxes = frappe.db.get_all('Purchase Taxes and Charges', filters={"parent":frappe.db.get_value("Purchase Order", {"custom_document_number":value[31]}, 'name')}, fields=['*'])
+                items = []
+                taxes = []
+                if value[9] == '':
+                    cost_center = "Main - HPL"
+                if value[9] != '':
+                    cost_center = f'{value[9]} - HPL',
+                for item in po_items:
+                    items.append(
+                        {
+                            "item_code":item.item_code,
+                            "rate":item.rate,
+                            "quantity":item.quantity,
+                            "cost_center": item.cost_center,
+                            "expense_account":item.expense_account,
+                            # "purchase_order": item.parent,
+                            # "purchase_order_item": item.name
+
+                        }
+                    )
+                for tax in po_taxes:
+                    taxes.append(
+                    {
+                    'type':tax.type,
+                    "rate":tax.rate,
+                    "account_head":tax.account_head,
+                    "description":tax.description
+                    })
+
+                if len(items) > 0:
+                    doc = frappe.new_doc('Purchase Receipt')
+                    doc.supplier = value[16]
+                    #doc.purchase_order = frappe.db.get_value("Purchase Order", {"custom_document_number":value[31]}, 'name')
+                    doc.transaction_date = date_converter(value[1])
+                    doc.schedule_date = date_converter(value[1])
+                    if value[5] == "Nepalese Rupee":
+                        doc.currency = "NPR"
+                    elif value[5] == "Euro":
+                        doc.currency = "EUR"
+                    elif value[5] == "US Dollar":
+                        doc.currency = "USD"
+                    elif value[5] == "Indian Rupees":
+                        doc.currency = "INR"
+                    elif value[5] == "British Pound":
+                        doc.currency = "GBP"
+                    elif value[5] == "Norwegian Krone":
+                        doc.currency = "NOK"
+                    doc.conversion_rate = value[14]
+                    doc.custom_internal_id = value[0]
+                    doc.custom_subsidiary_ =value[4]
+                    doc.custom_document_number = value[2]
+                    if value[6] == "KIRNE (N)":
+                        doc.set_warehouse = "KIRNE (N) - HPL"
+                    if value[6] == "KATHMANDU (N)":
+                        doc.set_warehouse="KATHMANDU (N) - HPL"
+                    if value[6] == "PALATI (N)":
+                        doc.set_warehouse="PALATI (N) - HPL"
+                    if value[6] == "KATHMANDU":
+                        doc.set_warehouse="KATHMANDU - HPL"
+                    if value[6] == "KIRNE":
+                        doc.set_warehouse="KIRNE - HPL"
+                    doc.cost_center = cost_center
+                    doc.custom_requested_by = value[8]
+                    doc.custom_created_by = value[3]
+                    doc.custom_vendor_price_ref = value[12]
+                    if frappe.db.exists('Project', value[15]) :
+                        doc.project = value[15]
+                    if not frappe.db.exists('Project', value[15]) and value[15] != '':
+                        pro = frappe.new_doc('Project')
+                        pro.project_name = value[15]
+                        pro.insert(ignore_mandatory=True )
+                        frappe.db.commit()
+                        doc.project = value[15]
+                    doc.custom_line_id= value[17]
+                    for item in items:
+                        doc.append("items", item)
+                    for tax in taxes:
+                        doc.append('taxes', tax)
+                    doc.docstatus = 1
+                    doc.submit()
+                    frappe.db.commit()
+            except Exception as e:
+                print(f'{e} {value[2]}')
