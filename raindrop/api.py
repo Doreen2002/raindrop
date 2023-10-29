@@ -652,7 +652,7 @@ def create_goods_received_2023():
                         doc = frappe.new_doc('Purchase Receipt')
                         doc.supplier = value[16]
                         #doc.purchase_order = frappe.db.get_value("Purchase Order", {"custom_document_number":value[31]}, 'name')
-                        doc.transaction_date = date_converter(value[1])
+                        doc.posting_date = date_converter(value[1])
                         doc.schedule_date = date_converter(value[1])
                         if value[5] == "Nepalese Rupee":
                             doc.currency = "NPR"
