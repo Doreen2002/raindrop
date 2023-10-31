@@ -481,12 +481,12 @@ def create_purchase_order():
 
 
 def create_purchase_order_2023():
-    with open('/home/doreenalita/frappe/frappe-bench/apps/raindrop/PO Number 2020 to 2023 - Sheet1.csv') as design_file:
+    with open('/home/frappe/frappe-bench/apps/raindrop/PO Number 2020 to 2023 - Sheet1.csv') as design_file:
         reader_po = csv.reader(design_file, delimiter=',')
         for value in reader_po:
             try:
                 items = []
-                with open('/home/doreenalita/frappe/frappe-bench/apps/raindrop/PO  2020 to 2023 - Sheet1.csv') as templates:
+                with open('/home/frappe/frappe-bench/apps/raindrop/PO  2020 to 2023 - Sheet1.csv') as templates:
                     reader = csv.reader(templates, delimiter=',')
                     items.clear()
                     for row in reader:
@@ -508,7 +508,30 @@ def create_purchase_order_2023():
                                 rate = row[40]
                             elif row[40] == '':
                                 rate = 0
-                            if row[39] == '':
+                            if row[39] == '' and row[34] != '':
+                                if not frappe.db.exists('Account', f"{row[34].strip()} - HPL"):
+                                    acc = frappe.new_doc('Account')
+                                    acc.account_name = row[34].strip()
+                                    acc.account_type = "Expense Account"
+                                    acc.root_type = "Expense"
+                                    acc.report_type = "Profit and Loss"
+                                    acc.parent_account = "52000 - Other Expenses - HPL"
+                                    acc.is_group = 0
+                                    acc.insert(ignore_mandatory=True)
+                                    frappe.db.commit()
+                                    items.append(
+                                    {
+                                    "item_code":"Virtual Item",
+                                    "qty": 1,
+                                    "rate": row[40],
+                                    "schedule_date":date_converter(value[1]),
+                                    "description":row[14],
+                                    "expense_account":f"{row[34].strip()} - HPL",
+                                    "custom_expense_category":value[33],
+                                    "cost_center":f'{row[36]} - HPL'
+                                        }
+                                        )
+
                                 items.append(
                                 {
                                 "item_code":"Virtual Item",
@@ -516,7 +539,7 @@ def create_purchase_order_2023():
                                 "rate": row[40],
                                 "schedule_date":date_converter(value[1]),
                                 "description":row[14],
-                                 "expense_account":"Vitual Item Expenses - HPL",
+                                 "expense_account":f"{row[34].strip()} - HPL",
                                  "custom_expense_category":value[33],
                                  "cost_center":f'{row[36]} - HPL'
                                     }
@@ -529,6 +552,7 @@ def create_purchase_order_2023():
                                 "rate": rate,
                                 "schedule_date":date_converter(value[1]),
                                 "description":row[14],
+                                "expense_account":"49000 - OtherCostGoodSold - HPL",
                                 "custom_expense_category":value[33],
                                 "cost_center":f'{row[36]} - HPL'
                                     }
@@ -611,7 +635,7 @@ def create_purchase_order_2023():
 
 
 def create_goods_received_2023():
-    with open('/home/frappe/frappe-bench/apps/raindrop/GRN HPL 2013 to 2020 - Sheet1.csv' ) as design_file:
+    with open('/home/frappe-bench2/apps/raindrop/GRN HPL 2020 to 2023 - Sheet1 (1).csv' ) as design_file:
         reader_po = csv.reader(design_file, delimiter=',')
         for value in  reader_po:
             try:
