@@ -731,7 +731,7 @@ def create_goods_received_2023():
 
 
 def create_customer():
-    url = "http://34.138.131.178/files/HPL NPR Customer Master.xlsx" 
+    url = "http://34.138.131.178/files/HPL NPR Customer Master.csv" 
     response = requests.get(url)
     content = response.content.decode('utf-8')
     reader = csv.reader(content.splitlines(), delimiter=',')
