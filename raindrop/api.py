@@ -757,7 +757,7 @@ def create_customer():
         doc.customer_name = row[2].strip()
         doc.customer_group = "commercial"
         doc.territory = "Nepal"  
-        doc.id = row[1].strip()
+        doc.custom_customer_id = row[1].strip()
         doc.insert()
         frappe.db.commit()
       except Exception as e:
