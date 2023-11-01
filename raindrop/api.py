@@ -755,7 +755,7 @@ def create_customer():
         doc.tax_number = row[37].strip()
         doc.credit_limit = row[38].strip()
         doc.customer_name = row[2].strip()
-        doc.customer_group = ""
+        doc.customer_group = "Individual"
         doc.territory = "Nepal"  
         doc.insert()
         frappe.db.commit()
