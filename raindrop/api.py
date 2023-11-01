@@ -728,3 +728,34 @@ def create_goods_received_2023():
                         frappe.db.set_value('Purchase Order', po_name, 'status', 'To Bill')
             except Exception as e:
                 print(f' {e} {value[2]} {po_name}')
+
+
+def create_customer():
+    url = "http://34.138.131.178/files/HPL NPR Customer Master.xlsx" 
+    response = requests.get(url)
+    content = response.content.decode('utf-8')
+    reader = csv.reader(content.splitlines(), delimiter=',')
+    for row in reader:
+      try:
+        doc = frappe.new_doc('Customer')
+        doc.custom_internal_id =  row[0].strip()
+        doc.custom_id = row[1].strip()
+        doc.custom_name = row[2].strip()
+        doc.email = row[3].strip()
+        doc.phone = row[4].strip()
+        doc.office_phone = row[5].strip()
+        doc.fax = row[7].strip()
+        doc.is_individual = row[10].strip()
+        doc.company_name=  row[10].strip() 
+        doc.status = row[11].strip()
+        doc.address = row[21].strip()
+        doc.primary_subsidiary = row[22].strip()
+        doc.default_receivable_account = row[33].strip()
+        doc.primary_currency = row[37].strip()
+        doc.terms = row[38].strip()
+        doc.tax_number = row[39].strip()
+        doc.credit_limit = row[40].strip()
+        doc.insert()
+        frappe.db.commit()
+      except Exception as e:
+        print(f'{e}')
