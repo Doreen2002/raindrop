@@ -749,7 +749,7 @@ def create_customer():
         doc.custom_status = row[11].strip()
         doc.custom_address = row[19].strip()
         doc.custom_primary_subsidiary = row[20].strip()
-        doc.custom_default_deceivables_account = row[31].strip()
+        doc.custom_default_receivables_account = row[31].strip()
         doc.custom_primary_currency = row[35].strip()
         doc.custom_terms = row[36].strip()
         doc.custom_tax_number = row[37].strip()
