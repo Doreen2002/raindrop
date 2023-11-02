@@ -523,7 +523,7 @@ def create_purchase_order_2023():
                                     {
                                     "item_code":"Virtual Item",
                                     "qty": 1,
-                                    "rate": row[40],
+                                    "rate": row[54],
                                     "schedule_date":date_converter(value[1]),
                                     "description":row[14],
                                     "expense_account":f"{row[34].strip()} - HPL",
@@ -536,7 +536,7 @@ def create_purchase_order_2023():
                                 {
                                 "item_code":"Virtual Item",
                                 "qty": 1,
-                                "rate": row[40],
+                                "rate": row[54],
                                 "schedule_date":date_converter(value[1]),
                                 "description":row[14],
                                  "expense_account":f"{row[34].strip()} - HPL",
