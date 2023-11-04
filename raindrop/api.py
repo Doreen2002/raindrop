@@ -730,6 +730,105 @@ def create_goods_received_2023():
                 print(f' {e} {value[2]} {po_name}')
 
 
+
+
+def create_purchase_invoice_2023():
+    with open('/home/frappe/frappe-bench/apps/raindrop/GRN HPL 2020 to 2023 - Sheet1 (1).csv' ) as design_file:
+        reader_po = csv.reader(design_file, delimiter=',')
+        for value in  reader_po:
+            try:
+                po_name = frappe.db.get_value("Purchase Order", {"custom_document_number":value[31]}, 'name')
+                if po_name != None:
+                    po_items = frappe.db.get_all('Purchase Order Item', filters={"parent":po_name}, fields=['*'])
+                    po_taxes = frappe.db.get_all('Purchase Taxes and Charges', filters={"parent":po_name}, fields=['*'])
+                    items = []
+                    taxes = []
+                
+                    if value[9] == '':
+                        cost_center = "Main - HPL"
+                    if value[9] != '':
+                        cost_center = f'{value[9]} - HPL',
+                    for item in po_items:
+                        items.append(
+                            {
+                                "item_code":item.item_code,
+                                "rate":item.rate,
+                                "quantity":item.quantity,
+                                "cost_center": item.cost_center,
+                                "expense_account":item.expense_account,
+                                "purchase_order": item.parent,
+                                "purchase_order_item": item.name
+
+                            }
+                        )
+                    for tax in po_taxes:
+                        taxes.append(
+                        {
+                        'type':tax.type,
+                        "rate":tax.rate,
+                        "account_head":tax.account_head,
+                        "description":tax.description
+                        })
+
+                    if len(items) > 0:
+                        doc = frappe.new_doc('Purchase Invoice')
+                        doc.supplier = value[16]
+                        #doc.purchase_order = frappe.db.get_value("Purchase Order", {"custom_document_number":value[31]}, 'name')
+                        doc.set_posting_time = 1
+                        doc.posting_date = date_converter(value[1])
+                        
+                        if value[5] == "Nepalese Rupee":
+                            doc.currency = "NPR"
+                        elif value[5] == "Euro":
+                            doc.currency = "EUR"
+                        elif value[5] == "US Dollar":
+                            doc.currency = "USD"
+                        elif value[5] == "Indian Rupees":
+                            doc.currency = "INR"
+                        elif value[5] == "British Pound":
+                            doc.currency = "GBP"
+                        elif value[5] == "Norwegian Krone":
+                            doc.currency = "NOK"
+                        doc.conversion_rate = value[14]
+                        doc.custom_internal_id = value[0]
+                        doc.custom_subsidiary_ =value[4]
+                        doc.custom_bill_number = value[2]
+                        if value[6] == "KIRNE (N)":
+                            doc.set_warehouse = "KIRNE (N) - HPL"
+                        if value[6] == "KATHMANDU (N)":
+                            doc.set_warehouse="KATHMANDU (N) - HPL"
+                        if value[6] == "PALATI (N)":
+                            doc.set_warehouse="PALATI (N) - HPL"
+                        if value[6] == "KATHMANDU":
+                            doc.set_warehouse="KATHMANDU - HPL"
+                        if value[6] == "KIRNE":
+                            doc.set_warehouse="KIRNE - HPL"
+                        doc.cost_center = cost_center
+                        doc.custom_requested_by = value[8]
+                        doc.custom_created_by = value[3]
+                        doc.custom_vendor_price_ref = value[12]
+                        if frappe.db.exists('Project', value[15]) :
+                            doc.project = value[15]
+                        if not frappe.db.exists('Project', value[15]) and value[15] != '':
+                            pro = frappe.new_doc('Project')
+                            pro.project_name = value[15]
+                            pro.insert(ignore_mandatory=True )
+                            frappe.db.commit()
+                            doc.project = value[15]
+                        doc.custom_line_id= value[17]
+                        for item in items:
+                            doc.append("items", item)
+                        for tax in taxes:
+                            doc.append('taxes', tax)
+                        doc.docstatus = 1
+                        doc.submit()
+                        frappe.db.commit()
+                        
+            except Exception as e:
+                print(f' {e} {value[2]} {po_name}')
+
+
+
 def create_customer():
     url = "http://34.138.131.178/files/HPL NPR Customer Master.csv" 
     response = requests.get(url)
