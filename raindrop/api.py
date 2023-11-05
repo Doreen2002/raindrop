@@ -834,12 +834,30 @@ def create_customer():
     response = requests.get(url)
     content = response.content.decode('utf-8')
     reader = csv.reader(content.splitlines(), delimiter=',')
+    next(reader, None)
     for row in reader:
       try:
         doc = frappe.new_doc('Customer')
+        if row[31] != '':
+            if not frappe.db.exists('Account', f"{row[31].strip()} - HPL"):
+                acc = frappe.new_doc('Account')
+                acc.account_name = row[31].strip()
+                acc.account_type = "Receivable"
+                acc.root_type = "Asset"
+                acc.report_type = "Balance Sheet"
+                acc.parent_account = "15000 - Accounts Receivable - HPL"
+                acc.is_group = 0
+                acc.insert(ignore_mandatory=True)
+                frappe.db.commit()
+        if row[31] != '':
+            doc.append('accounts',
+                    {
+                        'company':"Himal Power Limited",
+                        "account":f"{row[31].strip()} - HPL"
+                    })
         doc.custom_internal_id =  row[0].strip()
         doc.custom_id = row[1].strip()
-        doc.custom_name = row[2].strip()
+        doc.custom_name = row[2].strip() 
         doc.custom_email = row[3].strip()
         doc.custom_phone = row[4].strip()
         doc.custom_fax = row[6].strip()
@@ -847,13 +865,13 @@ def create_customer():
         doc.custom_company_name=  row[10].strip() 
         doc.custom_status = row[11].strip()
         doc.custom_address = row[19].strip()
-        doc.custom_primary_subsidiary = row[20].strip()
-        doc.custom_default_receivables_account = row[31].strip()
+        doc.custom_primary_subsidiary_= row[20].strip()
+        doc.custom_default_receivables_account = f"{row[31].strip()} - HPL"
         doc.custom_primary_currency = row[35].strip()
         doc.custom_terms = row[36].strip()
         doc.custom_tax_number = row[37].strip()
         doc.custom_credit_limit = row[38].strip()
-        doc.customer_name = row[2].strip()
+        doc.customer_name = f'{row[1].strip()}{row[2].strip()}'
         doc.customer_group = "commercial"
         doc.territory = "Nepal"  
         doc.custom_customer_id = row[1].strip()
@@ -861,3 +879,126 @@ def create_customer():
         frappe.db.commit()
       except Exception as e:
         print(f'{e}')
+
+
+def create_sales_invoice_2023():
+    with open('/home/doreenalita/frappe/frappe-bench/apps/raindrop/HPL Sales Invoice  NUmber NPR 2020_2023 - Sheet1.csv') as design_file:
+        reader_po = csv.reader(design_file, delimiter=',')
+        for value in reader_po:
+            try:
+                items = []
+                with open('/home/doreenalita/frappe/frappe-bench/apps/raindrop/HPL Sales Invoice   NPR 2020_2023 - Sheet1.csv') as templates:
+                    reader = csv.reader(templates, delimiter=',')
+                    items.clear()
+                    for row in reader:
+                        if row[34] != '':
+                            if not frappe.db.exists('Account', f"{row[34].strip()} - HPL"):
+                                acc = frappe.new_doc('Account')
+                                acc.account_name = row[34].strip()
+                                acc.account_type = ""
+                                acc.root_type = "Income"
+                                acc.report_type = "Profit and Loss"
+                                acc.parent_account = "51000 - Direct Expenses - HPL"
+                                acc.is_group = 0
+                                acc.insert(ignore_mandatory=True)
+                                frappe.db.commit()
+                        if  row[0].strip() == value[0].strip():
+                            if row[44] == '0':
+                                tax = ''
+                            elif row[44] != '0':
+                                tax = "Nepal Tax - HPL"
+                            elif row[43] != '':
+                                item = frappe.db.get_value('Item', {'custom_name':row[39]}, 'name')
+                            if row[43] != '' and float(row[43]) >= 1:
+                                qty = row[43]
+                            else:
+                                qty = 1
+                                rate = 0
+                            if row[40] != '' and (row[43] != '' and float(row[43]) >= 1):
+                                rate = row[40]
+                            elif row[40] == '':
+                                rate = 0
+                            if row[39] != '':
+                                items.append(
+                                {
+                                "item_code":frappe.db.get_value('Item', {'custom_name':row[39]}, 'name'),
+                                "qty": row[43],
+                                "rate": row[40],
+                                "description":row[14],
+                                "income_account":f"{row[34].strip()} - HPL",
+                                "cost_center":f'{row[12]} - HPL'
+                                    }
+                                    )
+               
+                if len(items) > 0:
+                    doc = frappe.new_doc('Sales Invoice')
+                    if not frappe.db.exists('Customer', value[30]):
+                        cus = frappe.new_doc('Customer')
+                        cus.customer_name = value[30]
+                        cus.customer_group = "Commercial"
+                        cus.territory = "Nepal"
+                        cus.insert()
+                        frappe.db.commit()
+                    doc.customer = value[30]
+                    doc.set_posting_time = 1
+                    doc.posting_date = date_converter(value[1])
+                    doc.due_date = date_converter(value[16])
+                    doc.custom_internal_id = value[0]
+                    doc.custom_subsidiary_ =value[4]
+                    doc.custom_document_number= value[2]
+                    doc.custom_created_by = value[3]
+                    if value[5] == "Nepalese Rupee":
+                        doc.currency = "NPR"
+                    elif value[5] == "Euro":
+                        doc.currency = "EUR"
+                    elif value[5] == "US Dollar":
+                        doc.currency = "USD"
+                    elif value[5] == "Indian Rupees":
+                        doc.currency = "INR"
+                    elif value[5] == "British Pound":
+                        doc.currency = "GBP"
+                    elif value[5] == "Norwegian Krone":
+                        doc.currency = "NOK"
+                    if value[46] == '0':
+                        doc.taxes_and_charges =''
+                    if value[44] != '0':
+                        doc.taxes_and_charges = "Nepal Tax - HPL"
+                        doc.append('taxes',
+                                   {
+                                       'type':"On Net Total",
+                                       "rate":13,
+                                       "account_head":"VAT - HPL",
+                                       "description":value[14]
+                                   })
+                    doc.update_stock = 1
+                    if value[6] == "KIRNE (N)":
+                        doc.set_warehouse = "KIRNE (N) - HPL"
+                    if value[6] == "KATHMANDU (N)":
+                        doc.set_warehouse="KATHMANDU (N) - HPL"
+                    if value[6] == "PALATI (N)":
+                        doc.set_warehouse="PALATI (N) - HPL"
+                    if value[6] == "KATHMANDU":
+                        doc.set_warehouse="KATHMANDU - HPL"
+                    if value[6] == "KIRNE":
+                        doc.set_warehouse="KIRNE - HPL"
+                    doc.terms = value[9]
+                    doc.cost_center = f'{value[12]} - HPL'
+                    doc.custom_approval_status = value[13]
+                    doc.custom_procurement_person = value[15]
+                    doc.custom_vendor_price_ref = value[17]
+                    doc.custom_vendor_price_ref_date = value[18]
+                    doc.custom_tds_reclass_of = value[19]
+                    doc.custom_vat_reclass_of = value[20]
+                    doc.custom_current_approver = value[22]
+                    doc.custom_resubmit = value[23]
+                    doc.custom_accounting_approval = value[24]
+                    doc.conversion_rate = value[25]
+                    doc.custom_billing_address = value[26]
+                    doc.custom_shipping_address = value[27]
+                    for item in items:
+                        doc.append("items", item)
+                    doc.docstatus = 1
+                    doc.insert()
+                    frappe.db.commit()
+            except Exception as e:
+                print(f'{e} {value[2]}')
