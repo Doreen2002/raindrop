@@ -882,12 +882,12 @@ def create_customer():
 
 
 def create_sales_invoice_2023():
-    with open('/home/frappe/frappe/frappe-bench/apps/raindrop/HPL Sales Invoice  NUmber NPR 2020_2023 - Sheet1.csv') as design_file:
+    with open('/home/frappe/frappe-bench/apps/raindrop/HPL Sales Invoice  NUmber NPR 2020_2023 - Sheet1.csv') as design_file:
         reader_po = csv.reader(design_file, delimiter=',')
         for value in reader_po:
             try:
                 items = []
-                with open('/home/frappe/frappe/frappe-bench/apps/raindrop/HPL Sales Invoice   NPR 2020_2023 - Sheet1.csv') as templates:
+                with open('/home/frappe/frappe-bench/apps/raindrop/HPL Sales Invoice   NPR 2020_2023 - Sheet1.csv') as templates:
                     reader = csv.reader(templates, delimiter=',')
                     items.clear()
                     for row in reader:
