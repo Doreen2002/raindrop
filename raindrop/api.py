@@ -891,6 +891,7 @@ def create_sales_invoice_2023():
                     reader = csv.reader(templates, delimiter=',')
                     items.clear()
                     for row in reader:
+                        
                         if row[34] != '':
                             if not frappe.db.exists('Account', f"{row[34].strip()} - HPL"):
                                 acc = frappe.new_doc('Account')
@@ -1002,3 +1003,62 @@ def create_sales_invoice_2023():
                     frappe.db.commit()
             except Exception as e:
                 print(f'{e} {value[2]}')
+
+def create_jounal_entry():
+    with open('/home/frappe/frappe-bench/apps/raindrop/HPL Journal Number NPR 2020_2023 - Sheet1 (2).csv' ) as design_file:
+        reader_po = csv.reader(design_file, delimiter=',')
+        for value in reader_po:
+            try:
+                items = []
+                with open('/home/frappe/frappe-bench/apps/raindrop/HPL Journal Entry NPR 2020_2023 - Sheet1.csv') as templates:
+                    reader = csv.reader(templates, delimiter=',')
+                    items.clear()
+                    for row in reader:
+                        if  row[0].strip() == value[0].strip():
+                            if row[7] != '':
+                                if not frappe.db.exists('Account', f"{row[7].strip()} - HPL"):
+                                    acc = frappe.new_doc('Account')
+                                    acc.account_name = row[7].strip()
+                                    acc.account_type = ""
+                                    acc.root_type = "Income"
+                                    acc.report_type = "Profit and Loss"
+                                    acc.parent_account = "51000 - Direct Expenses - HPL"
+                                    acc.is_group = 0
+                                    acc.insert(ignore_mandatory=True)
+                                    frappe.db.commit()
+                            cost_center = "Main - HPL"
+                            if row[15] != '':
+                                cost_center = f'{row[15]} - HPL'
+                            items.append(
+                        {
+                            
+                            'account': f'{row[7]} - HPL',
+                            'debit_in_account_currency':row[8].strip(),
+                            'credit_in_account_currency':row[9].strip(),
+                            'cost_center':cost_center
+                        })
+                        
+                       
+              
+                doc = frappe.new_doc('Journal Entry')
+                doc.custom_internal_id = value[0]
+                doc.posting_date = date_converter(value[1])
+                doc.custom_subsidiary = value[2]
+                for item in items:
+                    
+                    doc.append('accounts', item)
+              
+                doc.user_remark = value[10]
+                doc.custom_document_number = value[11]
+                doc.custom_created_from = value[12]
+                doc.custom_created_by = value[13]
+                doc.custom_location = value[15]
+                doc.custom_name = value[20]
+                doc.custom_party = row[10]
+                doc.custom_posting = value[25]
+                doc.custom_period =  value[26]
+                doc.docstatus = 1
+                doc.insert(ignore_mandatory=True)
+                frappe.db.commit()
+            except Exception as e:
+                print(f'{e} {value[11]} ')
