@@ -1062,3 +1062,78 @@ def create_jounal_entry():
                 frappe.db.commit()
             except Exception as e:
                 print(f'{e} {value[11]} ')
+
+def create_payment():
+    with open('/home/frappe/frappe-bench/apps/raindrop/Payment Received from customer number 2020_2023 - Sheet1.csv') as design_file:
+        reader_po = csv.reader(design_file, delimiter=',')
+        for value in reader_po:
+            try:
+                items = []
+                with open('/home/frappe/frappe-bench/apps/raindrop/Payment Received from customer  2020_2023 - Sheet1.csv') as templates:
+                    reader = csv.reader(templates, delimiter=',')
+                    items.clear()
+                    for row in reader:
+                        if  row[0].strip() == value[0].strip(): 
+                            if row[15] != '' and frappe.db.get_value('Sales Invoice', {'custom_document_number':row[15]}, 'name') !=None:
+                                items.append(
+                                    {
+                                    "reference_doctype":"Sales Invoice", 
+                                    "reference_name":frappe.db.get_value('Sales Invoice', {'custom_document_number':row[15]}, 'name'),
+                                    "total_amount":frappe.db.get_value('Sales Invoice', {'custom_document_number':row[15]}, 'grand_total'),
+                                    "outstanding_amount":frappe.db.get_value('Sales Invoice', {'custom_document_number':row[15]}, 'grand_total'),
+                                    "allocated_amount":frappe.db.get_value('Sales Invoice', {'custom_document_number':row[15]}, 'grand_total'),
+                        
+                                }
+                                )
+                currency = 'NPR'
+                if value[13] == "Nepalese Rupee":
+                    currency = "NPR"
+                    exchange = 1
+                elif value[13] == "Euro":
+                    currency = "EUR"
+                elif value[13] == "US Dollar":
+                    currency = "NPR"
+                    exchange = 120.75
+                elif value[13] == "Indian Rupees":
+                    currency = "INR"
+                elif value[13] == "British Pound":
+                    currency = "GBP"
+                elif value[13] == "Norwegian Krone":
+                    currency = "NOK"
+                if value[8] == '':
+                    cost_center = "Main - HPL"
+                if value[8] != '':
+                    cost_center = f'{value[8]} - HPL',
+                payment = frappe.new_doc('Payment Entry')
+                payment.payment_type = "Receive"	
+                payment.custom_period = value[2]
+                payment.custom_subsidiary = value[4]
+                payment.custom_location = value[9]
+                payment.custom_line_id = value[18]
+                payment.custom_created_by = value[22]
+                payment.mode_of_payment = "Cash"	
+                payment.party_type = "Customer"
+                payment.posting_date = date_converter(value[1])
+                payment.paid_to_account_currency  = currency
+                payment.paid_from_account_currency = currency
+                if len(items) == 0:
+                   payment.party = value[3]
+                   payment.paid_from = f'{value[20]} - HPL'
+                if len(items) != 0:
+                    payment.party = frappe.db.get_value('Sales Invoice', {'custom_document_number':row[15]}, 'customer') 
+                payment.paid_amount = value[16]
+                payment.received_amount =  payment.paid_amount 
+                payment.paid_to = f'{value[5]} - HPL'
+                payment.paid_from = frappe.db.get_value('Sales Invoice', {'custom_document_number':row[15]}, 'debit_to') 
+                payment.target_exchange_rate = exchange
+                for item in items:
+                    payment.append("references", item
+                           )
+                payment.reference_no=value[6]
+                payment.reference_date = date_converter(value[1])
+                payment.cost_center = cost_center
+                payment.docstatus = 1
+                payment.insert()
+                frappe.db.commit()
+            except Exception as e:
+                print(f'{e} {value[11]} ')
