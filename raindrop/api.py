@@ -354,10 +354,7 @@ import requests
 import frappe
 from datetime import datetime
 
-def date_converter(date_str):
-    date_obj = datetime.strptime(date_str, "%m/%d/%Y")
-    formatted_date = date_obj.strftime("%Y-%m-%d")
-    return formatted_date
+
 
 
 
@@ -1137,3 +1134,48 @@ def create_payment():
                 frappe.db.commit()
             except Exception as e:
                 print(f'{e} {value[11]} ')
+
+
+
+def stock_received():
+    with open('/home/frappe/frappe-bench/apps/raindrop/Stock received number - Sheet1.csv') as design_file:
+        reader_po = csv.reader(design_file, delimiter=',')
+        for value in reader_po:
+            try:
+                items = []
+                with open('/home/frappe/frappe-bench/apps/raindrop/Stock received - Sheet1.csv') as templates:
+                    reader = csv.reader(templates, delimiter=',')
+                    items.clear()
+                    for row in reader:
+                        if row[0] == value[0]:
+                            frappe.db.set_value('Item', frappe.db.get_value('Item', {'custom_name':row[13]}, 'name'), 'is_stock_item', 1)
+                            frappe.db.commit()
+                            items.append(  {
+                        "t_warehouse": f"{row[12]} - HPL",
+                        "item_code":  frappe.db.get_value('Item', {'custom_name':row[13]}, 'name') ,
+                        "qty":row[15],
+                        "expense_account":f"{row[3]} - HPL",
+                        "basic_rate": row[16],
+                        "uom": row[14],
+                        "cost_center" : f"{row[9]} - HPL"
+                    }
+                            )
+                doc = frappe.new_doc("Stock Entry")
+                doc.stock_entry_type = "Material Receipt"
+                doc.custom_document_number = value[2]
+                doc.custom_period = value[8]
+                doc.custom_internal_id = value[0]
+                doc.custom_subsidiary = value[7]
+                doc.custom_account_main = value[4]
+                doc.custom_memo = value[6]
+                for item in items:
+                    doc.append('items',item)
+                doc.submit()
+                frappe.db.commit()
+            except Exception as e:
+                print(f'{e} {value[0]} ')
+
+# def date_converter(date_str):
+#     date_obj = datetime.strptime(date_str, "%m/%d/%Y")
+#     formatted_date = date_obj.strftime("%Y-%m-%d")
+#     return formatted_date
