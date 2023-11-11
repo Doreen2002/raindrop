@@ -356,7 +356,7 @@ import frappe
 from datetime import datetime
 
 def date_converter(date_str):
-    date_obj = datetime.strptime(date_str, "%m/%d/%Y")
+    date_obj = datetime.strptime(date_str, "%d/%m/%Y")
     formatted_date = date_obj.strftime("%Y-%m-%d")
     return formatted_date
 
@@ -1140,13 +1140,14 @@ def create_payment():
 
 
 
-def stock_received():
-    with open('/home/frappe/frappe-bench/apps/raindrop/Stock received number - Sheet1.csv') as design_file:
+def stock_out():
+    with open('/home/frappe/frappe-bench/apps/raindrop/Stock out number - Sheet1.csv') as design_file:
         reader_po = csv.reader(design_file, delimiter=',')
         for value in reader_po:
             try:
                 items = []
-                with open('/home/frappe/frappe-bench/apps/raindrop/Stock received - Sheet1.csv') as templates:
+                recieved = []
+                with open('/home/frappe/frappe-bench/apps/raindrop/Stock out - Sheet1.csv' ) as templates:
                     reader = csv.reader(templates, delimiter=',')
                     items.clear()
                     for row in reader:
@@ -1154,7 +1155,7 @@ def stock_received():
                             frappe.db.set_value('Item', frappe.db.get_value('Item', {'custom_name':row[13]}, 'name'), 'is_stock_item', 1)
                             frappe.db.commit()
                             items.append(  {
-                        "t_warehouse": f"{row[12]} - HPL",
+                        "s_warehouse": f"{row[12]} - HPL",
                         "item_code":  frappe.db.get_value('Item', {'custom_name':row[13]}, 'name') ,
                         "qty":row[15],
                         "expense_account":f"{row[3]} - HPL",
@@ -1163,16 +1164,43 @@ def stock_received():
                         "cost_center" : f"{row[9]} - HPL"
                     }
                             )
-                doc = frappe.new_doc("Stock Entry")
+                            recieved.append({
+                        "t_warehouse": f"{row[12]} - HPL",
+                        "item_code":  frappe.db.get_value('Item', {'custom_name':row[13]}, 'name') ,
+                        "qty":row[15],
+                        "expense_account":f"{row[3]} - HPL",
+                        "basic_rate": row[16],
+                        "uom": row[14],
+                        "cost_center" : f"{row[9]} - HPL"
+                    })
+                
                 if value[1] != None or value[1] != '':
+                    doc = frappe.new_doc("Stock Entry")
                     doc.set_posting_time = 1
                     doc.posting_date = date_converter(value[1])
                     doc.stock_entry_type = "Material Receipt"
+                    doc.custom_document_number = f'{value[2]} Receipt'
+                    doc.custom_period = value[8]
+                    doc.custom_internal_id = value[0]
+                    doc.custom_subsidiary = value[7]
+                    doc.custom_account_main = value[4]
+                    doc.custom_memo_sub = value[5]
+                    doc.custom_memo = value[6]
+                    for item in recieved:
+                        doc.append('items',item)
+                    doc.docstatus = 1
+                    doc.insert()
+                    frappe.db.commit()
+                    doc = frappe.new_doc("Stock Entry")
+                    doc.set_posting_time = 1
+                    doc.posting_date = date_converter(value[1])
+                    doc.stock_entry_type = "Material Issue"
                     doc.custom_document_number = value[2]
                     doc.custom_period = value[8]
                     doc.custom_internal_id = value[0]
                     doc.custom_subsidiary = value[7]
                     doc.custom_account_main = value[4]
+                    doc.custom_memo_sub = value[5]
                     doc.custom_memo = value[6]
                     for item in items:
                         doc.append('items',item)
