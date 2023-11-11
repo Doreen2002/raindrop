@@ -352,10 +352,13 @@ def create_bank(reader):
 import csv
 import requests
 import frappe
+
 from datetime import datetime
 
-
-
+def date_converter(date_str):
+    date_obj = datetime.strptime(date_str, "%m/%d/%Y")
+    formatted_date = date_obj.strftime("%Y-%m-%d")
+    return formatted_date
 
 
 
@@ -1161,21 +1164,22 @@ def stock_received():
                     }
                             )
                 doc = frappe.new_doc("Stock Entry")
-                doc.stock_entry_type = "Material Receipt"
-                doc.custom_document_number = value[2]
-                doc.custom_period = value[8]
-                doc.custom_internal_id = value[0]
-                doc.custom_subsidiary = value[7]
-                doc.custom_account_main = value[4]
-                doc.custom_memo = value[6]
-                for item in items:
-                    doc.append('items',item)
-                doc.submit()
-                frappe.db.commit()
+                if value[1] != None or value[1] != '':
+                    doc.set_posting_time = 1
+                    doc.posting_date = date_converter(value[1])
+                    doc.stock_entry_type = "Material Receipt"
+                    doc.custom_document_number = value[2]
+                    doc.custom_period = value[8]
+                    doc.custom_internal_id = value[0]
+                    doc.custom_subsidiary = value[7]
+                    doc.custom_account_main = value[4]
+                    doc.custom_memo = value[6]
+                    for item in items:
+                        doc.append('items',item)
+                    doc.docstatus = 1
+                    doc.insert()
+                    frappe.db.commit()
             except Exception as e:
-                print(f'{e} {value[0]} ')
+                print(f'{e} {value[1]} ')
 
-# def date_converter(date_str):
-#     date_obj = datetime.strptime(date_str, "%m/%d/%Y")
-#     formatted_date = date_obj.strftime("%Y-%m-%d")
-#     return formatted_date
+
