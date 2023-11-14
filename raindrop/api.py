@@ -1371,15 +1371,14 @@ def stock_out():
                         "s_warehouse": f"{row[12]} - HPL",
                         "item_code":  frappe.db.get_value('Item', {'custom_name':row[13]}, 'name') ,
                         "qty":row[15],
-                        "expense_account":f"{row[3]} - HPL",
+                        "expense_account":f"{row[4]} - HPL",
                         "basic_rate": row[16],
                         "uom": row[14],
                         "cost_center" : f"{row[9]} - HPL"
                     }
                             )
-                
+                frappe.db.set_value('Company', "Himal Power Limited", 'default_inventory_account', f"{value[3].strip()} - HPL")
                 if value[1] != None or value[1] != '':
-                    frappe.db.set_value('Company', "Himal Power Limited", 'default_inventory_account', f"{row[4].strip()} - HPL")
                     stock = frappe.new_doc("Stock Entry")
                     stock.set_posting_time = 1
                     stock.posting_date = date_converter(value[1])
@@ -1391,7 +1390,6 @@ def stock_out():
                     stock.custom_account_main = value[4]
                     stock.custom_memo_sub = value[5]
                     stock.custom_memo = value[6]
-                    
                     for item in items:
                         stock.append('items',item)
                     stock.docstatus = 1
@@ -1419,7 +1417,7 @@ def stock_in_one():
                         "t_warehouse": f"{row[12]} - HPL",
                         "item_code":  frappe.db.get_value('Item', {'custom_name':row[13]}, 'name') ,
                         "qty":row[15],
-                        "expense_account":f"{row[4]} - HPL",
+                        "expense_account":f"{row[3]} - HPL",
                         "basic_rate": row[16],
                         "uom": row[14],
                         "cost_center" : f"{row[9]} - HPL"
@@ -1427,7 +1425,7 @@ def stock_in_one():
                 
                 if value[1] != None or value[1] != '':
                     doc = frappe.new_doc("Stock Entry")
-                    frappe.db.set_value('Company', "Himal Power Limited", 'default_inventory_account', f"{row[3].strip()} - HPL")
+                    frappe.db.set_value('Company', "Himal Power Limited", 'default_inventory_account', f"{value[4].strip()} - HPL")
                     doc.set_posting_time = 1
                     doc.posting_date = date_converter(value[1])
                     doc.stock_entry_type = "Material Receipt"
@@ -1478,6 +1476,7 @@ def stock_in_two():
                     }
                             )
                 doc = frappe.new_doc("Stock Entry")
+                frappe.db.set_value('Company', "Himal Power Limited", 'default_inventory_account', f"{value[4].strip()} - HPL")
                 if value[1] != None or value[1] != '':
                     doc.set_posting_time = 1
                     doc.posting_date = date_converter_month(value[1])
