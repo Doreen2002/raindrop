@@ -1379,7 +1379,7 @@ def stock_out():
                             )
                 
                 if value[1] != None or value[1] != '':
-                    frappe.db.set_value('Company', "Himal Power Limited", 'default_inventory_account', f"{row[3].strip()} - HPL")
+                    frappe.db.set_value('Company', "Himal Power Limited", 'default_inventory_account', f"{row[4].strip()} - HPL")
                     stock = frappe.new_doc("Stock Entry")
                     stock.set_posting_time = 1
                     stock.posting_date = date_converter(value[1])
