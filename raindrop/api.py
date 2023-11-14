@@ -1354,13 +1354,13 @@ def create_payment():
 
 
 def stock_out():
-    with open('/home/doreenalita/frappe/frappe-bench/apps/raindrop/Stock out number - Sheet1.csv') as design_file:
+    with open('/home/frappe/frappe-bench/apps/raindrop/Stock out number - Sheet1.csv') as design_file:
         reader_po = csv.reader(design_file, delimiter=',')
         for value in reader_po:
             try:
                 items = []
                 recieved = []
-                with open('/home/doreenalita/frappe/frappe-bench/apps/raindrop/Stock out - Sheet1.csv' ) as templates:
+                with open('/home/frappe/frappe-bench/apps/raindrop/Stock out - Sheet1.csv' ) as templates:
                     reader = csv.reader(templates, delimiter=',')
                     items.clear()
                     for row in reader:
