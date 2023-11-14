@@ -1395,7 +1395,7 @@ def stock_out():
                     for item in items:
                         stock.append('items',item)
                     stock.docstatus = 1
-                    stock.save()
+                    stock.insert()
                     frappe.db.commit()
             except Exception as e:
                 print(f'{e} {value[1]} ')
@@ -1446,13 +1446,21 @@ def stock_in_one():
             except Exception as e:
                 print(f'{e} {value[1]} ')
 
+
+
+def date_converter_month(date_str):
+    date_obj = datetime.strptime(date_str, "%m/%d/%Y")
+    formatted_date = date_obj.strftime("%Y-%m-%d")
+    return formatted_date
+
+
 def stock_in_two():
-    with open('/home/doreenalita/frappe/frappe-bench/apps/raindrop/Stock received number - Sheet1.csv') as design_file:
+    with open('/home/frappe/frappe-bench/apps/raindrop/Stock received number - Sheet1.csv') as design_file:
         reader_po = csv.reader(design_file, delimiter=',')
         for value in reader_po:
             try:
                 items = []
-                with open('/home/doreenalita/frappe/frappe-bench/apps/raindrop/Stock received - Sheet1.csv') as templates:
+                with open('/home/frappe/frappe-bench/apps/raindrop/Stock received - Sheet1.csv') as templates:
                     reader = csv.reader(templates, delimiter=',')
                     items.clear()
                     for row in reader:
@@ -1472,7 +1480,7 @@ def stock_in_two():
                 doc = frappe.new_doc("Stock Entry")
                 if value[1] != None or value[1] != '':
                     doc.set_posting_time = 1
-                    doc.posting_date = date_converter(value[1])
+                    doc.posting_date = date_converter_month(value[1])
                     doc.stock_entry_type = "Material Receipt"
                     doc.custom_document_number = value[2]
                     doc.custom_period = value[8]
