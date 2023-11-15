@@ -1160,8 +1160,19 @@ def create_supplier_payment():
                             total = total +  float(row[16].replace(',', '')) 
                 payment = frappe.new_doc("Payment Entry")
                 payment.payment_type = "Pay"	
-                payment.party_type = "Supplier"
-                payment.party = value[4]
+                if value[4].startswith('5'):
+                    payment.party_type = "Supplier"
+                    payment.party = value[4]
+                if value[4].startswith('E'):
+                    if not frappe.db.exists('Employee', value[4]):
+                        emp = frappe.new_doc("Employee")
+                        emp.first_name  = value[4]
+                        emp.insert(ignore_mandatory=True)
+                        frappe.db.commit()
+                        frappe.rename_doc('Employee', emp.name, value[4])
+                        frappe.db.commit()
+                    payment.party_type = "Employee"
+                    payment.party = value[4]
                 exchange = 1
                 currency = 'NPR'
                 if value[13] == "Nepalese Rupee":
@@ -1199,7 +1210,7 @@ def create_supplier_payment():
                 payment.custom_applied_to_link_type = value[20]
                 payment.custom_created_by = value[22]
                 payment.mode_of_payment = "Cash"	
-                payment.posting_date = date_converter(value[1])
+                payment.posting_date = date_converter_month(value[1])
                 payment.paid_to_account_currency  = currency
                 payment.paid_from_account_currency = currency
                 payment.cost_center = cost_center
