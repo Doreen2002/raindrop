@@ -1065,14 +1065,11 @@ def create_cash_bank_received():
         reader_po = csv.reader(design_file, delimiter=',')
         for value in reader_po:
             try:
-                
                 with open('/home/frappe/frappe-bench/apps/raindrop/HPL Journal Entry NPR 2020_2023 - Sheet1.csv') as templates:
                     reader = csv.reader(templates, delimiter=',')
-                    
                     for row in reader:
                         total = 0
                         if  row[0].strip() == value[0].strip():
-                            
                             if not frappe.db.exists('Account', f"{row[22].strip()} - HPL"):
                                     acc = frappe.new_doc('Account')
                                     acc.account_name = row[22].strip()
@@ -1135,35 +1132,12 @@ def create_cash_bank_received():
             except Exception as e:
                 print(f"{e} {value}")
 
-def create_supplier_payment():
-    with open('/home/doreenalita/frappe/frappe-bench/apps/raindrop/Supplier Payment Number 2020_2023 - Sheet1.csv' ) as design_file:
+def employee():
+    with open( '/home/doreenalita/frappe/frappe-bench/apps/raindrop/Supplier Payment Number 2020_2023 - Sheet1.csv' ) as design_file:
         reader_po = csv.reader(design_file, delimiter=',')
         for value in reader_po:
             try:
-                total = 0.0
-                with open('/home/doreenalita/frappe/frappe-bench/apps/raindrop/Supplier Payment 2020_2023 - Sheet1.csv') as templates:
-                    reader = csv.reader(templates, delimiter=',')
-                    
-                    for row in reader:
-                        
-                        if  row[0].strip() == value[0].strip():
-                            # if not frappe.db.exists('Account', f"{row[22].strip()} - HPL"):
-                            #         acc = frappe.new_doc('Account')
-                            #         acc.account_name = row[22].strip()
-                            #         acc.account_type = "Payable"
-                            #         acc.root_type = "Liability"
-                            #         acc.report_type = "Balance Sheet"
-                            #         acc.parent_account = "24300 - Accounts Payable - HPL"
-                            #         acc.is_group = 0
-                            #         acc.insert(ignore_mandatory=True)
-                            #         frappe.db.commit()
-                            total = total +  float(row[16].replace(',', '')) 
-                payment = frappe.new_doc("Payment Entry")
-                payment.payment_type = "Pay"	
-                if value[4].startswith('5'):
-                    payment.party_type = "Supplier"
-                    payment.party = value[4]
-                if value[4].startswith('E'):
+                if not  value[4].startswith('5'):
                     if not frappe.db.exists('Employee', value[4]):
                         emp = frappe.new_doc("Employee")
                         emp.first_name  = value[4]
@@ -1171,8 +1145,31 @@ def create_supplier_payment():
                         frappe.db.commit()
                         frappe.rename_doc('Employee', emp.name, value[4])
                         frappe.db.commit()
+            except Exception as e:
+                print(f"{e} {value[0]}")
+
+def create_supplier_payment():
+    with open( '/home/doreenalita/frappe/frappe-bench/apps/raindrop/Supplier Payment Number 2020_2023 - Sheet1.csv' ) as design_file:
+        reader_po = csv.reader(design_file, delimiter=',')
+        for value in reader_po:
+            try:
+                total = 0.0
+                with open('/home/doreenalita/frappe/frappe-bench/apps/raindrop/Supplier Payment 2020_2023 - Sheet1.csv') as templates:
+                    reader = csv.reader(templates, delimiter=',')
+                    for row in reader:
+                        if  row[0].strip() == value[0].strip():
+                            total = total +  float(row[16].replace(',', '')) 
+                payment = frappe.new_doc("Payment Entry")
+                payment.payment_type = "Pay"	
+                if value[4].startswith('5'):
+                    payment.party_type = "Supplier"
+                    payment.party = value[4]
+                    payment.paid_from = f'{value[6]} - HPL'
+                elif not value[4].startswith('5'):
                     payment.party_type = "Employee"
                     payment.party = value[4]
+                    payment.paid_from = "2110 - Creditors - HPL"
+                    payment.paid_to = f'{value[6]} - HPL'
                 exchange = 1
                 currency = 'NPR'
                 if value[13] == "Nepalese Rupee":
@@ -1216,11 +1213,9 @@ def create_supplier_payment():
                 payment.cost_center = cost_center
                 payment.paid_amount = total
                 payment.received_amount = total
-                # payment.paid_to = f'{value[6]} - HPL'
-                payment.paid_from = f'{value[6]} - HPL'
                 payment.source_exchange_rate = exchange
                 payment.reference_no=value[7]
-                payment.reference_date = date_converter(value[1])
+                payment.reference_date = date_converter_month(value[1])
                 payment.cost_center = cost_center
                 payment.docstatus = 1
                 payment.insert()
