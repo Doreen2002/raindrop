@@ -1133,7 +1133,7 @@ def create_cash_bank_received():
                 print(f"{e} {value}")
 
 def employee():
-    with open( '/home/doreenalita/frappe/frappe-bench/apps/raindrop/Supplier Payment Number 2020_2023 - Sheet1.csv' ) as design_file:
+    with open( '/home/frappe/frappe-bench/apps/raindrop/Supplier Payment Number 2020_2023 - Sheet1.csv' ) as design_file:
         reader_po = csv.reader(design_file, delimiter=',')
         for value in reader_po:
             try:
@@ -1149,12 +1149,12 @@ def employee():
                 print(f"{e} {value[0]}")
 
 def create_supplier_payment():
-    with open( '/home/doreenalita/frappe/frappe-bench/apps/raindrop/Supplier Payment Number 2020_2023 - Sheet1.csv' ) as design_file:
+    with open( '/home/frappe/frappe-bench/apps/raindrop/Supplier Payment Number 2020_2023 - Sheet1.csv' ) as design_file:
         reader_po = csv.reader(design_file, delimiter=',')
         for value in reader_po:
             try:
                 total = 0.0
-                with open('/home/doreenalita/frappe/frappe-bench/apps/raindrop/Supplier Payment 2020_2023 - Sheet1.csv') as templates:
+                with open('/home/frappe/frappe-bench/apps/raindrop/Supplier Payment 2020_2023 - Sheet1.csv') as templates:
                     reader = csv.reader(templates, delimiter=',')
                     for row in reader:
                         if  row[0].strip() == value[0].strip():
@@ -1193,7 +1193,7 @@ def create_supplier_payment():
                     cost_center = "Main - HPL"
                 if value[8] != '':
                     cost_center = f'{value[8]} - HPL',
-                
+                payment.custom_payment_type = "Supplier Payment"
                 payment.custom_internal_id = value[0]
                 payment.custom_period = value[2]
                 payment.custom_document_number = value[3]
