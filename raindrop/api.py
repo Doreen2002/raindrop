@@ -1578,12 +1578,12 @@ def create_cheque_payment():
 
 
 def create_cash_bank():
-    with open('/home/doreenalita/frappe/frappe-bench/apps/raindrop/HPL Cash Bank Received Others Income Number 2020_2023 - Sheet1.csv') as design_file:
+    with open('/home/frappe/frappe-bench/apps/raindrop/HPL Cash Bank Received Others Income Number 2020_2023 - Sheet1.csv') as design_file:
         reader_po = csv.reader(design_file, delimiter=',')
         for value in reader_po:
             try:
                 total = 0.0
-                with open('/home/doreenalita/frappe/frappe-bench/apps/raindrop/HPL Cash Bank Received Others Income 2020_2023 - Sheet1.csv') as templates:
+                with open('/home/frappe/frappe-bench/apps/raindrop/HPL Cash Bank Received Others Income 2020_2023 - Sheet1.csv') as templates:
                     reader = csv.reader(templates, delimiter=',')
                     for row in reader:
                         if  row[0].strip() == value[0].strip():
