@@ -1632,7 +1632,7 @@ def create_cash_bank():
                     cost_center = "Main - HPL"
                 if value[7] != '':
                     cost_center = f'{value[7]} - HPL',
-                payment.custom_payment_type = "Exp Cheque Payment"
+                payment.custom_payment_type = "Cash Bank Received Others Income"
                 payment.custom_internal_id = value[0]
                 payment.custom_document_number = value[2]
                 payment.custom_subsidiary = value[4]
