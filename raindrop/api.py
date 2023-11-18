@@ -1132,21 +1132,7 @@ def create_cash_bank_received():
             except Exception as e:
                 print(f"{e} {value}")
 
-def employee():
-    with open( '/home/frappe/frappe-bench/apps/raindrop/Supplier Payment Number 2020_2023 - Sheet1.csv' ) as design_file:
-        reader_po = csv.reader(design_file, delimiter=',')
-        for value in reader_po:
-            try:
-                if not  value[4].startswith('5'):
-                    if not frappe.db.exists('Employee', value[4]):
-                        emp = frappe.new_doc("Employee")
-                        emp.first_name  = value[4]
-                        emp.insert(ignore_mandatory=True)
-                        frappe.db.commit()
-                        frappe.rename_doc('Employee', emp.name, value[4])
-                        frappe.db.commit()
-            except Exception as e:
-                print(f"{e} {value[0]}")
+
 
 def create_supplier_payment():
     with open( '/home/frappe/frappe-bench/apps/raindrop/Supplier Payment Number 2020_2023 - Sheet1.csv' ) as design_file:
@@ -1591,6 +1577,95 @@ def create_cheque_payment():
 
 
 
+def create_cash_bank():
+    with open('/home/doreenalita/frappe/frappe-bench/apps/raindrop/HPL Cash Bank Received Others Income Number 2020_2023 - Sheet1.csv') as design_file:
+        reader_po = csv.reader(design_file, delimiter=',')
+        for value in reader_po:
+            try:
+                total = 0.0
+                with open('/home/doreenalita/frappe/frappe-bench/apps/raindrop/HPL Cash Bank Received Others Income 2020_2023 - Sheet1.csv') as templates:
+                    reader = csv.reader(templates, delimiter=',')
+                    for row in reader:
+                        if  row[0].strip() == value[0].strip():
+                            total = total +  float(row[42].replace(',', '')) 
+                payment = frappe.new_doc("Payment Entry")
+                payment.payment_type = "Pay"
+                
+                if value[11].startswith('5'):
+                    payment.party_type = "Supplier"
+                    payment.party = value[11]
+                elif not value[32].startswith('5'):
+                    payment.party_type = "Employee"
+                    payment.party = employee(value[11])  
+                    if 	value[11] == '':
+                        payment.party_type = "Supplier"
+                        payment.party = "No Supplier"  
+                currency = 'NPR'
+                if value[5] == "Nepalese Rupee":
+                    currency = "NPR"
+                    payment.paid_from = f'{value[20]} - HPL'
+                    payment.paid_to = f'{value[10]} - HPL'
+                elif value[5] == "Euro":
+                    currency = "EUR"
+                    payment.paid_from = create_account(account=f'{value[20]}(EUR)',root_type="Expense", parent="51000 - Direct Expenses - HPL",  currency='EUR')
+                    payment.paid_to = create_account(f'{value[35]}(EUR)',"Expense", "51000 - Direct Expenses - HPL" ,  'EUR')
+                    payment.source_exchange_rate = float(f'{value[10].strip()}')
+                elif value[5] == "US Dollar":
+                    currency = "USD"
+                    payment.paid_from = create_account(f'{value[20]}(USD)',"Expense", "51000 - Direct Expenses - HPL" ,  'USD')
+                    payment.paid_to = create_account(f'{value[10]}(USD)',"Expense", "51000 - Direct Expenses - HPL" , 'USD')
+                    payment.source_exchange_rate = float(f'{value[13].strip()}')
+                elif value[5] == "Indian Rupees":
+                    currency = "INR"
+                    payment.paid_from = create_account(f'{value[20]}(INR)',"Expense", "51000 - Direct Expenses - HPL" ,  'INR')
+                    payment.paid_to = create_account(f'{value[10]}(INR)',"Expense", "51000 - Direct Expenses - HPL" ,  'INR')
+                    payment.source_exchange_rate = float(f'{value[13].strip()}')
+                elif value[5] == "British Pound":
+                    currency = "GBP"
+                    payment.paid_from = create_account(f'{value[20]}(GBP)',"Expense", "51000 - Direct Expenses - HPL" ,  'GBP')
+                    payment.paid_to = create_account(f'{value[10]}(GBP)',"Expense", "51000 - Direct Expenses - HPL" ,  'GBP')
+                    payment.source_exchange_rate = float(f'{value[13].strip()}')
+                elif value[5] == "Norwegian Krone":
+                    currency = "NOK"
+                    payment.source_exchange_rate = float(f'{value[13].strip()}')
+                if value[7] == '':
+                    cost_center = "Main - HPL"
+                if value[7] != '':
+                    cost_center = f'{value[7]} - HPL',
+                payment.custom_payment_type = "Exp Cheque Payment"
+                payment.custom_internal_id = value[0]
+                payment.custom_document_number = value[2]
+                payment.custom_subsidiary = value[4]
+                payment.custom_memo = value[9]
+                payment.custom_location = value[6]
+                payment.custom_applied_to_transaction = value[15]
+                payment.custom_created_from = value[17]
+                payment.custom_line_id = value[19]
+                payment.custom_billing_address = value[14]
+                payment.custom_applied_to_link_type = value[20]
+                payment.custom_created_by = value[3]
+                payment.mode_of_payment = "Cash"	
+                payment.posting_date = date_converter_month(value[1])
+                payment.paid_to_account_currency  = currency
+                payment.paid_from_account_currency = currency
+                payment.paid_from_account_balance = total
+                payment.paid_to_account_balance = total
+                payment.cost_center = cost_center
+                payment.paid_amount = total
+                payment.received_amount = total
+                payment.custom_resubmit = value[24]
+                payment.custom_approval_status = value[8]
+                payment.reference_no=value[9]
+                payment.reference_date = date_converter_month(value[1])
+                payment.cost_center = cost_center
+                payment.project = create_project(value[18])
+                payment.docstatus = 1
+                payment.insert()
+                frappe.db.commit()
+            except Exception as e:
+                print(f"{e} {value[0],  value[26]}")
+
+
 def create_account(account, root_type, parent, currency):
     if not frappe.db.exists('Account', f"{account} - HPL"):
         acc = frappe.new_doc('Account')
@@ -1602,3 +1677,22 @@ def create_account(account, root_type, parent, currency):
         acc.insert(ignore_mandatory=True)
         frappe.db.commit()
     return f'{account} - HPL'
+
+def create_project(project):
+    if not frappe.db.exists('Project', project) and project != '':
+        pro = frappe.new_doc('Project')
+        pro.project_name = project
+        pro.insert(ignore_mandatory=True )
+        frappe.db.commit()
+    return project
+
+def employee(employee):
+    if not employee.startswith('5') and employee != '':
+        if not frappe.db.exists('Employee', employee):
+            emp = frappe.new_doc("Employee")
+            emp.first_name  = employee
+            emp.insert(ignore_mandatory=True)
+            frappe.db.commit()
+            frappe.rename_doc('Employee', emp.name, employee)
+            frappe.db.commit()
+           
