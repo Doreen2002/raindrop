@@ -1670,13 +1670,14 @@ def create_cash_bank():
 
 #bank transfer 
 def create_bank_transfer():
-    with open('/home/doreenalita/frappe/frappe-bench/apps/raindrop/Bank Transfer (Contra Voucher) Number 2020_2023 - Sheet1.csv') as design_file:
+    with open('/home/frappe/frappe-bench/apps/raindrop/Bank Transfer (Contra Voucher) Number 2020_2023 - Sheet1.csv') as design_file:
         reader_po = csv.reader(design_file, delimiter=',')
         for value in reader_po:
             try:
                 items = []
                 row_number = 4
-                with open('/home/doreenalita/frappe/frappe-bench/apps/raindrop/Bank Transfer (Contra Voucher) 2020_2023 - Sheet1.csv' ) as templates:
+                doc = frappe.new_doc('Journal Entry')
+                with open('/homefrappe/frappe-bench/apps/raindrop/Bank Transfer (Contra Voucher) 2020_2023 - Sheet1.csv' ) as templates:
                     reader = csv.reader(templates, delimiter=',')
                     items.clear()
                     for row in reader:
@@ -1684,42 +1685,69 @@ def create_bank_transfer():
                             cost_center = "Main - HPL"
                             if row[15] != '':
                                 cost_center = f'{row[15]} - HPL'
+                            currency = "NPR"
+                            if row[6] == "NPR":
                                 currency = "NPR"
-                                if row[11] == "Nepalese Rupee":
-                                    currency = "NPR"
-                                    account =  account = create_account(account=f'{row[row_number]}',root_type="Expense", parent="51000 - Direct Expenses - HPL",  currency='NPR'),
-                                elif row[11] == "Euro":
-                                    currency = "EUR"
-                                    account = create_account(account=f'{row[row_number]}(EUR)',root_type="Expense", parent="51000 - Direct Expenses - HPL",  currency='EUR')
-                                elif row[11] == "US Dollar":
-                                    currency = "USD"
-                                    account = create_account(f'{row[row_number]}(USD)',"Expense", "51000 - Direct Expenses - HPL" ,  'USD')
-                                elif row[11] == "Indian Rupees":
-                                    currency = "INR"
-                                    account = create_account(f'{row[row_number]}(INR)',"Expense", "51000 - Direct Expenses - HPL" ,  'INR')   
-                                elif row[11] == "British Pound":
-                                    currency = "GBP"
-                                    account = create_account(f'{row[row_number]}(GBP)',"Expense", "51000 - Direct Expenses - HPL" ,  'GBP')
-                                elif row[11] == "Norwegian Krone":
-                                    currency = "NOK"
-                                    account = create_account(f'{row[row_number]}(GBP)',"Expense", "51000 - Direct Expenses - HPL" ,  'NOK')
+                                doc.multi_currency = 1
+                                items.append(
+                                    {
+                                        
+                                        'account': create_account(account=f'{row[row_number]}',root_type="Expense", parent="51000 - Direct Expenses - HPL",  currency='NPR'),
+                                       'debit_in_account_currency':row[8],
+                                        'credit_in_account_currency':row[7],
+                                        'user_remark': row[16],
+                                        'cost_center':cost_center,
+                                        'exchange_rate': row[18],
+                                        "account_currency":currency
+                                    })
+                                row_number +=1
+                            if row[6] == "Eur":
+                                currency = "EUR"
+                                account = create_account(account=f'{row[row_number]}(EUR)',root_type="Expense", parent="51000 - Direct Expenses - HPL",  currency='EUR')
+                                doc.multi_currency = 1
+                            if row[6] == "USD":
+                                currency = "USD"
+                                doc.multi_currency = 1
+                                items.append(
+                                    {
+                                        
+                                        'account': create_account(f'{row[row_number]}(USD)',"Expense", "51000 - Direct Expenses - HPL" ,  'USD'),
+                                        'debit_in_account_currency':row[8],
+                                        'credit_in_account_currency':row[7],
+                                        'user_remark': row[16],
+                                        'cost_center':cost_center,
+                                        'exchange_rate': row[18],
+                                        "account_currency":"USD"
+                                    })
+                                row_number +=1
+                            if row[6] == "INR":
+                                currency = "INR"
+                                account = create_account(f'{row[row_number]}(INR)',"Expense", "51000 - Direct Expenses - HPL" ,  'INR')   
+                                doc.multi_currency = 1
+                            if row[6] == "GBP":
+                                currency = "GBP"
+                                doc.multi_currency = 1
+                            if row[6] == "NOK":
+                                currency = "NOK"
+                                doc.multi_currency = 1
+                                items.append(
+                                    {
+                                        
+                                        'account': create_account(f'{row[row_number]}(NOK)',"Expense", "51000 - Direct Expenses - HPL" ,  'NOK'),
+                                        'debit_in_account_currency':row[8],
+                                        'credit_in_account_currency':row[7],
+                                        'user_remark': row[16],
+                                        'cost_center':cost_center,
+                                        'exchange_rate': row[18],
+                                        "account_currency":currency
+                                    })
+                                row_number +=1
                                     
-                            items.append(
-                        {
-                            
-                            'account': account,
-                            'debit_in_account_currency':row[7],
-                            'credit_in_account_currency':row[8],
-                            'user_remark': row[16],
-                            'cost_center':cost_center,
-                            'exchange_rate': row[6],
-                            "account_currency":currency
-                        })
-                            row_number +=1
+                    
+                        
                         
                        
                 
-                doc = frappe.new_doc('Journal Entry')
                 doc.multi_currency = 1
                 doc.custom_internal_id = value[0]
                 doc.posting_date = date_converter_month(value[2])
@@ -1735,10 +1763,10 @@ def create_bank_transfer():
                 doc.insert(ignore_mandatory=True)
                 frappe.db.commit()
             except Exception as e:
-                print(f'{e} {value[0]} ')
+                print(f'{e} {value[1]} ')
 
 def create_opening_balance():
-    with open('/home/doreenalita/frappe/frappe-bench/apps/raindrop/HPL Inventory Opening 2020 - Sheet2.csv') as design_file:
+    with open('/home/frappe/frappe-bench/apps/raindrop/HPL Inventory Opening 2020 - Sheet2.csv') as design_file:
         reader_po = csv.reader(design_file, delimiter=',')
         for value in reader_po:
             try:
