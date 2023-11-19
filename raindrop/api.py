@@ -1677,7 +1677,7 @@ def create_bank_transfer():
                 items = []
                 row_number = 4
                 doc = frappe.new_doc('Journal Entry')
-                with open('/homefrappe/frappe-bench/apps/raindrop/Bank Transfer (Contra Voucher) 2020_2023 - Sheet1.csv' ) as templates:
+                with open('/home/frappe/frappe-bench/apps/raindrop/Bank Transfer (Contra Voucher) 2020_2023 - Sheet1.csv' ) as templates:
                     reader = csv.reader(templates, delimiter=',')
                     items.clear()
                     for row in reader:
