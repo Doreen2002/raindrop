@@ -1920,7 +1920,7 @@ def create_employee():
                 emp.custom_project_resource = value[26]
                 emp.insert(ignore_mandatory=True)
                 frappe.db.commit()
-                frappe.rename_doc('Employee', emp.name, f'{value[4]}{value[2]} ')
+                frappe.rename_doc('Employee', emp.name, f'{value[1]}{value[2]} ')
                 frappe.db.commit()
             except Exception as e:
                 print(f'{e} {value[0]} ')
