@@ -1929,8 +1929,8 @@ def create_designation(designation):
     if not frappe.db.exists('Designation', designation) and designation != '':
         des = frappe.new_doc('Designation')
         des.designation_name = designation
-        des.insert()
-        frappe.db.commit(ignore_mandatory=True)
+        des.insert(ignore_mandatory=True)
+        frappe.db.commit()
     return designation
 
 def create_user(email, firstname):
