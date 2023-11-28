@@ -1878,4 +1878,66 @@ def employee(employee):
             frappe.db.commit()
             frappe.rename_doc('Employee', emp.name, employee)
             frappe.db.commit()
-           
+
+
+def create_employee():
+    with open('/home/frappe/frappe-bench/apps/raindrop/HPL_Employee_Master (1) - Sheet1.csv') as design_file:
+        reader_po = csv.reader(design_file, delimiter=',')
+        for value in reader_po:
+            try:
+                emp = frappe.new_doc('Employee')
+                emp.first_name = value[2]
+                emp.custom_internal_id = value[0] 
+                emp.custom_id = value[1]
+                if value[29] == 'Yes':
+                    emp.user_id = create_user(value[4], value[2])
+                emp.gender = value[3]
+                emp.preffered_contact_email = value[5]
+                emp.personal_email = value[4]
+                emp.company_email = value[4]
+                emp.reports_to = employee(value[8])
+                emp.designation  = create_designation(value[9])
+                emp.salutation = frappe.db.get_value('Salutation', {'name': ['like', f'%{value[11]}%']}, 'name')
+                emp.current_address = value[12]
+                if value[13] == 'No':
+                    emp.status = 'Inactive'
+                if value[13] == 'yes':
+                    emp.status = 'Active'
+                if value[32] != '':
+                    emp.date_of_joining = date_converter_month( value[32])
+                emp.date_of_birth = date_converter_month(value[37])
+                emp.custom_subsidiary = value[14]
+                emp.custom_cost_centre = value[15]
+                emp.custom_location = value[16]
+                emp.custom_social_security_ = value[17]
+                emp.custom_expense_limit = value[18]
+                emp.custom_purchase_approver = value[20]
+                emp.custom_purchase_approval_limit = value[21]
+                emp.custom_is_procurement_person  = value[22]
+                emp.custom_expense_report_currency 
+                emp.custom_sales_rep = value[24]
+                emp.custom_support_rep = value[25]
+                emp.custom_project_resource = value[26]
+                emp.insert(ignore_mandatory=True)
+                frappe.db.commit()
+                frappe.rename_doc('Employee', emp.name, f'{value[4]}{value[2]} ')
+                frappe.db.commit()
+            except Exception as e:
+                print(f'{e} {value[0]} ')
+
+def create_designation(designation):
+    if not frappe.db.exists('Designation', designation) and designation != '':
+        des = frappe.new_doc('Designation')
+        des.designation_name = designation
+        des.insert()
+        frappe.db.commit(ignore_mandatory=True)
+    return designation
+
+def create_user(email, firstname):
+    if not frappe.db.exists('User', email) and email != '':
+        des = frappe.new_doc('User')
+        des.email= email
+        des.first_name = firstname
+        des.insert(ignore_mandatory=True)
+        frappe.db.commit()
+    return email
