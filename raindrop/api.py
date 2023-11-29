@@ -1984,7 +1984,7 @@ def create_employee_expenses():
                     frappe.db.commit()
                     doc.employee = frappe.db.get_value('Employee', {'name': ['like', f'%{value[3]}%']}, 'name')
                     doc.custom_internal_id = value[0]
-                    doc.custom_document_number = value[1]
+                    doc.custom_document_number = value[2]
                     doc.custom_subsidiary = value[4]
                     doc.custom_period = row[5]
                     doc.custom_line_id = value[11]
