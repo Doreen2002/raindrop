@@ -1941,3 +1941,70 @@ def create_user(email, firstname):
         des.insert(ignore_mandatory=True)
         frappe.db.commit()
     return email
+
+
+
+def create_employee_expenses():
+    with open( '/home/frappe/frappe-bench/apps/raindrop/HPL_Employee_Expenses_report  Number 2020_2023 - Sheet1.csv') as design_file:
+        reader_po = csv.reader(design_file, delimiter=',')
+        for value in reader_po:
+            try:
+                items = []
+                with open('/home/frappe/frappe-bench/apps/raindrop/HPL_Employee_Expenses_report 2020_2023 - Sheet1.csv') as templates:
+                    reader = csv.reader(templates, delimiter=',')
+                    for row in reader:
+                        if row[0]  == value[0] and row[12] != '':
+                            if not frappe.db.exists('Expense Claim Type', row[12]):
+                                exp = frappe.new_doc("Expense Claim Type")
+                                exp.expense_type = row[12]
+                                exp.append("accounts", {
+                                    "company":frappe.db.get_list('Company', pluck='name')[0],
+                                    "default_account":frappe.db.get_value('Account', {'name': ['like', f'%{value[12]}%']}, 'name')
+                                })
+                                exp.insert()
+                                frappe.db.commit()
+
+                            items.append(
+                                {
+                                    "expense_type": row[12],
+                                    "expense_date": date_converter_month(row[1]) ,
+                                    "custom_memo":row[7],
+                                    "cost_center":f'{row[15]} - HPL',
+                                    "custom_receipt":row[21],
+                                    "custom_ref_no":row[22],
+                                    "custom_name":row[23],
+                                    "amount": row[24].strip().replace('(', '').replace(')', ''),
+                                     "sanctioned_amount": row[24].strip().replace('(', '').replace(')', '')
+                                }
+                                
+                            )
+                if items != []:
+                    doc = frappe.new_doc("Expense Claim")
+                    frappe.db.set_value('Employee', frappe.db.get_value('Employee', {'name': ['like', f'%{value[3]}%']}, 'name'), 'status', 'Active')
+                    frappe.db.commit()
+                    doc.employee = frappe.db.get_value('Employee', {'name': ['like', f'%{value[3]}%']}, 'name')
+                    doc.custom_internal_id = value[0]
+                    doc.custom_document_number = value[1]
+                    doc.custom_subsidiary = value[4]
+                    doc.custom_period = row[5]
+                    doc.custom_line_id = value[11]
+                    doc.custom_memo_main = row[6]
+                    doc.custom_location = value[16]
+                    doc.approval_status = "Approved"
+                    doc.payable_account = "2110 - Creditors - HPL"
+                    for item in items:
+                        doc.append('expenses', item)
+                    doc.docstatus = 1
+                    doc.insert(ignore_mandatory=True)
+                    frappe.db.commit()
+            except Exception as e:
+                print(f'{e} {value[0]} {items}')
+
+
+# def update_employee_approver():
+#     with open('/home/doreenalita/frappe/frappe-bench/apps/raindrop/HPL_Employee_Master (1) - Sheet1.csv') as design_file:
+#         reader_po = csv.reader(design_file, delimiter=',')
+#         for value in reader_po:
+#             frappe.db.set_value('Employee', frappe.db.get_value('Employee', {'name': ['like', f'%{value[1]}%']}, 'name'), 'expense_approver', frappe.db.get_value('Employee', {'name': ['like', f'%{value[8]}%']}, 'user_id'))
+#             frappe.db.commit()
+
