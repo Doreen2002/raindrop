@@ -1969,6 +1969,7 @@ def create_employee_expenses():
                                     "expense_type": row[12],
                                     "expense_date": date_converter_month(row[1]) ,
                                     "custom_memo":row[7],
+                                    "description":row[7],
                                     "cost_center":f'{row[15]} - HPL',
                                     "custom_receipt":row[21],
                                     "custom_ref_no":row[22],
@@ -1986,19 +1987,25 @@ def create_employee_expenses():
                     doc.custom_internal_id = value[0]
                     doc.custom_document_number = value[2]
                     doc.custom_subsidiary = value[4]
-                    doc.custom_period = row[5]
+                    doc.custom_period = value[5]
                     doc.custom_line_id = value[11]
-                    doc.custom_memo_main = row[6]
+                    doc.custom_memo_main = value[6]
                     doc.custom_location = value[16]
                     doc.approval_status = "Approved"
                     doc.payable_account = "2110 - Creditors - HPL"
                     for item in items:
                         doc.append('expenses', item)
+                    if value[25].strip() == '13%':
+                        doc.append('taxes',{
+                            "account_head":"25001 - VATOutput USD - HPL",
+                            "rate":13
+                        })
+                        
                     doc.docstatus = 1
                     doc.insert(ignore_mandatory=True)
                     frappe.db.commit()
             except Exception as e:
-                print(f'{e} {value[0]} {items}')
+                print(f'{e} {value[0]} ')
 
 
 # def update_employee_approver():
