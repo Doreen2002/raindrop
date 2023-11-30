@@ -426,7 +426,7 @@ def create_employee_expenses_2013():
                     doc.custom_document_number = value[2]
                     doc.custom_subsidiary = value[4]
                     doc.custom_period = value[5]
-                    doc.custom_line_id = value[11]
+                    doc.custom_line_id = value[10]
                     doc.custom_memo_main = value[6]
                     doc.custom_location = value[15]
                     doc.approval_status = "Approved"
