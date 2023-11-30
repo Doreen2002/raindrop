@@ -382,6 +382,68 @@ def create_purchase_invoice_2020():
 
 
 
+def create_employee_expenses_2013():
+    with open( '/home/frappe/frappe-bench/apps/raindrop/HPL_Employee_Expenses_report Number 2013_2020 - Sheet1.csv') as design_file:
+        reader_po = csv.reader(design_file, delimiter=',')
+        for value in reader_po:
+            try:
+                items = []
+                with open('/home/frappe/frappe-bench/apps/raindrop/HPL_Employee_Expenses_report 2013_2020.xlsx - Sheet1.csv') as templates:
+                    reader = csv.reader(templates, delimiter=',')
+                    for row in reader:
+                        if row[0]  == value[0] and row[12] != '':
+                            if not frappe.db.exists('Expense Claim Type', row[11]):
+                                exp = frappe.new_doc("Expense Claim Type")
+                                exp.expense_type = row[11]
+                                exp.append("accounts", {
+                                    "company":frappe.db.get_list('Company', pluck='name')[0],
+                                    "default_account":frappe.db.get_value('Account', {'name': ['like', f'%{value[11]}%']}, 'name')
+                                })
+                                exp.insert()
+                                frappe.db.commit()
+
+                            items.append(
+                                {
+                                    "expense_type": row[11],
+                                    "expense_date": date_converter_month(row[1]) ,
+                                    "custom_memo":row[7],
+                                    "description":row[7],
+                                    "cost_center":f'{row[14]} - HPL',
+                                    "custom_receipt":row[17],
+                                    "custom_ref_no":row[18],
+                                    "custom_name":row[19],
+                                    "amount": row[20].strip().replace('(', '').replace(')', ''),
+                                     "sanctioned_amount": row[20].strip().replace('(', '').replace(')', '')
+                                }
+                                
+                            )
+                if items != []:
+                    doc = frappe.new_doc("Expense Claim")
+                    frappe.db.set_value('Employee', frappe.db.get_value('Employee', {'name': ['like', f'%{value[3]}%']}, 'name'), 'status', 'Active')
+                    frappe.db.commit()
+                    doc.employee = frappe.db.get_value('Employee', {'name': ['like', f'%{value[3]}%']}, 'name')
+                    doc.custom_internal_id = value[0]
+                    doc.custom_document_number = value[2]
+                    doc.custom_subsidiary = value[4]
+                    doc.custom_period = value[5]
+                    doc.custom_line_id = value[11]
+                    doc.custom_memo_main = value[6]
+                    doc.custom_location = value[15]
+                    doc.approval_status = "Approved"
+                    doc.payable_account = "24000 - AccountPayable - HPL"
+                    for item in items:
+                        doc.append('expenses', item)
+                    if value[21].strip() == '13%':
+                        doc.append('taxes',{
+                            "account_head":"25001 - VATOutput USD - HPL",
+                            "rate":13
+                        })
+                        
+                    doc.docstatus = 1
+                    doc.insert(ignore_mandatory=True)
+                    frappe.db.commit()
+            except Exception as e:
+                print(f'{e} {value[0]} ')
 
 
 
