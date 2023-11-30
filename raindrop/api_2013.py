@@ -466,3 +466,90 @@ def create_project(project):
         pro.insert(ignore_mandatory=True )
         frappe.db.commit()
     return project
+
+#suppler payment
+def create_supplier_payment_2013():
+    with open(  '/home/frappe/frappe-bench/apps/raindrop/Supplier Payment Number 2013_2020.xlsx - Sheet1 (1).csv') as design_file:
+        reader_po = csv.reader(design_file, delimiter=',')
+        for value in reader_po:
+            try:
+                total = 0.0
+                with open('/home/frappe/frappe-bench/apps/raindrop/Supplier Payment 2013_2020.xlsx - Sheet1.csv' ) as templates:
+                    reader = csv.reader(templates, delimiter=',')
+                    for row in reader:
+                        if  row[0].strip() == value[0].strip():
+                            total = total +  float(row[16].replace(',', '')) 
+                payment = frappe.new_doc("Payment Entry")
+                payment.payment_type = "Pay"	
+                if value[4].startswith('5'):
+                    payment.party_type = "Supplier"
+                    payment.party = value[4]
+                    payment.paid_from = f'{value[6]} - HPL'
+                elif not value[4].startswith('5'):
+                    payment.party_type = "Employee"
+                    payment.party = employee(value[4])
+                    payment.paid_from = "2110 - Creditors - HPL"
+                    payment.paid_to = f'{value[6]} - HPL'
+                exchange = 1
+                currency = 'NPR'
+                if value[13] == "Nepalese Rupee":
+                    currency = "NPR"
+                elif value[13] == "Euro":
+                    currency = "EUR"
+                    exchange = value[14]
+                elif value[13] == "US Dollar":
+                    currency = "USD"
+                    exchange = value[14]
+                elif value[13] == "Indian Rupees":
+                    currency = "INR"
+                    exchange = value[14]
+                elif value[13] == "British Pound":
+                    currency = "GBP"
+                    exchange = value[14]
+                elif value[13] == "Norwegian Krone":
+                    currency = "NOK"
+                    exchange = value[14]
+                if value[8] == '':
+                    cost_center = "Main - HPL"
+                if value[8] != '':
+                    cost_center = f'{value[8]} - HPL',
+                payment.custom_payment_type = "Supplier Payment"
+                payment.custom_internal_id = value[0]
+                payment.custom_period = value[2]
+                payment.custom_document_number = value[3]
+                payment.custom_subsidiary = value[5]
+                payment.custom_memo = value[7]
+                payment.custom_location = value[9]
+                payment.custom_applied_to_transaction = value[15]
+                payment.custom_created_from = value[17]
+                payment.custom_line_id = value[18]
+                payment.custom_billing_address = value[19]
+                payment.custom_applied_to_link_type = value[20]
+                payment.custom_created_by = value[23]
+                payment.mode_of_payment = "Cash"	
+                payment.posting_date = date_converter_month(value[1])
+                payment.paid_to_account_currency  = currency
+                payment.paid_from_account_currency = currency
+                payment.cost_center = cost_center
+                payment.paid_amount = total
+                payment.received_amount = total
+                payment.source_exchange_rate = exchange
+                payment.reference_no=value[7]
+                payment.reference_date = date_converter_month(value[1])
+                payment.cost_center = cost_center
+                payment.docstatus = 1
+                payment.insert()
+                frappe.db.commit()
+            except Exception as e:
+                print(f"{e} {value[0]} {total}")
+
+def employee(employee):
+    if not employee.startswith('5') and employee != '':
+        if not frappe.db.exists('Employee', employee):
+            emp = frappe.new_doc("Employee")
+            emp.first_name  = employee
+            emp.insert(ignore_mandatory=True)
+            frappe.db.commit()
+            frappe.rename_doc('Employee', emp.name, employee)
+            frappe.db.commit()
+    return employee
