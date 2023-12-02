@@ -660,24 +660,24 @@ def create_bank_transfer_2013():
 
 # cheque payment
 def create_cheque_payment_2013():
-    with open( '/home/doreenalita/Downloads/Exp Cheq Payment  Number 2013_2020 - Sheet1 (1).csv' ) as design_file:
+    with open( '/home/frappe/frappe-bench/apps/raindrop/Exp Cheq Payment  Number 2013_2020 - Sheet1 (1).csv' ) as design_file:
         reader_po = csv.reader(design_file, delimiter=',')
         for value in reader_po:
             try:
                 total = 0.0
-                with open('/home/doreenalita/Downloads/Exp Cheq Payment 2013_2020 - Sheet1 (1).csv' ) as templates:
+                with open('/home/doreenalita/frappe-bench2/apps/raindrop/Exp Cheq Payment 2013_2020 - Sheet1 (1).csv') as templates:
                     reader = csv.reader(templates, delimiter=',')
                     for row in reader:
                         if  row[0].strip() == value[0].strip():
-                            total = total +  float(row[46].replace(',', '')) 
+                            total = total +  float(row[55].replace(',', '')) 
                 payment = frappe.new_doc("Payment Entry")
                 payment.payment_type = "Pay"	
-                if value[32].startswith('5'):
+                if value[33].startswith('5'):
                     payment.party_type = "Supplier"
-                    payment.party = value[32]
-                elif not value[32].startswith('5'):
+                    payment.party = value[33]
+                elif not value[33].startswith('5'):
                     payment.party_type = "Employee"
-                    payment.party = value[32]     
+                    payment.party = value[33]     
                 currency = 'NPR'
                 if value[6] == "Nepalese Rupee":
                     currency = "NPR"
@@ -687,29 +687,29 @@ def create_cheque_payment_2013():
                     currency = "EUR"
                     payment.paid_from = create_account(account=f'{value[1]}(EUR)',root_type="Expense", parent="51000 - Direct Expenses - HPL",  currency='EUR')
                     payment.paid_to = create_account(f'{value[35]}(EUR)',"Expense", "51000 - Direct Expenses - HPL" ,  'EUR')
-                    payment.source_exchange_rate = float(f'{value[26].strip()}')
+                    payment.source_exchange_rate = float(f'{value[27].strip()}')
                 elif value[6] == "US Dollar":
                     currency = "USD"
                     payment.paid_from = create_account(f'{value[1]}(USD)',"Expense", "51000 - Direct Expenses - HPL" ,  'USD')
                     payment.paid_to = create_account(f'{value[35]}(USD)',"Expense", "51000 - Direct Expenses - HPL" , 'USD')
-                    payment.source_exchange_rate = float(f'{value[26].strip()}')
+                    payment.source_exchange_rate = float(f'{value[27].strip()}')
                 elif value[6] == "Indian Rupees":
                     currency = "INR"
                     payment.paid_from = create_account(f'{value[1]}(INR)',"Expense", "51000 - Direct Expenses - HPL" ,  'INR')
                     payment.paid_to = create_account(f'{value[35]}(INR)',"Expense", "51000 - Direct Expenses - HPL" ,  'INR')
-                    payment.source_exchange_rate = float(f'{value[26].strip()}')
+                    payment.source_exchange_rate = float(f'{value[27].strip()}')
                 elif value[6] == "British Pound":
                     currency = "GBP"
                     payment.paid_from = create_account(f'{value[1]}(GBP)',"Expense", "51000 - Direct Expenses - HPL" ,  'GBP')
                     payment.paid_to = create_account(f'{value[35]}(GBP)',"Expense", "51000 - Direct Expenses - HPL" ,  'GBP')
-                    payment.source_exchange_rate = float(f'{value[26].strip()}')
+                    payment.source_exchange_rate = float(f'{value[27].strip()}')
                 elif value[6] == "Norwegian Krone":
                     currency = "NOK"
-                    payment.source_exchange_rate = float(f'{value[26].strip()}')
-                if value[13] == '':
+                    payment.source_exchange_rate = float(f'{value[27].strip()}')
+                if value[14] == '':
                     cost_center = "Main - HPL"
-                if value[13] != '':
-                    cost_center = f'{value[13]} - HPL',
+                if value[14] != '':
+                    cost_center = f'{value[14]} - HPL',
                 payment.custom_payment_type = "Exp Cheque Payment"
                 payment.custom_internal_id = value[0]
                 payment.custom_period = value[2]
