@@ -665,7 +665,7 @@ def create_cheque_payment_2013():
         for value in reader_po:
             try:
                 total = 0.0
-                with open('/home/doreenalita/frappe-bench2/apps/raindrop/Exp Cheq Payment 2013_2020 - Sheet1 (1).csv') as templates:
+                with open('/home/dfrappe/frappe-bench/apps/raindrop/Exp Cheq Payment 2013_2020 - Sheet1 (1).csv') as templates:
                     reader = csv.reader(templates, delimiter=',')
                     for row in reader:
                         if  row[0].strip() == value[0].strip():
