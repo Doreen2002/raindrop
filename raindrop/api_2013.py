@@ -745,26 +745,26 @@ def create_cheque_payment_2013():
 
 
 def create_cash_bank_2013():
-    with open('/home/doreenalita/frappe/frappe-bench/apps/raindrop/HPL Cash Bank Received Others Income  Numbern2013_2020 - Sheet1.csv' ) as design_file:
+    with open('/home/frappe/frappe-bench/apps/raindrop/HPL Cash Bank Received Others Income  Numbern2013_2020 - Sheet1.csv' ) as design_file:
         reader_po = csv.reader(design_file, delimiter=',')
         for value in reader_po:
             try:
                 total = 0.0
-                with open('/home/doreenalita/frappe/frappe-bench/apps/raindrop/HPL Cash Bank Received Others Income 2013_2020 - Sheet1.csv' ) as templates:
+                with open('/home/frappe/frappe-bench/apps/raindrop/HPL Cash Bank Received Others Income 2013_2020 - Sheet1.csv' ) as templates:
                     reader = csv.reader(templates, delimiter=',')
                     for row in reader:
                         if  row[0].strip() == value[0].strip():
-                            total = total +  float(row[42].replace(',', '')) 
+                            total = total +  float(row[28].replace(',', '')) 
                 payment = frappe.new_doc("Payment Entry")
                 payment.payment_type = "Pay"
                 
-                if value[11].startswith('5'):
+                if value[8].startswith('5'):
                     payment.party_type = "Supplier"
-                    payment.party = value[11]
-                elif not value[32].startswith('5'):
+                    payment.party = value[8]
+                elif not value[8].startswith('5'):
                     payment.party_type = "Employee"
-                    payment.party = employee(value[11])  
-                    if 	value[11] == '':
+                    payment.party = employee(value[8])  
+                    if 	value[8] == '':
                         payment.party_type = "Supplier"
                         payment.party = "No Supplier"  
                 currency = 'NPR'
@@ -774,42 +774,42 @@ def create_cash_bank_2013():
                     payment.paid_to = f'{value[10]} - HPL'
                 elif value[5] == "Euro":
                     currency = "EUR"
-                    payment.paid_from = create_account(account=f'{value[20]}(EUR)',root_type="Expense", parent="51000 - Direct Expenses - HPL",  currency='EUR')
-                    payment.paid_to = create_account(f'{value[35]}(EUR)',"Expense", "51000 - Direct Expenses - HPL" ,  'EUR')
-                    payment.source_exchange_rate = float(f'{value[10].strip()}')
+                    payment.paid_from = create_account(account=f'{value[14]}(EUR)',root_type="Expense", parent="51000 - Direct Expenses - HPL",  currency='EUR')
+                    payment.paid_to = create_account(f'{value[7]}(EUR)',"Expense", "51000 - Direct Expenses - HPL" ,  'EUR')
+                    payment.source_exchange_rate = float(f'{value[11].strip()}')
                 elif value[5] == "US Dollar":
                     currency = "USD"
-                    payment.paid_from = create_account(f'{value[20]}(USD)',"Expense", "51000 - Direct Expenses - HPL" ,  'USD')
-                    payment.paid_to = create_account(f'{value[10]}(USD)',"Expense", "51000 - Direct Expenses - HPL" , 'USD')
-                    payment.source_exchange_rate = float(f'{value[13].strip()}')
+                    payment.paid_from = create_account(f'{value[14]}(USD)',"Expense", "51000 - Direct Expenses - HPL" ,  'USD')
+                    payment.paid_to = create_account(f'{value[7]}(USD)',"Expense", "51000 - Direct Expenses - HPL" , 'USD')
+                    payment.source_exchange_rate = float(f'{value[11].strip()}')
                 elif value[5] == "Indian Rupees":
                     currency = "INR"
-                    payment.paid_from = create_account(f'{value[20]}(INR)',"Expense", "51000 - Direct Expenses - HPL" ,  'INR')
-                    payment.paid_to = create_account(f'{value[10]}(INR)',"Expense", "51000 - Direct Expenses - HPL" ,  'INR')
-                    payment.source_exchange_rate = float(f'{value[13].strip()}')
+                    payment.paid_from = create_account(f'{value[14]}(INR)',"Expense", "51000 - Direct Expenses - HPL" ,  'INR')
+                    payment.paid_to = create_account(f'{value[7]}(INR)',"Expense", "51000 - Direct Expenses - HPL" ,  'INR')
+                    payment.source_exchange_rate = float(f'{value[11].strip()}')
                 elif value[5] == "British Pound":
                     currency = "GBP"
-                    payment.paid_from = create_account(f'{value[20]}(GBP)',"Expense", "51000 - Direct Expenses - HPL" ,  'GBP')
-                    payment.paid_to = create_account(f'{value[10]}(GBP)',"Expense", "51000 - Direct Expenses - HPL" ,  'GBP')
-                    payment.source_exchange_rate = float(f'{value[13].strip()}')
+                    payment.paid_from = create_account(f'{value[14]}(GBP)',"Expense", "51000 - Direct Expenses - HPL" ,  'GBP')
+                    payment.paid_to = create_account(f'{value[7]}(GBP)',"Expense", "51000 - Direct Expenses - HPL" ,  'GBP')
+                    payment.source_exchange_rate = float(f'{value[11].strip()}')
                 elif value[5] == "Norwegian Krone":
                     currency = "NOK"
-                    payment.source_exchange_rate = float(f'{value[13].strip()}')
-                if value[7] == '':
+                    payment.source_exchange_rate = float(f'{value[11].strip()}')
+                if value[9] == '':
                     cost_center = "Main - HPL"
-                if value[7] != '':
-                    cost_center = f'{value[7]} - HPL',
+                if value[9] != '':
+                    cost_center = f'{value[9]} - HPL',
                 payment.custom_payment_type = "Cash Bank Received Others Income"
                 payment.custom_internal_id = value[0]
                 payment.custom_document_number = value[2]
                 payment.custom_subsidiary = value[4]
-                payment.custom_memo = value[9]
-                payment.custom_location = value[6]
-                payment.custom_applied_to_transaction = value[15]
-                payment.custom_created_from = value[17]
-                payment.custom_line_id = value[19]
-                payment.custom_billing_address = value[14]
-                payment.custom_applied_to_link_type = value[20]
+                payment.custom_memo = value[15]
+                payment.custom_location = value[17]
+                # payment.custom_applied_to_transaction = value[15]
+                # payment.custom_created_from = value[17]
+                payment.custom_line_id = value[13]
+                # payment.custom_billing_address = value[14]
+                # payment.custom_applied_to_link_type = value[20]
                 payment.custom_created_by = value[3]
                 payment.mode_of_payment = "Cash"	
                 payment.posting_date = date_converter_month(value[1])
@@ -820,14 +820,14 @@ def create_cash_bank_2013():
                 payment.cost_center = cost_center
                 payment.paid_amount = total
                 payment.received_amount = total
-                payment.custom_resubmit = value[24]
-                payment.custom_approval_status = value[8]
-                payment.reference_no=value[9]
+                # payment.custom_resubmit = value[24]
+                # payment.custom_approval_status = value[8]
+                payment.reference_no=value[15]
                 payment.reference_date = date_converter_month(value[1])
                 payment.cost_center = cost_center
-                payment.project = create_project(value[18])
+                payment.project = create_project(value[12])
                 payment.docstatus = 1
                 payment.insert()
                 frappe.db.commit()
             except Exception as e:
-                print(f"{e} {value[0],  value[26]}")
+                print(f"{e} {value[0]}")
