@@ -835,12 +835,12 @@ def create_cash_bank_2013():
 
 #purchase order creation
 def create_purchase_order_2013():
-    with open( '/home/doreenalita/frappe/frappe-bench/apps/raindrop/HPL PO  Number 2013 to 2020.xlsx - Sheet1.csv' ) as design_file:
+    with open( '/home/frappe/frappe-bench/apps/raindrop/HPL PO  Number 2013 to 2020.xlsx - Sheet1.csv' ) as design_file:
         reader_po = csv.reader(design_file, delimiter=',')
         for value in reader_po:
             try:
                 items = []
-                with open('/home/doreenalita/frappe/frappe-bench/apps/raindrop/HPL PO 2013 to 2020.xlsx - Sheet1.csv' ) as templates:
+                with open('/home/frappe/frappe-bench/apps/raindrop/HPL PO 2013 to 2020.xlsx - Sheet1.csv' ) as templates:
                     reader = csv.reader(templates, delimiter=',')
                     items.clear()
                     for row in reader:
