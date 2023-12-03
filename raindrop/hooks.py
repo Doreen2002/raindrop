@@ -120,21 +120,21 @@ doctype_js = {"Stock Entry" : "public/js/stock_entry.js"}
 # Hook on document methods and events
 
 doc_events = {
-	"Purchase Invoice": {
-		"on_submit": "raindrop.custom_code.purchase_invoice.on_submit",
-		# "on_cancel": "method",
-		# "on_trash": "method"
-	},
+	# "Purchase Invoice": {
+	# 	"on_submit": "raindrop.custom_code.purchase_invoice.on_submit",
+	# 	# "on_cancel": "method",
+	# 	# "on_trash": "method"
+	# },
     "Material Request": {
 		"on_update": "raindrop.custom_code.internal_transfer.on_update",
 		# "on_cancel": "method",
 		# "on_trash": "method"
 	},
-    "Purchase Order": {
-		"on_update": "raindrop.custom_code.purchase_order.on_update",
-		# "on_cancel": "method",
-		# "on_trash": "method"
-	}
+    # "Purchase Order": {
+	# 	"on_update": "raindrop.custom_code.purchase_order.on_update",
+	# 	# "on_cancel": "method",
+	# 	# "on_trash": "method"
+	# }
 }
 
 # Scheduled Tasks
