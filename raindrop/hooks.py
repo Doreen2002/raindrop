@@ -240,4 +240,7 @@ fixtures = [
         ]
 
     },
+    {
+        "dt":"Workflow"
+	}
 ]
