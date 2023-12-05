@@ -626,7 +626,7 @@
   "label": "Internal Id",
   "length": 0,
   "mandatory_depends_on": null,
-  "modified": "2023-12-02 18:42:50.437874",
+  "modified": "2023-12-05 11:28:40.875143",
   "module": "Raindrop",
   "name": "Payment Entry-custom_internal_id",
   "no_copy": 0,
@@ -644,7 +644,7 @@
   "search_index": 0,
   "sort_options": 0,
   "translatable": 1,
-  "unique": 1,
+  "unique": 0,
   "width": null
  },
  {
