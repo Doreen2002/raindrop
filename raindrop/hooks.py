@@ -130,11 +130,11 @@ doc_events = {
 		# "on_cancel": "method",
 		# "on_trash": "method"
 	},
-    # "Purchase Order": {
-	# 	"on_update": "raindrop.custom_code.purchase_order.on_update",
-	# 	# "on_cancel": "method",
-	# 	# "on_trash": "method"
-	# }
+    "Purchase Order": {
+		"on_update": "raindrop.custom_code.purchase_order.on_update",
+		# "on_cancel": "method",
+		# "on_trash": "method"
+	}
 }
 
 # Scheduled Tasks
