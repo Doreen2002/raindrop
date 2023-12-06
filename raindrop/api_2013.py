@@ -1085,3 +1085,152 @@ def create_goods_received_2013():
                         frappe.db.set_value('Purchase Order', po_name, 'status', 'To Bill')
             except Exception as e:
                 print(f' {e} {value[2]} {po_name}')
+
+
+
+#purchase invoice
+def create_purchase_invoice_2013():
+    with open( '/home/doreenalita/Downloads/HPL Purchase Invoice  Number  NPR 2013_2020.xlsx - Sheet1.csv') as design_file:
+        reader_po = csv.reader(design_file, delimiter=',')
+        for value in  reader_po:
+            try:
+                items = []
+                taxes = []
+                tax_template = []
+                with open('/home/doreenalita/Downloads/HPL Purchase Invoice   NPR 2013_2020.xlsx - Sheet1.csv') as templates:
+                    reader = csv.reader(templates, delimiter=',')
+                    for row in reader:
+                        cost_center = "Main - HPL"
+                        if row[13] != '':
+                            cost_center = f"{row[13]} - HPL"
+                        if row[0] == value[0] and  not 'TDS' in row[39] and row[39] != '' :
+                            name = frappe.db.get_value("Purchase Order", {"custom_document_number":row[52]}, 'name')
+                            if row[38] != '0%':
+                                tax_template.append(row[38])
+                            items.append(
+                                {
+                                "item_code": frappe.db.get_value("Item", {"custom_name":row[39]}, 'name'),
+                                "rate":row[40],
+                                "qty":row[43],
+                                "cost_center": cost_center,
+                                "expense_account":f"{row[35]} - HPL",
+                                "description":row[15],
+                                "purchase_order": frappe.db.get_value("Purchase Order", {"custom_document_number":row[52]}, 'name'),
+                                "purchase_order_item": frappe.db.get_value("Purchase Order Item", {"parent":name}, 'name'),
+                                "project":create_project(row[31])
+                                }
+                            
+                            )
+                        if row[0] == value[0] and row[39] == '' and not 'TDS' in row[35]:
+                            items.append(
+                                    {
+                                    "item_code":"Virtual Item",
+                                    "rate":row[55],
+                                    "qty":1,
+                                    "cost_center": cost_center,
+                                    "expense_account":f"{row[35]} - HPL",
+                                    "description":row[15],
+                                        }
+                                        )
+                        
+                        if row[0] == value[0]:
+                            if 'TDS' in row[39] or 'TDS' in row[35]:
+                                if row[39] != '':
+                                    taxes.append(
+                                    {
+                                        'charge_type':"Actual",
+                                        "add_deduct_tax":"Deduct",
+                                        'rate':0,
+                                        "tax_amount":row[40],
+                                        "account_head":f"{row[35]} - HPL",
+                                        "description":value[15]
+                                            })
+                                if row[39] == '':
+                                    taxes.append(
+                                    {
+                                        'charge_type':"Actual",
+                                        "add_deduct_tax":"Add",
+                                        'rate':0,
+                                        "tax_amount":row[55],
+                                        "account_head":f"{row[35]} - HPL",
+                                        "description":value[15]
+                                            })
+                                    
+
+                doc = frappe.new_doc("Purchase Invoice")
+                doc.custom_bill_number = value[1]
+                doc.custom_internal_id = value[0]
+                doc.set_posting_time = 1
+                doc.posting_date = date_converter_month(value[2])
+                doc.custom_document_number = value[3]
+                doc.custom_created_by = value[4]
+                doc.custom_subsidiary = value[5]
+                doc.supplier = value[32]
+                for item in items:
+                    doc.append('items', item)
+                if taxes != []:
+                    for tax in taxes:
+                        doc.append('taxes', tax)
+                if tax_template != []:
+                    if tax_template[-1] != '0%':
+                        doc.taxes_and_charges = "Nepal Tax - HPL"
+                        doc.append('taxes',
+                        {
+                            'charge_type':"On Net Total",
+                            "rate":13,
+                            "account_head":"VAT - HPL",
+                            "description":value[15]
+                                })
+                if value[6] == "Nepalese Rupee":
+                    doc.currency = "NPR"
+                    doc.conversion_rate = value[26]
+                elif value[6] == "Euro":
+                    doc.currency = "EUR"
+                    doc.conversion_rate = value[26]
+                elif value[6] == "US Dollar":
+                    doc.currency = "USD"
+                    doc.conversion_rate = value[26]
+                elif value[6] == "Indian Rupees":
+                    doc.currency = "INR"
+                    doc.conversion_rate = value[26]
+                elif value[6] == "British Pound":
+                    doc.currency = "GBP"
+                    doc.conversion_rate = value[26]
+                elif value[6] == "Norwegian Krone":
+                    doc.currency = "NOK"
+                    doc.conversion_rate = value[26]
+                if value[7] == "KIRNE (N)":
+                    doc.update_stock = 1
+                    doc.set_warehouse = "KIRNE (N) - HPL"
+                if value[7] == "KATHMANDU (N)":
+                    doc.update_stock = 1
+                    doc.set_warehouse="KATHMANDU (N) - HPL"
+                if value[7] == "PALATI (N)":
+                    doc.update_stock = 1
+                    doc.set_warehouse="PALATI (N) - HPL"
+                if value[7] == "KATHMANDU":
+                    doc.update_stock = 1
+                    doc.set_warehouse="KATHMANDU - HPL"
+                if value[7] == "KIRNE":
+                    doc.update_stock = 1
+                    doc.set_warehouse="KIRNE - HPL"
+                
+                doc.custom_procurement_person = value[16]
+                doc.terms = value[10]
+                doc.rounding_adjustment = 0
+                doc.custom_billing_address = value[27]
+                doc.project = value[31]
+                doc.custom_shipping_address = value[28]
+                doc.custom_accounting_approval  = value[25]
+                doc.custom_resubmit = value[24]
+                doc.custom_match_bill_to_receipt = value[49]
+                doc.custom_vendor_price_ref_date = value[19] 
+                doc.custom_current_approval = value[23]
+                doc.custom_vendor = value[18]
+                doc.custom_line_id = value[33]
+                doc.disable_rounded_total = 1
+                doc.submit()
+                frappe.db.commit()
+            
+            except Exception as e:
+                print(f' {e}  {value[0]}')
