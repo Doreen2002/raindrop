@@ -1234,3 +1234,265 @@ def create_purchase_invoice_2013():
             
             except Exception as e:
                 print(f' {e}  {value[0]}')
+
+
+#sales invoice
+def create_sales_invoice_2013():
+    with open('/home/frappe/frappe-bench/apps/raindrop/HPL Sales Invoice NPR  Number 2013_2020.xlsx - Sheet1.csv' ) as design_file:
+        reader_po = csv.reader(design_file, delimiter=',')
+        for value in reader_po:
+            try:
+                items = []
+                with open('/home/frappe/frappe-bench/apps/raindrop/HPL Sales Invoice NPR 2013_2020.xlsx - Sheet1.csv' ) as templates:
+                    reader = csv.reader(templates, delimiter=',')
+                    items.clear()
+                    for row in reader:
+                        
+                        if row[35] != '':
+                            if not frappe.db.exists('Account', f"{row[35].strip()} - HPL"):
+                                acc = frappe.new_doc('Account')
+                                acc.account_name = row[35].strip()
+                                acc.account_type = ""
+                                acc.root_type = "Income"
+                                acc.report_type = "Profit and Loss"
+                                acc.parent_account = "51000 - Direct Expenses - HPL"
+                                acc.is_group = 0
+                                acc.insert(ignore_mandatory=True)
+                                frappe.db.commit()
+                        if  row[0].strip() == value[0].strip():
+                                if  row[40] == '':
+                                    items.append(
+                                    {
+                                    "item_code":"Virtual Item",
+                                    "qty": 1,
+                                    "rate": row[55],
+                                    "description":row[15],
+                                    "income_account":f"{row[35].strip()} - HPL",
+                                    "cost_center":f'{row[13]} - HPL'
+                                        }
+                                        )
+                                if  row[40] != '':  
+                                    items.append(
+                                    {
+                                    "item_code":frappe.db.get_value('Item', {'custom_name':row[40]}, 'name'),
+                                    "qty": 1,
+                                    "rate": row[55],
+                                    "description":row[15],
+                                    "income_account":f"{row[35].strip()} - HPL",
+                                    "cost_center":f'{row[13]} - HPL'
+                                        }
+                                        )
+               
+                if len(items) > 0:
+                    doc = frappe.new_doc('Sales Invoice')
+                    if not frappe.db.exists('Customer', value[31]):
+                        cus = frappe.new_doc('Customer')
+                        cus.customer_name = value[31]
+                        cus.customer_group = "Commercial"
+                        cus.territory = "Nepal"
+                        cus.insert()
+                        frappe.db.commit()
+                    doc.customer = value[31]
+                    doc.set_posting_time = 1
+                    doc.posting_date = date_converter_month(value[1])
+                    doc.due_date = date_converter_month(value[17])
+                    doc.custom_internal_id = value[0]
+                    doc.custom_subsidiary_ =value[4]
+                    doc.custom_document_number= value[2]
+                    doc.custom_created_by = value[3]
+                    if value[5] == "Nepalese Rupee":
+                        doc.currency = "NPR"
+                        doc.conversion_rate = value[26]
+                    elif value[5] == "Euro":
+                        doc.currency = "EUR"
+                        doc.conversion_rate = value[26]
+                    elif value[5] == "US Dollar":
+                        doc.currency = "USD"
+                        doc.conversion_rate = value[26]
+                    elif value[5] == "Indian Rupees":
+                        doc.currency = "INR"
+                        doc.conversion_rate = value[26]
+                    elif value[5] == "British Pound":
+                        doc.currency = "GBP"
+                        doc.conversion_rate = value[26]
+                    elif value[5] == "Norwegian Krone":
+                        doc.currency = "NOK"
+                        doc.conversion_rate = value[26]
+                    if value[45] == '0':
+                        doc.taxes_and_charges =''
+                    if value[45] != '0':
+                        doc.taxes_and_charges = "Nepal Tax - HPL"
+                        doc.append('taxes',
+                                   {
+                                       'type':"On Net Total",
+                                       "rate":13,
+                                       "account_head":"VAT - HPL",
+                                       "description":value[15]
+                                   })
+                    doc.update_stock = 1
+                    if value[6] == "KIRNE (N)":
+                        doc.set_warehouse = "KIRNE (N) - HPL"
+                    if value[6] == "KATHMANDU (N)":
+                        doc.set_warehouse="KATHMANDU (N) - HPL"
+                    if value[6] == "PALATI (N)":
+                        doc.set_warehouse="PALATI (N) - HPL"
+                    if value[6] == "KATHMANDU":
+                        doc.set_warehouse="KATHMANDU - HPL"
+                    if value[6] == "KIRNE":
+                        doc.set_warehouse="KIRNE - HPL"
+                    doc.terms = value[9]
+                    doc.cost_center = f'{value[13]} - HPL'
+                    doc.custom_approval_status = value[14]
+                    doc.custom_procurement_person = value[16]
+                    doc.custom_vendor_price_ref = value[18]
+                    doc.custom_vendor_price_ref_date = value[19]
+                    doc.custom_tds_reclass_of = value[20]
+                    doc.custom_vat_reclass_of = value[21]
+                    doc.custom_current_approver = value[23]
+                    doc.custom_resubmit = value[24]
+                    doc.custom_accounting_approval = value[26]
+                    
+                    doc.custom_billing_address = value[27]
+                    doc.custom_shipping_address = value[28]
+                    for item in items:
+                        doc.append("items", item)
+                    doc.docstatus = 1
+                    doc.insert()
+                    frappe.db.commit()
+            except Exception as e:
+                print(f'{e} {value[2]}')
+
+#customer payment 
+def create_customer_payment_2013():
+    with open('/home/doreenalita/frappe/frappe-bench/apps/raindrop/Payment Received from Customer  Number 2013_2020.xlsx - Sheet1.csv' ) as design_file:
+        reader_po = csv.reader(design_file, delimiter=',')
+        for value in reader_po:
+            try:
+                items = []
+                total = 0
+                items_total = 0
+                exchange = 1
+                with open('/home/doreenalita/frappe/frappe-bench/apps/raindrop/Payment Received from Customer  2013_2020.xlsx - Sheet1.csv') as templates:
+                    reader = csv.reader(templates, delimiter=',')
+                    items.clear()
+                    for row in reader:
+                        if  row[0].strip() == value[0].strip(): 
+                            if row[16] != '' and frappe.db.get_value('Sales Invoice', {'custom_document_number':row[16]}, 'name') !=None:
+                                items.append(
+                                    {
+                                    "reference_doctype":"Sales Invoice", 
+                                    "reference_name":frappe.db.get_value('Sales Invoice', {'custom_document_number':row[16]}, 'name'),
+                                    "total_amount":float(f'{value[17].replace(",", "").strip()}'),
+                                    "outstanding_amount":float(f'{value[17].replace(",", "").strip()}'),
+                                    "allocated_amount":float(f'{value[17].replace(",", "").strip()}'),
+                        
+                                }
+                                )
+                                items_total +=float(f'{value[17].replace(",", "").strip()}')
+
+                            if row[16].startswith('SC/N'):
+                                total += float(f'{value[17].replace(",", "").strip()}'),
+                                
+                currency = 'NPR'
+                if value[14] == "Nepalese Rupee":
+                    currency = "NPR"
+                    exchange = 1
+                elif value[14] == "Euro":
+                    currency = "EUR"
+                    exchange = float(f'{value[15].strip()}')
+                elif value[14] == "US Dollar":
+                    currency = "NPR"
+                    exchange = float(f'{value[15].strip()}')
+                elif value[14] == "Indian Rupees":
+                    currency = "INR"
+                    exchange = float(f'{value[15].strip()}')
+                elif value[14] == "British Pound":
+                    currency = "GBP"
+                    exchange = float(f'{value[15].strip()}')
+                elif value[14] == "Norwegian Krone":
+                    currency = "NOK"
+                    exchange = float(f'{value[15].strip()}')
+                if value[9] == '':
+                    cost_center = "Main - HPL"
+                if value[9] != '':
+                    cost_center = f'{value[9]} - HPL',
+                payment = frappe.new_doc('Payment Entry')
+                payment.payment_type = "Receive"	
+                payment.custom_document_number = value[3]
+                payment.custom_internal_id = value[0]
+                payment.custom_payment_type = "Customer Payment"
+                payment.custom_period = value[2]
+                payment.custom_subsidiary = value[5]
+                payment.custom_location = value[10]
+                payment.custom_line_id = value[20]
+                payment.custom_created_by = value[23]
+                payment.mode_of_payment = "Cash"	
+                payment.party_type = "Customer"
+                payment.posting_date = date_converter_month(value[1])
+                payment.paid_to_account_currency  = currency
+                payment.paid_from_account_currency = currency
+                if len(items) == 0:
+                   payment.party = value[4]
+                   payment.paid_amount = total
+                   payment.reference_no=value[16]
+                if len(items) != 0:
+                    payment.party = frappe.db.get_value('Sales Invoice', {'custom_document_number':value[16]}, 'customer') 
+                    payment.paid_amount = items_total
+                    for item in items:
+                        payment.append("references", item
+                            )
+                    payment.reference_no=value[7]
+                payment.received_amount =  payment.paid_amount 
+                payment.paid_to = f'{value[6]} - HPL'
+                payment.target_exchange_rate = exchange
+                payment.reference_date = date_converter_month(value[1])
+                payment.cost_center = cost_center
+                payment.docstatus = 1
+                payment.insert()
+                frappe.db.commit()
+            except Exception as e:
+                print(f'{e} {value[4]} ')
+
+#stock entry
+def stock_in():
+    with open('/home/frappe/frappe-bench/apps/raindrop/Stock Received Number 2013 - Sheet1.csv' ) as design_file:
+        reader_po = csv.reader(design_file, delimiter=',')
+        for value in reader_po:
+            try:
+                items = []
+                with open('/home/frappe/frappe-bench/apps/raindrop/Stock Received 2013 - Sheet1.csv' ) as templates:
+                    reader = csv.reader(templates, delimiter=',')
+                    items.clear()
+                    for row in reader:
+                        if row[0] == value[0]:
+                            frappe.db.set_value('Item', frappe.db.get_value('Item', {'custom_name':row[13]}, 'name'), 'is_stock_item', 1)
+                            frappe.db.commit()
+                            items.append(  {
+                        "t_warehouse": f"{row[12]} - HPL",
+                        "item_code":  frappe.db.get_value('Item', {'custom_name':row[13]}, 'name') ,
+                        "qty":row[15],
+                        "expense_account":f"{row[4]} - HPL",
+                        "basic_rate": row[16],
+                        "uom": row[14],
+                        "cost_center" : f"{row[9]} - HPL"
+                    }
+                            )
+                doc = frappe.new_doc("Stock Entry")
+                frappe.db.set_value('Company', "Himal Power Limited", 'default_inventory_account', f"{value[3].strip()} - HPL")
+                if value[1] != None or value[1] != '':
+                    doc.set_posting_time = 1
+                    doc.posting_date = date_converter_month(value[1])
+                    doc.stock_entry_type = "Material Receipt"
+                    doc.custom_document_number = value[2]
+                    doc.custom_period = value[8]
+                    doc.custom_internal_id = value[0]
+                    doc.custom_subsidiary = value[7]
+                    doc.custom_account_main = value[4]
+                    doc.custom_memo = value[6]
+                    for item in items:
+                        doc.append('items',item)
+                    doc.docstatus = 1
+                    doc.insert()
+                    frappe.db.commit()
+            except Exception as e:
+                print(f'{e} {value[1]} ')
