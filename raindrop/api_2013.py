@@ -1238,12 +1238,12 @@ def create_purchase_invoice_2013():
 
 #sales invoice
 def create_sales_invoice_2013():
-    with open('/home/frappe/frappe-bench/apps/raindrop/HPL Sales Invoice NPR  Number 2013_2020.xlsx - Sheet1.csv' ) as design_file:
+    with open('/home/doreenalita/frappe/frappe-bench/apps/raindrop/HPL Sales Invoice NPR  Number 2013_2020.xlsx - Sheet1.csv' ) as design_file:
         reader_po = csv.reader(design_file, delimiter=',')
         for value in reader_po:
             try:
                 items = []
-                with open('/home/frappe/frappe-bench/apps/raindrop/HPL Sales Invoice NPR 2013_2020.xlsx - Sheet1.csv' ) as templates:
+                with open('/home/doreenalita//frappe/frappe-bench/apps/raindrop/HPL Sales Invoice NPR 2013_2020.xlsx - Sheet1.csv' ) as templates:
                     reader = csv.reader(templates, delimiter=',')
                     items.clear()
                     for row in reader:
@@ -1455,16 +1455,17 @@ def create_customer_payment_2013():
 
 #stock entry
 def stock_in():
-    with open('/home/frappe/frappe-bench/apps/raindrop/Stock Received Number 2013 - Sheet1.csv' ) as design_file:
+    with open('/home/doreenalita/frappe/frappe-bench/apps/raindrop/Stock Received Number 2013 - Sheet1.csv' ) as design_file:
         reader_po = csv.reader(design_file, delimiter=',')
         for value in reader_po:
             try:
                 items = []
-                with open('/home/frappe/frappe-bench/apps/raindrop/Stock Received 2013 - Sheet1.csv' ) as templates:
+                with open('/home/doreenalita/frappe/frappe-bench/apps/raindrop/Stock Received 2013 - Sheet1.csv' ) as templates:
                     reader = csv.reader(templates, delimiter=',')
                     items.clear()
                     for row in reader:
                         if row[0] == value[0]:
+                            create_account()
                             frappe.db.set_value('Item', frappe.db.get_value('Item', {'custom_name':row[13]}, 'name'), 'is_stock_item', 1)
                             frappe.db.commit()
                             items.append(  {
@@ -1496,3 +1497,51 @@ def stock_in():
                     frappe.db.commit()
             except Exception as e:
                 print(f'{e} {value[1]} ')
+                
+
+#opening balance
+def create_opening_balance_2013():
+    with open('/home/frappe/frappe-bench/apps/raindrop/HPL Inventory Opening Number 2013.xlsx - Sheet1.csv' ) as design_file:
+        reader_po = csv.reader(design_file, delimiter=',')
+        for value in reader_po:
+            items = []
+            with open('/home/frappe/frappe-bench/apps/raindrop/HPL Inventory Opening 2013.xlsx - Sheet1.csv') as design_file:
+                reader= csv.reader(design_file, delimiter=',')
+                for row in reader:
+                    if value[2] != '' and row[2] == value[2]:
+                        if not frappe.db.exists('Item Group',frappe.db.get_value('Item', {'custom_name':row[13]}, 'item_group') ):
+                            item_group = frappe.new_doc('Item Group')
+                            item_group.item_group_name = frappe.db.get_value('Item', {'custom_name':row[13]}, 'item_group') 
+                            item_group.insert()
+                            frappe.db.commit()
+                        if not frappe.db.exists('UOM', row[14]):
+                            uom = frappe.new_doc('UOM')
+                            uom.uom_name  = row[14]
+                            uom.insert()
+                            frappe.db.commit()
+                        items.append( {
+                                "t_warehouse": f"{row[12]} - HPL",
+                                "item_code":  frappe.db.get_value('Item', {'custom_name':row[13]}, 'name') ,
+                                "qty":row[15],
+                                "expense_account": f"{row[4].strip()} - HPL",
+                                "basic_rate": row[16],
+                                "uom": row[14],
+                                "cost_center" : f"{row[9]} - HPL",
+                                "description":row[5]
+                            })
+            try:
+                if value[2] != '':
+                    frappe.db.set_value('Company', "Himal Power Limited", 'default_inventory_account', frappe.db.get_value('Account', {'name': ['like', f'%{value[3]}%']}, 'name'))
+                    frappe.db.commit()
+                    doc = frappe.new_doc("Stock Entry")
+                    doc.stock_entry_type = "Material Receipt"
+                    doc.set_posting_time = 1
+                    doc.custom_document_number = value[2]
+                    doc.posting_date = date_converter_month(value[1])
+                    for item in items:
+                        doc.append('items', item)
+                    doc.docstatus = 1
+                    doc.insert()
+                    frappe.db.commit()
+            except Exception as e:
+                    print(f'{e} {value[0]} ')
