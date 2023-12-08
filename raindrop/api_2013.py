@@ -1238,12 +1238,12 @@ def create_purchase_invoice_2013():
 
 #sales invoice
 def create_sales_invoice_2013():
-    with open('/home/doreenalita/frappe/frappe-bench/apps/raindrop/HPL Sales Invoice NPR  Number 2013_2020.xlsx - Sheet1.csv' ) as design_file:
+    with open('/home/frappe/frappe-bench/apps/raindrop/HPL Sales Invoice NPR  Number 2013_2020.xlsx - Sheet1.csv' ) as design_file:
         reader_po = csv.reader(design_file, delimiter=',')
         for value in reader_po:
             try:
                 items = []
-                with open('/home/doreenalita//frappe/frappe-bench/apps/raindrop/HPL Sales Invoice NPR 2013_2020.xlsx - Sheet1.csv' ) as templates:
+                with open('/home/frappe/frappe-bench/apps/raindrop/HPL Sales Invoice NPR 2013_2020.xlsx - Sheet1.csv' ) as templates:
                     reader = csv.reader(templates, delimiter=',')
                     items.clear()
                     for row in reader:
@@ -1309,6 +1309,7 @@ def create_sales_invoice_2013():
                     elif value[5] == "US Dollar":
                         doc.currency = "USD"
                         doc.conversion_rate = value[26]
+                        doc.debit_to = "1310 - Debtors USD - HPL"
                     elif value[5] == "Indian Rupees":
                         doc.currency = "INR"
                         doc.conversion_rate = value[26]
@@ -1364,15 +1365,15 @@ def create_sales_invoice_2013():
 
 #customer payment 
 def create_customer_payment_2013():
-    with open('/home/doreenalita/frappe/frappe-bench/apps/raindrop/Payment Received from Customer  Number 2013_2020.xlsx - Sheet1.csv' ) as design_file:
+    with open('/home/frappe/frappe-bench/apps/raindrop/Payment Received from Customer  Number 2013_2020.xlsx - Sheet1.csv' ) as design_file:
         reader_po = csv.reader(design_file, delimiter=',')
         for value in reader_po:
             try:
                 items = []
-                total = 0
+                total = 0.0
                 items_total = 0
                 exchange = 1
-                with open('/home/doreenalita/frappe/frappe-bench/apps/raindrop/Payment Received from Customer  2013_2020.xlsx - Sheet1.csv') as templates:
+                with open('/home/frappe/frappe-bench/apps/raindrop/Payment Received from Customer  2013_2020.xlsx - Sheet1.csv') as templates:
                     reader = csv.reader(templates, delimiter=',')
                     items.clear()
                     for row in reader:
@@ -1388,10 +1389,10 @@ def create_customer_payment_2013():
                         
                                 }
                                 )
-                                items_total +=float(f'{value[17].replace(",", "").strip()}')
+                                items_total +=float(f'{row[17].replace(",", "").strip()}')
 
-                            if row[16].startswith('SC/N'):
-                                total += float(f'{value[17].replace(",", "").strip()}'),
+                            if row[16].startswith('S'):
+                                total += float(f'{row[17].replace(",", "").strip()}')
                                 
                 currency = 'NPR'
                 if value[14] == "Nepalese Rupee":
@@ -1431,11 +1432,13 @@ def create_customer_payment_2013():
                 payment.posting_date = date_converter_month(value[1])
                 payment.paid_to_account_currency  = currency
                 payment.paid_from_account_currency = currency
+                
                 if len(items) == 0:
                    payment.party = value[4]
                    payment.paid_amount = total
                    payment.reference_no=value[16]
                 if len(items) != 0:
+                    
                     payment.party = frappe.db.get_value('Sales Invoice', {'custom_document_number':value[16]}, 'customer') 
                     payment.paid_amount = items_total
                     for item in items:
@@ -1451,7 +1454,7 @@ def create_customer_payment_2013():
                 payment.insert()
                 frappe.db.commit()
             except Exception as e:
-                print(f'{e} {value[4]} ')
+                print(f'{e} {value[16]} {total} {value[16]} ')
 
 #stock entry
 def stock_in():

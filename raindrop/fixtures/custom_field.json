@@ -1868,7 +1868,7 @@
   "label": "Internal ID",
   "length": 0,
   "mandatory_depends_on": null,
-  "modified": "2023-11-04 22:35:58.718455",
+  "modified": "2023-12-08 18:00:50.258247",
   "module": "Raindrop",
   "name": "Sales Invoice-custom_internal_id",
   "no_copy": 0,
@@ -1886,7 +1886,7 @@
   "search_index": 0,
   "sort_options": 0,
   "translatable": 1,
-  "unique": 0,
+  "unique": 1,
   "width": null
  },
  {
