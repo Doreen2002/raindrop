@@ -1548,3 +1548,328 @@ def create_opening_balance_2013():
                     frappe.db.commit()
             except Exception as e:
                     print(f'{e} {value[0]} ')
+
+
+#journal entry
+def create_journal_entry_2013():
+    with open('/home/frappe/frappe-bench/apps/raindrop/HPL Journal NRP  Number  2013_2020.xlsx - Sheet1.csv') as design_file:
+        reader_po = csv.reader(design_file, delimiter=',')
+        for value in reader_po:
+            try:
+                items = []
+                doc = frappe.new_doc("Journal Entry")
+                with open('/home/frappe/frappe-bench/apps/raindrop/HPL Journal NRP   2013_2020.xlsx - Sheet1.csv'  ) as templates:
+                    reader= csv.reader(templates, delimiter=',')
+                    for row in reader:
+                        if  row[0].strip() == value[0].strip():
+                            cost_center = "Main - HPL"
+                            if row[15] != '':
+                                cost_center = f'{row[15]} - HPL'
+                            currency = "NPR"
+                            if row[3] == "Nepalese Rupee":
+                                currency = "NPR"
+                                doc.multi_currency = 1
+                                items.append(
+                                    {
+                                        
+                                        'account': create_account(f'{row[7]}',"Expense", "51000 - Direct Expenses - HPL" ,  'NPR'),
+                                        'debit_in_account_currency':row[8],
+                                        'credit_in_account_currency':row[9],
+                                        'user_remark': row[10],
+                                        'cost_center':cost_center,
+                                        'exchange_rate': row[4],
+                                        "account_currency":"NPR"
+                                    })
+                                items.append(
+                                    {
+                                        
+                                        'account': create_account(f'{row[7]}',"Expense", "51000 - Direct Expenses - HPL" ,  'NPR'),
+                                        'debit_in_account_currency':row[9],
+                                        'credit_in_account_currency':row[8],
+                                        'user_remark': row[10],
+                                        'cost_center':cost_center,
+                                        'exchange_rate': row[4],
+                                        "account_currency":"NPR"
+                                    })
+                                
+                            if row[3] == "Euro":
+                                currency = "EUR"
+                                doc.multi_currency = 1
+                                items.append(
+                                    {
+                                        
+                                        'account': create_account(f'{row[7]}(EUR)',"Expense", "51000 - Direct Expenses - HPL" ,  'EUR'),
+                                        'debit_in_account_currency':row[8],
+                                        'credit_in_account_currency':row[9],
+                                        'user_remark': row[10],
+                                        'cost_center':cost_center,
+                                        'exchange_rate': row[4],
+                                        "account_currency":"EUR"
+                                    })
+                                items.append(
+                                    {
+                                        
+                                        'account': create_account(f'{row[7]}(EUR)',"Expense", "51000 - Direct Expenses - HPL" ,  'EUR'),
+                                        'debit_in_account_currency':row[9],
+                                        'credit_in_account_currency':row[8],
+                                        'user_remark': row[10],
+                                        'cost_center':cost_center,
+                                        'exchange_rate': row[4],
+                                        "account_currency":"EUR"
+                                    })
+                            if row[3] == "US Dollar":
+                                currency = "USD"
+                                doc.multi_currency = 1
+                                items.append(
+                                    {
+                                        
+                                        'account': create_account(f'{row[7]}(USD)',"Expense", "51000 - Direct Expenses - HPL" ,  'USD'),
+                                        'debit_in_account_currency':row[8],
+                                        'credit_in_account_currency':row[9],
+                                        'user_remark': row[10],
+                                        'cost_center':cost_center,
+                                        'exchange_rate': row[4],
+                                        "account_currency":"USD"
+                                    })
+                                items.append(
+                                    {
+                                        
+                                        'account': create_account(f'{row[7]}(USD)',"Expense", "51000 - Direct Expenses - HPL" ,  'USD'),
+                                        'debit_in_account_currency':row[9],
+                                        'credit_in_account_currency':row[8],
+                                        'user_remark': row[10],
+                                        'cost_center':cost_center,
+                                        'exchange_rate': row[4],
+                                        "account_currency":"USD"
+                                    })
+                                
+                            if row[3] == "Indian Rupees":
+                                currency = "INR"  
+                                doc.multi_currency = 1
+                                items.append(
+                                    {
+                                        
+                                        'account': create_account(f'{row[7]}(INR)',"Expense", "51000 - Direct Expenses - HPL" ,  'INR'),
+                                        'debit_in_account_currency':row[8],
+                                        'credit_in_account_currency':row[9],
+                                        'user_remark': row[10],
+                                        'cost_center':cost_center,
+                                        'exchange_rate': row[4],
+                                        "account_currency":"INR"
+                                    })
+                                items.append(
+                                    {
+                                        
+                                        'account': create_account(f'{row[7]}(INR)',"Expense", "51000 - Direct Expenses - HPL" ,  'INR'),
+                                        'debit_in_account_currency':row[9],
+                                        'credit_in_account_currency':row[8],
+                                        'user_remark': row[10],
+                                        'cost_center':cost_center,
+                                        'exchange_rate': row[4],
+                                        "account_currency":"INR"
+                                    })
+                            if row[3] == "British Pound":
+                                currency = "GBP"
+                                doc.multi_currency = 1
+                                items.append(
+                                    {
+                                        
+                                        'account': create_account(f'{row[7]}(GBP)',"Expense", "51000 - Direct Expenses - HPL" ,  'GBP'),
+                                        'debit_in_account_currency':row[8],
+                                        'credit_in_account_currency':row[9],
+                                        'user_remark': row[10],
+                                        'cost_center':cost_center,
+                                        'exchange_rate': row[4],
+                                        "account_currency":"GBP"
+                                    })
+                                items.append(
+                                    {
+                                        
+                                        'account': create_account(f'{row[7]}(GBP)',"Expense", "51000 - Direct Expenses - HPL" ,  'GBP'),
+                                        'debit_in_account_currency':row[9],
+                                        'credit_in_account_currency':row[8],
+                                        'user_remark': row[10],
+                                        'cost_center':cost_center,
+                                        'exchange_rate': row[4],
+                                        "account_currency":"GBP"
+                                    })
+                            if row[3] == "Norwegian Krone":
+                                currency = "NOK"
+                                doc.multi_currency = 1
+                                items.append(
+                                    {
+                                        
+                                        'account': create_account(f'{row[7]}(NOK)',"Expense", "51000 - Direct Expenses - HPL" ,  'NOK'),
+                                        'debit_in_account_currency':row[8],
+                                        'credit_in_account_currency':row[9],
+                                        'user_remark': row[10],
+                                        'cost_center':cost_center,
+                                        'exchange_rate': row[4],
+                                        "account_currency":"NOK"
+                                    })
+                                items.append(
+                                    {
+                                        
+                                        'account': create_account(f'{row[7]}(NOK)',"Expense", "51000 - Direct Expenses - HPL" ,  'NOK'),
+                                        'debit_in_account_currency':row[9],
+                                        'credit_in_account_currency':row[8],
+                                        'user_remark': row[11],
+                                        'cost_center':cost_center,
+                                        'exchange_rate': row[4],
+                                        "account_currency":"NOK"
+                                    })
+                                
+                       
+                
+               
+                doc.multi_currency = 1
+                doc.custom_internal_id = value[0]
+                doc.posting_date = date_converter_month(value[1])
+                doc.custom_subsidiary = value[2]
+                for item in items:  
+                    doc.append('accounts', item)
+                doc.custom_transaction_type = "Journal Voucher"
+                doc.user_remark = value[10]
+                doc.custom_document_number = value[11]
+                doc.custom_location = value[16]
+                doc.docstatus = 1
+                doc.insert(ignore_mandatory=True)
+                frappe.db.commit()
+            except Exception as e:
+                print(f'{e} {value[11]} ')
+
+
+
+#purchase invoice
+def create_service_purchase_return_2013():
+    with open( '/home/frappe/frappe-bench/apps/raindrop/HPL Service Purcahse Return (Debit Note) Number 2013_2020.xlsx - Sheet1.csv' ) as design_file:
+        reader_po = csv.reader(design_file, delimiter=',')
+        for value in  reader_po:
+            try:
+                items = []
+                taxes = []
+                tax_template = []
+                with open('/home/frappe/frappe-bench/apps/raindrop/HPL Service Purcahse Return (Debit Note) 2013_2020.xlsx - Sheet1.csv' ) as templates:
+                    reader = csv.reader(templates, delimiter=',')
+                    for row in reader:
+                        cost_center = "Main - HPL"
+                        if row[13] != '':
+                            cost_center = f"{row[13]} - HPL"
+                        if row[0] == value[0] and  not 'TDS' in row[21] and row[21] != '' and row[27] != '0'  :
+                            if row[26] != '0%':
+                                tax_template.append(row[26])
+                            items.append(
+                                {
+                                "item_code": frappe.db.get_value("Item", {"custom_name":row[21]}, 'name'),
+                                "qty":-1,
+                                "price_list_rate":row[27],
+                                "rate":row[27],
+
+                                "amount": -1 * float(f'{value[27].strip()}'),
+                                "cost_center": cost_center,
+                                "description":row[19],
+                                "project":create_project(row[15])
+                                }
+                            
+                            )
+                        if row[0] == value[0] and row[21] == ''  and row[27] != '0' :
+                            items.append(
+                                    {
+                                    "item_code":"Virtual Item",
+                                    "qty":-1,
+                                    "price_list_rate":row[27],
+                                    "rate":row[27],
+                                    "amount": -1 * float(f'{value[27].strip()}'),
+                                    "cost_center": cost_center,
+                                    "description":row[19],
+                                    "project":create_project(row[15])
+                                        }
+                                        )
+                        
+                        if row[0] == value[0]:
+                            if 'TDS' in row[21]:
+                                if row[21] != '':
+                                    taxes.append(
+                                    {
+                                        'charge_type':"Actual",
+                                        "add_deduct_tax":"Deduct",
+                                        'rate':0,
+                                        "tax_amount":-row[27],
+                                        "account_head":f"{row[18]} - HPL",
+                                        "description":value[19]
+                                            })
+                                
+
+                doc = frappe.new_doc("Purchase Invoice")
+                doc.supplier = value[16]
+                doc.custom_bill_number = value[35]
+                doc.custom_internal_id = value[0]
+                doc.set_posting_time = 1
+                doc.posting_date = date_converter_month(value[3])
+                doc.custom_document_number = value[11]
+                doc.custom_created_by = value[9]
+                doc.custom_subsidiary = value[2]
+                
+                if items != []:
+                    for item in items:
+                        doc.append('items', item)
+                if taxes != []:
+                    for tax in taxes:
+                        doc.append('taxes', tax)
+                if value[26] != '0%':
+                    doc.taxes_and_charges = "Nepal Tax - HPL"
+                    doc.append('taxes',
+                    {
+                        'charge_type':"On Net Total",
+                        "rate":-13,
+                        "account_head":"VAT - HPL",
+                        "description":value[19]
+                            })
+                if value[7] == "Nepalese Rupee":
+                    doc.currency = "NPR"
+                    doc.conversion_rate = value[8]
+                elif value[7] == "Euro":
+                    doc.currency = "EUR"
+                    doc.conversion_rate = value[8]
+                elif value[7] == "US Dollar":
+                    doc.currency = "USD"
+                    doc.conversion_rate = value[8]
+                elif value[7] == "Indian Rupees":
+                    doc.currency = "INR"
+                    doc.conversion_rate = value[8]
+                elif value[7] == "British Pound":
+                    doc.currency = "GBP"
+                    doc.conversion_rate = value[8]
+                elif value[7] == "Norwegian Krone":
+                    doc.currency = "NOK"
+                    doc.conversion_rate = value[8]
+                if value[14] == "KIRNE (N)":
+                    doc.update_stock = 1
+                    doc.set_warehouse = "KIRNE (N) - HPL"
+                if value[14] == "KATHMANDU (N)":
+                    doc.update_stock = 1
+                    doc.set_warehouse="KATHMANDU (N) - HPL"
+                if value[14] == "PALATI (N)":
+                    doc.update_stock = 1
+                    doc.set_warehouse="PALATI (N) - HPL"
+                if value[14] == "KATHMANDU":
+                    doc.update_stock = 1
+                    doc.set_warehouse="KATHMANDU - HPL"
+                if value[14] == "KIRNE":
+                    doc.update_stock = 1
+                    doc.set_warehouse="KIRNE - HPL"
+                doc.is_return = 1
+                doc.custom_procurement_person = value[16]
+                doc.terms = value[10]
+                doc.project = create_project(row[15])
+                doc.custom_match_bill_to_receipt = value[34]
+                doc.custom_vendor_price_ref_date = value[19] 
+                doc.custom_current_approval = value[23]
+                doc.custom_vendor = value[16]
+                doc.custom_line_id = value[17]
+                doc.disable_rounded_total = 1
+                # doc.docstatus = 1
+                doc.submit()
+                frappe.db.commit()
+            except Exception as e:
+                print(f' {e}  {value[0]} {value[16]}')
