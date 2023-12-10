@@ -1739,6 +1739,146 @@ def create_journal_entry_2013():
                 print(f'{e} {value[11]} ')
 
 
+#journal entry
+def create_expenses_2013():
+    with open('/home/frappe/frappe-bench/apps/raindrop/HPL_Expenses Number  - Sheet1.csv' ) as design_file:
+        reader_po = csv.reader(design_file, delimiter=',')
+        for value in reader_po:
+            try:
+                items = []
+                doc = frappe.new_doc("Journal Entry")
+                row_num = 8
+                with open('/home/frappe/frappe-bench/apps/raindrop/HPL_Expenses - Sheet1.csv') as templates:
+                    reader= csv.reader(templates, delimiter=',')
+                    for row in reader:
+                        
+                        if  row[0].strip() == value[0].strip():
+                            cost_center = "Main - HPL"
+                            if row[14] != '':
+                                cost_center = f'{row[14]} - HPL'
+                            currency = "NPR"
+                            if row[4] == "Nepalese Rupee":
+                                currency = "NPR"
+                                doc.multi_currency = 1
+                                items.append(
+                                    {
+                                        
+                                        'account': create_account(f'{row[row_num]}',"Expense", "51000 - Direct Expenses - HPL" ,  'NPR'),
+                                        'debit_in_account_currency':row[9],
+                                        'credit_in_account_currency':row[10],
+                                        'user_remark': row[7],
+                                        'cost_center':cost_center,
+                                        'exchange_rate': row[5],
+                                        "account_currency":"NPR",
+                                        "custom_item_code":frappe.db.get_value('Item', {'custom_name':row[32]}, 'name')
+                                    })
+                                
+                                
+                            if row[4] == "Euro":
+                                currency = "EUR"
+                                doc.multi_currency = 1
+                                items.append(
+                                    {
+                                        
+                                        'account': create_account(f'{row[row_num]}(EUR)',"Expense", "51000 - Direct Expenses - HPL" ,  'EUR'),
+                                        'debit_in_account_currency':row[9],
+                                        'credit_in_account_currency':row[10],
+                                        'user_remark': row[7],
+                                        'cost_center':cost_center,
+                                        'exchange_rate': row[5],
+                                        "account_currency":"EUR",
+                                        "custom_item_code":frappe.db.get_value('Item', {'custom_name':row[32]}, 'name')
+                                    })
+                                
+                            if row[4] == "US Dollar":
+                                currency = "USD"
+                                doc.multi_currency = 1
+                                items.append(
+                                    {
+                                        
+                                        'account': create_account(f'{row[row_num]}(USD)',"Expense", "51000 - Direct Expenses - HPL" ,  'USD'),
+                                        'debit_in_account_currency':row[9],
+                                        'credit_in_account_currency':row[10],
+                                        'user_remark': row[7],
+                                        'cost_center':cost_center,
+                                        'exchange_rate': row[5],
+                                        "account_currency":"USD",
+                                        "custom_item_code":frappe.db.get_value('Item', {'custom_name':row[32]}, 'name')
+                                    })
+                                
+                                
+                            if row[4] == "Indian Rupees":
+                                currency = "INR"  
+                                doc.multi_currency = 1
+                                items.append(
+                                    {
+                                        
+                                        'account': create_account(f'{row[row_num]}(INR)',"Expense", "51000 - Direct Expenses - HPL" ,  'INR'),
+                                        'debit_in_account_currency':row[9],
+                                        'credit_in_account_currency':row[10],
+                                        'user_remark': row[7],
+                                        'cost_center':cost_center,
+                                        'exchange_rate': row[5],
+                                        "account_currency":"INR",
+                                        "custom_item_code":frappe.db.get_value('Item', {'custom_name':row[32]}, 'name')
+                                    })
+                                
+                            if row[4] == "British Pound":
+                                currency = "GBP"
+                                doc.multi_currency = 1
+                                items.append(
+                                    {
+                                        
+                                        'account': create_account(f'{row[row_num]}(GBP)',"Expense", "51000 - Direct Expenses - HPL" ,  'GBP'),
+                                        'debit_in_account_currency':row[9],
+                                        'credit_in_account_currency':row[10],
+                                        'user_remark': row[7],
+                                        'cost_center':cost_center,
+                                        'exchange_rate': row[5],
+                                        "account_currency":"GBP",
+                                        "custom_item_code":frappe.db.get_value('Item', {'custom_name':row[32]}, 'name')
+                                    })
+                                
+                            if row[4] == "Norwegian Krone":
+                                currency = "NOK"
+                                doc.multi_currency = 1
+                                items.append(
+                                    {
+                                        
+                                        'account': create_account(f'{row[row_num]}(NOK)',"Expense", "51000 - Direct Expenses - HPL" ,  'NOK'),
+                                        'debit_in_account_currency':row[9],
+                                        'credit_in_account_currency':row[10],
+                                        'user_remark': row[7],
+                                        'cost_center':cost_center,
+                                        'exchange_rate': row[5],
+                                        "account_currency":"NOK",
+                                        "custom_item_code":frappe.db.get_value('Item', {'custom_name':row[32]}, 'name')
+                                    })
+                                
+                       
+                
+               
+                doc.multi_currency = 1
+                doc.custom_internal_id = value[0]
+                doc.posting_date = date_converter_month(value[2])
+                doc.custom_subsidiary = value[3]
+                doc.custom_created_by = value[13]
+                doc.custom_name = value[20]
+                doc.custom_account = value[36]
+                doc.custom_period = value[27]
+                for item in items:  
+                    doc.append('accounts', item)
+                doc.custom_transaction_type = "Expenses"
+                doc.user_remark = value[10]
+                doc.custom_document_number = value[1]
+                doc.custom_location = value[16]
+                doc.docstatus = 1
+                doc.insert(ignore_mandatory=True)
+                frappe.db.commit()
+            except Exception as e:
+                print(f'{e} {value[11]} ')
+
+
 
 #purchase invoice
 def create_service_purchase_return_2013():
