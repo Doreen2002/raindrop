@@ -835,7 +835,7 @@ def create_cash_bank_2013():
 
 #purchase order creation
 def create_purchase_order_2013():
-    with open( '/home/frappe/frappe-bench/apps/raindrop/Copy of HPL PO  Number 2013 to 2020.xlsx - Sheet1.csv' ) as design_file:
+    with open( '/home/frappe/frappe-bench/apps/raindrop/purchase number  2013.csv' ) as design_file:
         reader_po = csv.reader(design_file, delimiter=',')
         for value in reader_po:
             try:
