@@ -2013,3 +2013,53 @@ def create_service_purchase_return_2013():
                 frappe.db.commit()
             except Exception as e:
                 print(f' {e}  {value[0]} {value[16]}')
+
+
+
+
+def stock_out_2013():
+    with open('/home/frappe/frappe-bench/apps/raindrop/Goods Issue NUmber - Sheet1.csv') as design_file:
+        reader_po = csv.reader(design_file, delimiter=',')
+        for value in reader_po:
+            try:
+                items = []
+                recieved = []
+                with open('/home/frappe/frappe-bench/apps/raindrop/Goods Issue - Sheet1.csv' ) as templates:
+                    reader = csv.reader(templates, delimiter=',')
+                    items.clear()
+                    for row in reader:
+                        if row[0] == value[0]:
+                            frappe.db.set_value('Item', frappe.db.get_value('Item', {'custom_name':row[13]}, 'name'), 'is_stock_item', 1)
+                            frappe.db.commit()
+                            items.append(  {
+                        "s_warehouse": f"{row[12]} - HPL",
+                        "item_code":  frappe.db.get_value('Item', {'custom_name':row[13]}, 'name') ,
+                        "qty":row[15].replace('-', ''),
+                        "expense_account":f"{row[3]} - HPL",
+                        "basic_rate": row[16].replace('-', ''),
+                        "uom": row[14],
+                        "cost_center" : f"{row[9]} - HPL"
+                    }
+                            )
+                
+                if value[1] != None or value[1] != '':
+                    stock = frappe.new_doc("Stock Entry")
+                    stock.set_posting_time = 1
+                    stock.posting_date = date_converter_month(value[1])
+                    stock.stock_entry_type = "Material Issue"
+                    stock.custom_document_number = value[2]
+                    stock.custom_period = value[8]
+                    stock.custom_internal_id = value[0]
+                    stock.custom_subsidiary = value[7]
+                    stock.custom_account_main = value[4]
+                    stock.custom_memo_sub = value[5]
+                    stock.custom_memo = value[6]
+                    for item in items:
+                        stock.append('items',item)
+                    stock.docstatus = 1
+                    frappe.db.set_value('Company', "Himal Power Limited", 'default_inventory_account', f"{value[4].strip()} - HPL")
+                    frappe.db.commit()
+                    stock.insert()
+                    frappe.db.commit()
+            except Exception as e:
+                print(f'{e} {value[1]} ')
