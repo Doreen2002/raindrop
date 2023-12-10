@@ -1097,7 +1097,7 @@ def create_purchase_invoice_2013():
                 items = []
                 taxes = []
                 tax_template = []
-                with open('/home/frappe/frappe-bench2/apps/raindrop/HPL Purchase Invoice NPR 2013_2020.xlsx - Sheet1.csv' ) as templates:
+                with open('/home/frappe/frappe-bench/apps/raindrop/HPL Purchase Invoice NPR 2013_2020.xlsx - Sheet1.csv' ) as templates:
                     reader = csv.reader(templates, delimiter=',')
                     for row in reader:
                         cost_center = "Main - HPL"
@@ -1164,7 +1164,7 @@ def create_purchase_invoice_2013():
                                     taxes.append(
                                     {
                                         'charge_type':"Actual",
-                                        "add_deduct_tax":"Add",
+                                       "add_deduct_tax":"Deduct",
                                         'rate':0,
                                         "tax_amount":row[53],
                                         "account_head":create_account(row[35], "Expense", "51000 - Direct Expenses - HPL","") ,
@@ -1186,16 +1186,16 @@ def create_purchase_invoice_2013():
                 if taxes != []:
                     for tax in taxes:
                         doc.append('taxes', tax)
-                if tax_template != []:
-                    if tax_template[-1] != '0':
-                        doc.taxes_and_charges = "Nepal Tax - HPL"
-                        doc.append('taxes',
-                        {
-                            'charge_type':"On Net Total",
-                            "rate":13,
-                            "account_head":"VAT - HPL",
-                            "description":value[15]
-                                })
+
+                if value[45] != '0' or value[45] != '':
+                    doc.taxes_and_charges = "Nepal Tax - HPL"
+                    doc.append('taxes',
+                    {
+                        'charge_type':"On Net Total",
+                        "rate":13,
+                        "account_head":"VAT - HPL",
+                        "description":value[15]
+                            })
                 if value[6] == "Nepalese Rupee":
                     doc.currency = "NPR"
                     doc.conversion_rate = value[26]
