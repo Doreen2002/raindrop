@@ -1090,30 +1090,36 @@ def create_goods_received_2013():
 
 #purchase invoice
 def create_purchase_invoice_2013():
-    with open( '/home/doreenalita/Downloads/HPL Purchase Invoice  Number  NPR 2013_2020.xlsx - Sheet1.csv') as design_file:
+    with open( '/home/frappe/frappe-bench/apps/raindrop/HPL Purchase Invoice Num NPR 2013_2020.xlsx - Sheet1.csv' ) as design_file:
         reader_po = csv.reader(design_file, delimiter=',')
         for value in  reader_po:
             try:
                 items = []
                 taxes = []
                 tax_template = []
-                with open('/home/doreenalita/Downloads/HPL Purchase Invoice   NPR 2013_2020.xlsx - Sheet1.csv') as templates:
+                with open('/home/frappe/frappe-bench2/apps/raindrop/HPL Purchase Invoice NPR 2013_2020.xlsx - Sheet1.csv' ) as templates:
                     reader = csv.reader(templates, delimiter=',')
                     for row in reader:
                         cost_center = "Main - HPL"
                         if row[13] != '':
                             cost_center = f"{row[13]} - HPL"
-                        if row[0] == value[0] and  not 'TDS' in row[39] and row[39] != '' :
+                        if row[0] == value[0] and  not 'TDS' in row[40] and row[40] != '' :
                             name = frappe.db.get_value("Purchase Order", {"custom_document_number":row[52]}, 'name')
-                            if row[38] != '0%':
-                                tax_template.append(row[38])
+                            if row[45] != '0':
+                                tax_template.append(row[45])
+                            rate = 1 
+                            qty = 1     
+                            if row[44] != '':
+                                qty = float(f'{row[44].replace("-","").replace("(","").replace(")","").replace(",","").replace(".00","").strip()}')
+                            rate = float(f'{row[54].replace("(","").replace(")","").replace(",","").replace(".00","").strip()}')  / qty
                             items.append(
                                 {
-                                "item_code": frappe.db.get_value("Item", {"custom_name":row[39]}, 'name'),
-                                "rate":row[40],
-                                "qty":row[43],
+                                "item_code": frappe.db.get_value("Item", {"custom_name":row[40]}, 'name'),
+                                "price_list_rate": rate,
+                                "rate":rate,
+                                "qty":qty,
                                 "cost_center": cost_center,
-                                "expense_account":f"{row[35]} - HPL",
+                                "expense_account": create_account(row[35], "Expense", "51000 - Direct Expenses - HPL","") ,
                                 "description":row[15],
                                 "purchase_order": frappe.db.get_value("Purchase Order", {"custom_document_number":row[52]}, 'name'),
                                 "purchase_order_item": frappe.db.get_value("Purchase Order Item", {"parent":name}, 'name'),
@@ -1121,39 +1127,48 @@ def create_purchase_invoice_2013():
                                 }
                             
                             )
-                        if row[0] == value[0] and row[39] == '' and not 'TDS' in row[35]:
+                        if row[0] == value[0] and row[40] == '' and not 'TDS' in row[35]:
+                            name = frappe.db.get_value("Purchase Order", {"custom_document_number":row[52]}, 'name')
+                            rate = 1 
+                            qty = 1     
+                            if row[44] != '':
+                                qty = float(f'{row[44].replace("-","").replace("(","").replace(")","").replace(",","").replace(".00","").strip()}')
+                            rate = float(f'{row[54].replace("(","").replace(")","").replace(",","").replace(".00","").strip()}')  / qty
                             items.append(
                                     {
                                     "item_code":"Virtual Item",
-                                    "rate":row[55],
-                                    "qty":1,
+                                    "price_list_rate": rate,
+                                    "rate":rate,
+                                    "qty":qty,
                                     "cost_center": cost_center,
-                                    "expense_account":f"{row[35]} - HPL",
+                                    "expense_account":create_account(row[35], "Expense", "51000 - Direct Expenses - HPL","") ,
                                     "description":row[15],
+                                    "purchase_order": frappe.db.get_value("Purchase Order", {"custom_document_number":row[52]}, 'name'),
+                                    "purchase_order_item": frappe.db.get_value("Purchase Order Item", {"parent":name}, 'name'),
                                         }
                                         )
                         
                         if row[0] == value[0]:
-                            if 'TDS' in row[39] or 'TDS' in row[35]:
-                                if row[39] != '':
+                            if 'TDS' in row[40] or 'TDS' in row[35]:
+                                if row[40] != '':
                                     taxes.append(
                                     {
                                         'charge_type':"Actual",
                                         "add_deduct_tax":"Deduct",
                                         'rate':0,
-                                        "tax_amount":row[40],
-                                        "account_head":f"{row[35]} - HPL",
-                                        "description":value[15]
+                                        "tax_amount":row[53],
+                                        "account_head":create_account(row[35], "Expense", "51000 - Direct Expenses - HPL","") ,
+                                        "description":row[15]
                                             })
-                                if row[39] == '':
+                                if row[40] == '':
                                     taxes.append(
                                     {
                                         'charge_type':"Actual",
                                         "add_deduct_tax":"Add",
                                         'rate':0,
-                                        "tax_amount":row[55],
-                                        "account_head":f"{row[35]} - HPL",
-                                        "description":value[15]
+                                        "tax_amount":row[53],
+                                        "account_head":create_account(row[35], "Expense", "51000 - Direct Expenses - HPL","") ,
+                                        "description":row[15]
                                             })
                                     
 
@@ -1172,7 +1187,7 @@ def create_purchase_invoice_2013():
                     for tax in taxes:
                         doc.append('taxes', tax)
                 if tax_template != []:
-                    if tax_template[-1] != '0%':
+                    if tax_template[-1] != '0':
                         doc.taxes_and_charges = "Nepal Tax - HPL"
                         doc.append('taxes',
                         {
@@ -1231,9 +1246,8 @@ def create_purchase_invoice_2013():
                 doc.disable_rounded_total = 1
                 doc.submit()
                 frappe.db.commit()
-            
             except Exception as e:
-                print(f' {e}  {value[0]}')
+                pass
 
 
 #sales invoice
@@ -2063,3 +2077,10 @@ def stock_out_2013():
                     frappe.db.commit()
             except Exception as e:
                 print(f'{e} {value[1]} ')
+
+
+def delete_pur():
+    po = frappe.db.get_list('Purchase Order', filters=[[ 'creation', 'between', ['2023-12-10', '2023-12-10']]])
+    for item in po:
+        frappe.db.delete("Purchase Order", {"name":item["name"]})
+        frappe.db.commit()
