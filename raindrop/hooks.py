@@ -158,6 +158,14 @@ doc_events = {
 #	],
 # }
 
+scheduler_events = {
+    "cron": {
+        "* * * * *": [
+            "frappe.email.queue.flush"
+        ]
+    }
+}
+
 # Testing
 # -------
 
