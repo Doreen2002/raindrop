@@ -42,12 +42,12 @@ def on_update(doc, method):
             
 
         if doc.workflow_state == "Approved" and doc.material_request_type == "Purchase":
-            # total = 0
+            total = 0
             # po_order = frappe.new_doc('Purchase Order')
             # po_order.posting_date = doc.transaction_date
             # po_order.supplier = doc.custom_supplier
-            # for item in doc.items:
-            #     total += item.amount
+            for item in doc.items:
+                total += item.amount
             #     po_order.append('items', {
             #         "item_code":item.item_code,
             #         "rate":item.rate,
@@ -57,7 +57,7 @@ def on_update(doc, method):
             #         "material_request_item":item.name,
             #         "schedule_date":today()
             #     })
-            # buying = frappe.get_doc('Buying Settings')
+            buying = frappe.get_doc('Buying Settings')
             # if total <= buying.custom_purchase_amount_limit:
             #     if po_order.items != []:
             #         po_order.insert(ignore_mandatory=True)
