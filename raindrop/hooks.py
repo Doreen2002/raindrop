@@ -157,13 +157,7 @@ doc_events = {
 #		"raindrop.tasks.monthly"
 #	],
 # }
-scheduler_events = {
-    "cron": {
-        "* * * * *": [
-            "frappe.email.queue.flush"
-        ]
-    }
-}
+
 
 
 # Testing
