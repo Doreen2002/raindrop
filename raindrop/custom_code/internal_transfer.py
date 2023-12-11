@@ -41,7 +41,7 @@ def on_update(doc, method):
 
             
 
-        elif doc.workflow_state == "Approved" and doc.material_request_type == "Purchase":
+        if doc.workflow_state == "Approved" and doc.material_request_type == "Purchase":
             # total = 0
             # po_order = frappe.new_doc('Purchase Order')
             # po_order.posting_date = doc.transaction_date
