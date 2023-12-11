@@ -2,7 +2,7 @@ import frappe
 from frappe.utils import today
 
 def on_update(doc, method):
-    # if frappe.db.get_value('Workflow', 'Purchase Request', 'is_active') == 1:
+    if frappe.db.get_value('Workflow', 'Purchase Request', 'is_active') == 1:
     #     if doc.workflow_state == "Approved" and doc.material_request_type == "Material Transfer":
     #         stock_entry = frappe.new_doc('Stock Entry')
     #         stock_entry.posting_date = doc.transaction_date
