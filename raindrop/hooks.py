@@ -126,7 +126,7 @@ doc_events = {
 	# 	# "on_trash": "method"
 	# },
     "Material Request": {
-		"on_update": "raindrop.custom_code.internal_transfer.on_update",
+		"on_update": "raindrop.custom_code.internal_transfer.on_update"
 		# "on_cancel": "method",
 		# "on_trash": "method"
 	},
