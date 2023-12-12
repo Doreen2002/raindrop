@@ -242,6 +242,28 @@ fixtures = [
             ]
         ]
 
+    },
+    {
+        "dt": "Workflow",
+        "filters": [
+            [
+                "name", "in", [
+                    "Purchase Request", "Purchase Order", "Payment Entry", "Sales Invoice", "Journal Entry"
+                ]
+            ]
+        ]
+
+    },
+    {
+        "dt": "Notification",
+        "filters": [
+            [
+                "document_type", "in", [
+                    "Purchase Order", "Material Request"
+                ]
+            ]
+        ]
+
     }
    
 ]
