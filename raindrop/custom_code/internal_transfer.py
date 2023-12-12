@@ -63,7 +63,7 @@ def on_update(doc, method):
             #         po_order.insert(ignore_mandatory=True)
             #         frappe.db.commit()
 
-            if total > buying.custom_purchase_amount_limit and "General Manager" not in frappe.user_roles:
+            if total > buying.custom_purchase_amount_limit and "General Manager" not in frappe.get_roles() :
                 frappe.throw("The Material Purchase Is Above Limit, Recommend to General Manager ")
                 doc.workflow_state = "Pending"
                     
