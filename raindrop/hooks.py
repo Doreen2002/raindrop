@@ -135,6 +135,10 @@ doc_events = {
 		# "on_update": "raindrop.custom_code.purchase_order.on_update",
 		# "on_cancel": "method",
 		# "on_trash": "method"
+	},
+     "Stock Entry": {
+		"on_update": "raindrop.custom_code.stock_entry.on_save",
+		
 	}
 }
 
