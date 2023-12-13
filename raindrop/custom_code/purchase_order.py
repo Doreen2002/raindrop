@@ -18,13 +18,12 @@ def on_update(doc, method):
     #                 })
     #         stock_entry.insert()
     #         frappe.db.commit()
-
-        
+    if doc.workflow_state == "Approved":
         total = 0
         for item in doc.items:
             total += item.amount
         buying = frappe.get_doc('Buying Settings')
-        if total > buying.custom_purchase_amount_limit and"Purchase Master Manager"  in frappe.get_roles() :
+        if total > buying.custom_purchase_amount_limit and "Purchase Master Manager"  in frappe.get_roles() :
                 frappe.throw("The Material Purchase Is Above Limit, Recommend to General Manager ")
                 doc.workflow_state = "Pending"
     
