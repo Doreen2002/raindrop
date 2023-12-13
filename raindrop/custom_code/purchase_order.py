@@ -18,8 +18,7 @@ def on_update(doc, method):
     #                 })
     #         stock_entry.insert()
     #         frappe.db.commit()
-
-        
+    if doc.workflow_state == "Approved":
         total = 0
         for item in doc.items:
             total += item.amount
