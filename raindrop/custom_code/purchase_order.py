@@ -19,7 +19,7 @@ def on_update(doc, method):
     #         stock_entry.insert()
     #         frappe.db.commit()
 
-        if doc.workflow_state == "Pending":
+        if doc.workflow_state != "Draft" or doc.workflow_state != "Recomended" or doc.workflow_state != "Approved" or doc.workflow_state != "Rejected" :
             total = 0
             # po_order = frappe.new_doc('Purchase Order')
             # po_order.posting_date = doc.transaction_date
