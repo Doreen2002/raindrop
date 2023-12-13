@@ -14,6 +14,7 @@ frappe.ui.form.on("Material Request", {
                 }
 
                 mr.work_order = frm.doc.work_order;
+                mr.custom_email_initiator = frm.doc.custom_email_initiator;
                 items.forEach(function(item) {
                     var mr_item = frappe.model.add_child(mr, 'items');
                     mr_item.item_code = item.item_code;
@@ -45,6 +46,7 @@ frappe.ui.form.on("Material Request", {
                 }
 
                 mr.stock_entry_type = "Material Transfer";
+                mr.custom_email_initiator = frm.doc.owner;
                 items.forEach(function(item) {
                     var mr_item = frappe.model.add_child(mr, 'items');
                     mr_item.item_code = item.item_code;
