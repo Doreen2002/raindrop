@@ -4,6 +4,7 @@ frappe.ui.form.on("Material Request", {
     refresh(frm)
     {
         $('button:contains("Create")').hide()
+        if (cur_frm.doc.material_request_type == "Purchase")
         frm.add_custom_button(__("Create Purchase Order"), function() {
             frappe.model.with_doctype('Purchase Order', function() {
                 var mr = frappe.model.get_new_doc('Purchase Order');
@@ -24,6 +25,7 @@ frappe.ui.form.on("Material Request", {
                     mr_item.description = item.description;
                     mr_item.image = item.image;
                     mr_item.qty = item.qty;
+                    
                     mr_item.warehouse = item.s_warehouse;
                     mr_item.schedule_date = frappe.datetime.nowdate();
                 });
@@ -53,6 +55,7 @@ frappe.ui.form.on("Material Request", {
                     mr_item.item_group = item.item_group;
                     mr_item.description = item.description;
                     mr_item.qty = item.qty;
+                    mr_item.transfer_qty = item.qty
                     mr_item.basic_rate = item.rate
                     mr_item.t_warehouse = item.warehouse;
                
