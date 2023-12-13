@@ -25,7 +25,7 @@ frappe.ui.form.on("Material Request", {
                     mr_item.description = item.description;
                     mr_item.image = item.image;
                     mr_item.qty = item.qty;
-                    
+                    mr_item.material_request = frm.doc.name
                     mr_item.warehouse = item.s_warehouse;
                     mr_item.schedule_date = frappe.datetime.nowdate();
                 });
