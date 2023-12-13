@@ -12,7 +12,7 @@ frappe.ui.form.on("Stock Entry", {
                 }
 
                 mr.work_order = frm.doc.work_order;
-                mr.custom_initiator_email = frm.doc.custom_email_initiator;
+                mr.custom_email_initiator= frm.doc.custom_email_initiator;
                 items.forEach(function(item) {
                     var mr_item = frappe.model.add_child(mr, 'items');
                     mr_item.item_code = item.item_code;
