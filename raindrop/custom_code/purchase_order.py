@@ -19,25 +19,13 @@ def on_update(doc, method):
     #         stock_entry.insert()
     #         frappe.db.commit()
 
-        if doc.workflow_state != "Draft" or doc.workflow_state != "Recomended" or doc.workflow_state != "Approved" or doc.workflow_state != "Rejected" :
-            total = 0
-            # po_order = frappe.new_doc('Purchase Order')
-            # po_order.posting_date = doc.transaction_date
-            # po_order.supplier = doc.custom_supplier
-            for item in doc.items:
-                total += item.amount
-            #     po_order.append('items', {
-            #         "item_code":item.item_code,
-            #         "rate":item.rate,
-            #         "qty":item.qty,
-            #         "warehouse":item.warehouse,
-            #         "material_request":doc.name,
-            #         "material_request_item":item.name,
-            #         "schedule_date":today()
-            #     })
-            buying = frappe.get_doc('Buying Settings')
-            if total > buying.custom_purchase_amount_limit and "General Manager" not in frappe.get_roles() :
-                    frappe.throw("The Material Purchase Is Above Limit, Recommend to General Manager ")
-                    doc.workflow_state = "Pending"
+        
+        total = 0
+        for item in doc.items:
+            total += item.amount
+        buying = frappe.get_doc('Buying Settings')
+        if total > buying.custom_purchase_amount_limit and "Material Request Manager"  in frappe.get_roles() :
+                frappe.throw("The Material Purchase Is Above Limit, Recommend to General Manager ")
+                doc.workflow_state = "Pending"
     
 
