@@ -126,15 +126,24 @@ doc_events = {
 	# 	# "on_cancel": "method",
 	# 	# "on_trash": "method"
 	# },
-    "Material Request": {
-		"on_update": "raindrop.custom_code.internal_transfer.on_update"
+    # "Material Request": {
+	# 	"on_update": "raindrop.custom_code.internal_transfer.on_update"
+	# 	# "on_cancel": "method",
+	# 	# "on_trash": "method"
+	# },
+    "Purchase Order": {
+		"on_update": "raindrop.custom_code.purchase_order.on_update",
 		# "on_cancel": "method",
 		# "on_trash": "method"
 	},
-    "Purchase Order": {
-		# "on_update": "raindrop.custom_code.purchase_order.on_update",
+    "Purchase Receipt": {
+		"on_update": "raindrop.custom_code.purchase_receipt.on_update",
 		# "on_cancel": "method",
 		# "on_trash": "method"
+	},
+     "Stock Entry": {
+		"on_update": "raindrop.custom_code.stock_entry.on_save",
+		
 	}
 }
 
@@ -238,6 +247,28 @@ fixtures = [
             [
                 "module", "in", [
                     "Raindrop"
+                ]
+            ]
+        ]
+
+    },
+    {
+        "dt": "Workflow",
+        "filters": [
+            [
+                "name", "in", [
+                    "Purchase Request", "Purchase Order", "Payment Entry", "Sales Invoice", "Journal Entry"
+                ]
+            ]
+        ]
+
+    },
+    {
+        "dt": "Notification",
+        "filters": [
+            [
+                "document_type", "in", [
+                    "Purchase Order", "Material Request"
                 ]
             ]
         ]

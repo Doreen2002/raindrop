@@ -12,6 +12,8 @@ frappe.ui.form.on("Stock Entry", {
                 }
 
                 mr.work_order = frm.doc.work_order;
+                mr.custom_email_initiator_= frm.doc.custom_email_initiator;
+
                 items.forEach(function(item) {
                     var mr_item = frappe.model.add_child(mr, 'items');
                     mr_item.item_code = item.item_code;
@@ -24,7 +26,7 @@ frappe.ui.form.on("Stock Entry", {
                     mr_item.image = item.image;
                     mr_item.qty = item.qty;
                     mr_item.warehouse = item.s_warehouse;
-                    mr_item.required_date = frappe.datetime.nowdate();
+                    mr_item.schedule_date = frappe.datetime.nowdate();
                 });
                 frappe.set_route('Form', 'Material Request', mr.name);
                
@@ -36,4 +38,18 @@ frappe.ui.form.on("Stock Entry", {
     }
 
 
+})
+
+
+frappe.ui.form.on('Stock Entry Detail', {
+
+
+	s_warehouse: function(frm, cdt, cdn) {
+		
+		let item = frappe.get_doc(cdt, cdn);
+		if (item.s_warehouse) {
+			frappe.model.set_value(cdt, cdn, "allow_zero_valuation_rate", 1);
+		}
+	},
+    
 })
