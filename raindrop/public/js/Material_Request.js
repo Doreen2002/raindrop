@@ -4,8 +4,9 @@ frappe.ui.form.on("Material Request", {
     refresh(frm)
     {
         $('button:contains("Create")').hide()
-        if (cur_frm.doc.material_request_type == "Purchase")
-        frm.add_custom_button(__("Create Purchase Order"), function() {
+        if (cur_frm.doc.material_request_type == "Purchase" && frappe.user.has_role('HPL Inventory'))
+        {
+            frm.add_custom_button(__("Create Purchase Order"), function() {
             frappe.model.with_doctype('Purchase Order', function() {
                 var mr = frappe.model.get_new_doc('Purchase Order');
                 var items = frm.get_field('items').grid.get_selected_children();
@@ -37,7 +38,10 @@ frappe.ui.form.on("Material Request", {
             
                
         });
-        frm.add_custom_button(__("Transfer Material"), function() {
+        }
+        if (cur_frm.doc.material_request_type == "Material Transfer" && frappe.user.has_role('HPL Inventory'))
+        {
+            frm.add_custom_button(__("Transfer Material"), function() {
             frappe.model.with_doctype('Stock Entry', function() {
                 var mr = frappe.model.get_new_doc('Stock Entry');
                 var items = frm.get_field('items').grid.get_selected_children();
@@ -70,6 +74,8 @@ frappe.ui.form.on("Material Request", {
             
                
         });
+        }
+        
     }
 
 
