@@ -257,7 +257,7 @@ fixtures = [
         "filters": [
             [
                 "name", "in", [
-                    "Purchase Request", "Purchase Order", "Payment Entry", "Sales Invoice", "Journal Entry"
+			"Journal Entry", "Sales Invoice", "Payment Entry", "Inventory", "Purchase receipt", "Purchase invoice", "Purchase Order", "Purchase Request", "Internal Requisitions"
                 ]
             ]
         ]
@@ -267,8 +267,9 @@ fixtures = [
         "dt": "Notification",
         "filters": [
             [
-                "document_type", "in", [
-                    "Purchase Order", "Material Request"
+                "name", "in", [
+                    "Purchase Order Pending", "Create Purchase Invoice", "Purchase Order", "Purchase Request", "Purchase Request Status", "Internal Requisition Status", "Internal Requesition", "Purchase Invoice",
+			"Purchase Invoice Status", "Purchase Receipt", "Purchase Order Status", "Inventory Transfer Status", "Inventry Transfer"
                 ]
             ]
         ]
