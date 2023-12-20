@@ -6,7 +6,7 @@ frappe.ui.form.on("Purchase Order", {
         frappe.call({
             method: 'raindrop.api.get_nepali_date',
             args: {
-                date: frm.doc.posting_date
+                date: frm.doc.transaction_date
             },
             freeze: true,
             callback: (r) => {
@@ -20,12 +20,12 @@ frappe.ui.form.on("Purchase Order", {
 
     },
       
-    posting_date(frm)
+    transaction_date(frm)
     {
         frappe.call({
             method: 'raindrop.api.get_nepali_date',
             args: {
-                date: frm.doc.posting_date
+                date: frm.doc.transaction_date
             },
             freeze: true,
             callback: (r) => {
