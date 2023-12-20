@@ -4,6 +4,21 @@ frappe.ui.form.on("Stock Entry", {
     {
 	    $("button:contains('Create')").hide();
 	$("button:contains('Get Items From')").hide();
+
+	    frappe.call({
+            method: 'raindrop.api.get_nepali_date',
+            args: {
+                date: frm.doc.posting_date
+            },
+            freeze: true,
+            callback: (r) => {
+                frm.doc.custom_nepali_date = r.message
+                frm.refresh_fields()
+            },
+            error: (r) => {
+                console.log(r)
+            }
+        })
 	
         frm.add_custom_button(__("Create Purchase Request"), function() {
             frappe.model.with_doctype('Material Request', function() {
@@ -37,7 +52,24 @@ frappe.ui.form.on("Stock Entry", {
             
                
         });
-    }
+    },
+	posting_date(frm)
+		{
+			frappe.call({
+            method: 'raindrop.api.get_nepali_date',
+            args: {
+                date: frm.doc.posting_date
+            },
+            freeze: true,
+            callback: (r) => {
+                frm.doc.custom_nepali_date = r.message
+                frm.refresh_fields()
+            },
+            error: (r) => {
+                console.log(r)
+            }
+        })
+		}
 
 
 })
