@@ -3,6 +3,20 @@ frappe.ui.form.on("Journal Entry", {
 
     refresh(frm)
     {
+        frappe.call({
+            method: 'raindrop.api.get_nepali_date',
+            args: {
+                date: frm.doc.posting_date
+            },
+            freeze: true,
+            callback: (r) => {
+                frm.doc.custom_nepali_date = r.message
+                frm.refresh_fields()
+            },
+            error: (r) => {
+                console.log(r)
+            }
+        })
 
     },
       
@@ -16,7 +30,7 @@ frappe.ui.form.on("Journal Entry", {
             freeze: true,
             callback: (r) => {
                 frm.doc.custom_nepali_date = r.message
-                frm.refresh()
+                frm.refresh_fields()
             },
             error: (r) => {
                 console.log(r)
