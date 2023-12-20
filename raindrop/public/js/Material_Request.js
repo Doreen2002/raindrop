@@ -18,6 +18,7 @@ frappe.ui.form.on("Material Request", {
             }
         })
         $('button:contains("Create")').hide();
+         $('button:contains("Get Items From")').hide();
         $('div[data-fieldname="custom_email_initiator_"]').hide();
         if (cur_frm.doc.material_request_type == "Purchase" && frappe.user.has_role('HPL Inventory') && cur_frm.doc.workflow_state == "Approved")
         {
