@@ -11,7 +11,7 @@ frappe.call({
             freeze: true,
             callback: (r) => {
                 frm.doc.custom_nepali_date = r.message
-                frm.refresh()
+                frm.refresh_fields()
             },
             error: (r) => {
                 console.log(r)
@@ -29,7 +29,7 @@ frappe.call({
             freeze: true,
             callback: (r) => {
                 frm.doc.custom_nepali_date = r.message
-                frm.refresh()
+               frm.refresh_fields()
             },
             error: (r) => {
                 console.log(r)
