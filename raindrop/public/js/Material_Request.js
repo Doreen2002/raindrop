@@ -3,7 +3,8 @@ frappe.ui.form.on("Material Request", {
 
     refresh(frm)
     {
-        $('button:contains("Create")').hide()
+        $('button:contains("Create")').hide();
+        $('div[data-fieldname="custom_email_initiator_"]').hide();
         if (cur_frm.doc.material_request_type == "Purchase" && frappe.user.has_role('HPL Inventory'))
         {
             frm.add_custom_button(__("Create Purchase Order"), function() {
