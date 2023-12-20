@@ -1,14 +1,9 @@
 frappe.ui.form.on("Stock Entry", {
 
-	refresh(frm)
-		{
-			$("button:contains('Create')").hide();
-			$("button:contains('Get Items From')").hide();
-
-		},
-
-    form_render(frm)
+    refresh(frm)
     {
+	    $("button:contains('Create')").hide();
+	$("button:contains('Get Items From')").hide();
 	
         frm.add_custom_button(__("Create Purchase Request"), function() {
             frappe.model.with_doctype('Material Request', function() {
