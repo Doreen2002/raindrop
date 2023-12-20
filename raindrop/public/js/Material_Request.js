@@ -3,6 +3,20 @@ frappe.ui.form.on("Material Request", {
 
     refresh(frm)
     {
+        frappe.call({
+            method: 'raindrop.api.get_nepali_date',
+            args: {
+                date: frm.doc.transaction_date
+            },
+            freeze: true,
+            callback: (r) => {
+                frm.doc.custom_nepali_date = r.message
+                frm.refresh_fields()
+            },
+            error: (r) => {
+                console.log(r)
+            }
+        })
         $('button:contains("Create")').hide();
         $('div[data-fieldname="custom_email_initiator_"]').hide();
         if (cur_frm.doc.material_request_type == "Purchase" && frappe.user.has_role('HPL Inventory') && cur_frm.doc.workflow_state == "Approved")
@@ -77,7 +91,24 @@ frappe.ui.form.on("Material Request", {
         });
         }
         
-    }
+    },
+    transaction_date(frm)
+        {
+            frappe.call({
+            method: 'raindrop.api.get_nepali_date',
+            args: {
+                date: frm.doc.transaction_date
+            },
+            freeze: true,
+            callback: (r) => {
+                frm.doc.custom_nepali_date = r.message
+                frm.refresh_fields()
+            },
+            error: (r) => {
+                console.log(r)
+            }
+        })
+        }
 
 
 })
