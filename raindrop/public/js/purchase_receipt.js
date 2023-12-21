@@ -6,7 +6,7 @@ onload_post_render: function(frm){
             frm.page.remove_inner_button(bt, 'Create')
             });
         
-        }
+        
     },
     refresh(frm)
     {
