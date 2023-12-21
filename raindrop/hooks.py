@@ -261,7 +261,7 @@ fixtures = [
         "filters": [
             [
                 "name", "in", [
-			"Journal Entry", "Sales Invoice", "Payment Entry", "Inventory", "Purchase receipt", "Purchase invoice", "Purchase Order", "Purchase Request", "Internal Requisitions"
+			"Journal Entry", "Sales Invoice", "Payment Entry", "Inventory", "Purchase receipt", "Purchase invoice", "Purchase Order", "Purchase Request"
                 ]
             ]
         ]
