@@ -1,6 +1,13 @@
 frappe.ui.form.on("Purchase Order", {
 
-
+onload_post_render: function(frm){
+        var bt = ['Purchase Invoice', 'Payment',  'Payment Request', 'Subscription']
+        bt.forEach(function(bt){
+            frm.page.remove_inner_button(bt, 'Create')
+            });
+        
+        
+    },
     refresh(frm)
     {
         $("button:contains('Get Items From')").hide();
