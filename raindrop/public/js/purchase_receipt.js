@@ -5,7 +5,7 @@ frappe.ui.form.on("Purchase Receipt", {
     {
         $("button:contains('Get Items From')").hide();
 	    setTimeout(() =>{
-        frm.remove_custom_button('Create', 'Make Stock Entry');
+        frm.remove_custom_button( 'Make Stock Entry', 'Create');
         }, 500);
      //    setTimeout(() => {
 	    //     frm.page.actions.find('[data-label="Make%20Stock%20Entry"]').parent().parent().remove();
