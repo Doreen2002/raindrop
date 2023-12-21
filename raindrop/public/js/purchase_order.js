@@ -3,6 +3,8 @@ frappe.ui.form.on("Purchase Order", {
 
     refresh(frm)
     {
+        $("button:contains('Get Items From')").hide();
+        $("button:contains('Tools')").hide();
         frappe.call({
             method: 'raindrop.api.get_nepali_date',
             args: {
