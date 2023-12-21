@@ -12,6 +12,8 @@ onload_post_render: function(frm){
     {
         $("button:contains('Get Items From')").hide();
         $("button:contains('Tools')").hide();
+        $("button:contains('Status')").hide();
+        $("button:contains('Update Items')").hide()
         frappe.call({
             method: 'raindrop.api.get_nepali_date',
             args: {
