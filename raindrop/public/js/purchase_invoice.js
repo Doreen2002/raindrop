@@ -1,7 +1,8 @@
 frappe.ui.form.on("Purchase Invoice", {
     
 onload_post_render: function(frm){
-       $('button:contains("Create")).hide()
+       $('button:contains("Create")).hide();
+          $('button:contains("Get Items From")).hide();
         
     },
 
