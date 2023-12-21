@@ -4,12 +4,15 @@ frappe.ui.form.on("Purchase Receipt", {
     refresh(frm)
     {
         $("button:contains('Get Items From')").hide();
-        setTimeout(() => {
-	        frm.page.actions.find('[data-label="Make%20Stock%20Entry"]').parent().parent().remove();
-            frm.page.actions.find('[data-label="Purchase%20Return"]').parent().parent().remove();
-            frm.page.actions.find('[data-label="Retention%20Stock%20Entry"]').parent().parent().remove();
-            frm.page.actions.find('[data-label="Subscription"]').parent().parent().remove();
-	    }, 500);
+	    setTimeout(() =&gt; {
+        frm.remove_custom_button('Close', 'Make Stock Entry');
+        }, 500);
+     //    setTimeout(() => {
+	    //     frm.page.actions.find('[data-label="Make%20Stock%20Entry"]').parent().parent().remove();
+     //        frm.page.actions.find('[data-label="Purchase%20Return"]').parent().parent().remove();
+     //        frm.page.actions.find('[data-label="Retention%20Stock%20Entry"]').parent().parent().remove();
+     //        frm.page.actions.find('[data-label="Subscription"]').parent().parent().remove();
+	    // }, 500);
 
         frappe.call({
             method: 'raindrop.api.get_nepali_date',
