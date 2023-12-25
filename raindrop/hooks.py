@@ -278,6 +278,17 @@ fixtures = [
             ]
         ]
 
+    },
+	{
+        "dt": "Email Account",
+        "filters": [
+            [
+                "name", "in", [
+			"Raindrop Inc"
+                ]
+            ]
+        ]
+
     }
    
 ]
