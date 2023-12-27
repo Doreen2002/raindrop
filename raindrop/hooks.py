@@ -1,4 +1,5 @@
 from . import __version__ as app_version
+from frappe import __version__ as frappe_version
 
 app_name = "raindrop"
 app_title = "Raindrop"
