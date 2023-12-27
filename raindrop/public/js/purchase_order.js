@@ -51,6 +51,25 @@ onload_post_render: function(frm){
     
 })
 
+frappe.ui.form.on('Purchase Taxes and Charges', {
+
+
+	account_head: function(frm, cdt, cdn) {
+		
+		let item = frappe.get_doc(cdt, cdn);
+		if (item.account_head..includes('TDS'))
+                {
+                        item.rate = 1.5
+                        frm.refresh_fields()
+                }
+                if (item.account_head..includes('VAT'))
+                {
+                      item.rate = 13  
+                     frm.refresh_fields()
+                }
+	},
+    
+})
 
 
 function convertToNepaliDate(gregorianDate) {
