@@ -1,8 +1,8 @@
 button[data-label="Create%20Workspace"]
 {
-   display:none;
+   display: none !important;
 }
  button[data-label="Edit"]
 {
-  display:none;
+  display: none !important;
 }
