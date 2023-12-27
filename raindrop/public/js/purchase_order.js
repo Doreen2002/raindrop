@@ -59,7 +59,7 @@ frappe.ui.form.on("Purchase Taxes and Charges", "account_head", function(frm, cd
 		setTimeout(()=>{
 		frappe.model.set_value(cdt, cdn, 'rate', 1.5);
 	      	frm.refresh_field('taxes');	
-		}, 4000);
+		}, 2000);
 		
 	}
 	if (item.account_head.includes('VAT'))
@@ -67,7 +67,7 @@ frappe.ui.form.on("Purchase Taxes and Charges", "account_head", function(frm, cd
 	   setTimeout(()=>{
 		frappe.model.set_value(cdt, cdn, 'rate', 13);
 	      	frm.refresh_field('taxes');	
-		}, 4000);
+		}, 2000);
 	}
 
     
