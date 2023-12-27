@@ -1,5 +1,5 @@
-
-setInterval( ()=>{
+frappe.ready(() => {
+  setInterval( ()=>{
 alert("hai")
 if (!frappe.user.has_role('Administrator'))
 {
@@ -8,6 +8,8 @@ if (!frappe.user.has_role('Administrator'))
 
 }
   
-}, 1000);
+}, 100);
+});
+
 
   
