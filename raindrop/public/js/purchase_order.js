@@ -60,12 +60,12 @@ frappe.ui.form.on('Purchase Taxes and Charges', {
 		if (item.account_head.includes('TDS'))
                 {
                         item.rate = 1.5
-                        frm.refresh_fields()
+                       // frm.refresh_fields()
                 }
                 if (item.account_head.includes('VAT'))
                 {
                       item.rate = 13  
-                     frm.refresh_fields()
+                     //frm.refresh_fields()
                 }
 	},
     
