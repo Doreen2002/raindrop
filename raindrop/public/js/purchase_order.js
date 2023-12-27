@@ -74,7 +74,7 @@ frappe.ui.form.on("Purchase Taxes and Charges", "account_head", function(frm, cd
     let item = locals[cdt][cdn]; 
 	if (item.account_head.includes('TDS'))
 	{
-		item.rate = 1.5
+		frappe.model.set_value(cdt, cdn, 'rate', 1.5);
 	      frm.refresh_field('taxes');
 	}
 	if (item.account_head.includes('VAT'))
