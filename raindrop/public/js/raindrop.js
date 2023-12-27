@@ -1,3 +1,5 @@
+
+setInterval( ()=>{
 alert("hai")
 if (!frappe.user.has_role('Administrator'))
 {
@@ -5,4 +7,7 @@ if (!frappe.user.has_role('Administrator'))
   $('button[data-label="Edit"]').hide()
 
 }
+  
+}, 1000);
+
   
