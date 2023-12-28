@@ -10,6 +10,14 @@ onload_post_render: function(frm){
     },
     refresh(frm)
     {
+             frm.set_query('custom_purchase_order_person', () => {
+                return {
+                    filters: {
+                        name: ['in', ['chaman.bk@hpl.com.np', 'krishna.pradhan@hpl.com.np']]
+                    }
+                }
+            })
+            
         $("button:contains('Get Items From')").hide();
 
         frappe.call({
