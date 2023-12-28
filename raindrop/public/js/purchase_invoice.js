@@ -5,8 +5,7 @@ onload_post_render: function(frm){
           $('button:contains("Get Items From")').hide();
         
     },
-
-    refresh(frm)
+before_save()
     {
         frappe.call({
             method: 'raindrop.custom_code.purchase_invoice.add_approver',
@@ -23,6 +22,10 @@ onload_post_render: function(frm){
             }
             
         })
+    },
+    refresh(frm)
+    {
+        
         cur_frm.set_df_property('custom_purchase_approver__id', 'read_only', 1)
         cur_frm.refresh_fields()
             
