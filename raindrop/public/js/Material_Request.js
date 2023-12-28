@@ -10,6 +10,13 @@ frappe.ui.form.on("Material Request", {
             }
         }
     })
+        frm.set_query('custom_purchase_order_person', () => {
+                return {
+                    filters: {
+                        name: ['in', ['chaman.bk@hpl.com.np', 'krishna.pradhan@hpl.com.np']]
+                    }
+                }
+            })
         frappe.call({
             method: 'raindrop.api.get_nepali_date',
             args: {
