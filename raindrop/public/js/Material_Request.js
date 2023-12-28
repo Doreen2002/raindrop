@@ -3,6 +3,13 @@ frappe.ui.form.on("Material Request", {
 
     refresh(frm)
     {
+        frm.set_query('custom_inventory_person', () => {
+        return {
+            filters: {
+                user: ['in', ['keshav.kc@hpl.com.np']]
+            }
+        }
+    })
         frappe.call({
             method: 'raindrop.api.get_nepali_date',
             args: {
