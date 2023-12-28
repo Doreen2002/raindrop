@@ -9,7 +9,7 @@ onload_post_render: function(frm){
     refresh(frm)
     {
         frappe.call({
-            method: 'raindrop.custom_code.internal_transfer.add_approver',
+            method: 'raindrop.custom_code.purchase_invoice.add_approver',
             args: {
                 owner: frm.doc.owner
             },
