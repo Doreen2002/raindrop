@@ -9,8 +9,8 @@ frappe.ui.form.on("Material Request", {
             },
             freeze: true,
             callback: (r) => {
-                frm.doc.custom_purchase_approver__id = r.message
-                frm.refresh_fields()
+                frm.doc.custom_purchase_approver__id = r.message;
+                frm.refresh_fields();
             },
             error: (r) => {
                 console.log(r)
