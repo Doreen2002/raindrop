@@ -16,7 +16,21 @@ frappe.ui.form.on("Material Request", {
             error: (r) => {
                 console.log(r)
             }
+            
         })
+        frappe.call({
+            method: 'raindrop.custom_code.add_approver',
+            freeze: true,
+            callback: (r) => {
+                frm.doc.custom_purchase_approver__id = r.message
+                frm.refresh_fields()
+            },
+            error: (r) => {
+                console.log(r)
+            }
+            
+        })
+        
         $('button:contains("Create")').hide();
          $('button:contains("Get Items From")').hide();
         $('div[data-fieldname="custom_email_initiator_"]').hide();
