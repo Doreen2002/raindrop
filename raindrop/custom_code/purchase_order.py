@@ -2,22 +2,9 @@ import frappe
 
 
 def on_update(doc, method):
-    # if frappe.db.get_value('Workflow', 'Purchase Order', 'is_active') == 1:
-    #     if doc.workflow_state == "Approved":
-    #         stock_entry = frappe.new_doc('Stock Entry')
-    #         stock_entry.posting_date = doc.transaction_date
-    #         stock_entry.stock_entry_type = "Material Reciept"
-    #         stock_entry.purchase_order = doc.name
-    #         for item in doc.items:
-    #             if frappe.db.get_value('Item', item.item_code, 'is_stock_item') == 1:
-    #                 stock_entry.append('items', {
-    #                     "item_code":item.item_code,
-    #                     "rate":item.rate,
-    #                     "qty":item.qty,
-    #                     "s_warehouse":item.warehouse
-    #                 })
-    #         stock_entry.insert()
-    #         frappe.db.commit()
+    purchase_approver = frappe.db.get_value("Employee", {"user_id":doc.owner}, "custom_purchase_approver_id")
+    if purchase_approver == '' or purchase_approver == None and "Administrator"  in frappe.get_roles():
+        frappe.throw("Please ask Administrator to set Purchase Approver For you")
     if doc.workflow_state == "Approved":
         total = 0
         for item in doc.items:
@@ -28,3 +15,10 @@ def on_update(doc, method):
                 doc.workflow_state = "Pending"
     
 
+    
+
+@frappe.whitelist()
+def add_approver(owner):
+    purchase_approver = frappe.db.get_value("Employee", {"user_id":owner}, "custom_purchase_approver_id")
+    if purchase_approver != '' or purchase_approver != None:
+        return purchase_approver
