@@ -53,6 +53,16 @@ frappe.ui.form.on("Material Request", {
         $('div[data-fieldname="custom_email_initiator_"]').hide();
         cur_frm.set_df_property('custom_purchase_approver__id', 'read_only', 1)
         cur_frm.refresh_fields()
+        if (cur_frm.doc.material_request_type == "Purchase")
+        {
+             cur_frm.set_df_property('custom_inventory_person', 'hidden', 1)
+            cur_frm.refresh_fields() 
+        }
+        if (cur_frm.doc.material_request_type == "Material Transfer")
+        {
+             cur_frm.set_df_property('custom_purchase_order_person', 'hidden', 1)
+            cur_frm.refresh_fields() 
+        }
         if (cur_frm.doc.material_request_type == "Purchase" && frappe.user.has_role('HPL Inventory') && cur_frm.doc.workflow_state == "Approved")
         {
             frm.add_custom_button(__("Create Purchase Order"), function() {
