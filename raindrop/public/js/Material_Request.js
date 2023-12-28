@@ -20,6 +20,9 @@ frappe.ui.form.on("Material Request", {
         })
         frappe.call({
             method: 'raindrop.custom_code.internal_transfer.add_approver',
+            args: {
+                owner: frm.doc.owner
+            },
             freeze: true,
             callback: (r) => {
                 frm.doc.custom_purchase_approver__id = r.message
