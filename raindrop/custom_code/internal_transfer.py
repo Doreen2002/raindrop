@@ -7,7 +7,7 @@ def on_update(doc, method):
         frappe.throw("Please ask Administrator to set Purchase Approver For you")
 
 @frappe.whitelist()
-def add_approver():
+def add_approver(doc, method):
     purchase_approver = frappe.db.get_value("Employee", {"user_id":doc.owner}, "custom_purchase_approver_id")
     if purchase_approver != '' or purchase_approver != None:
         return purchase_approver
