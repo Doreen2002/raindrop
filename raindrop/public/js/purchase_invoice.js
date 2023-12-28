@@ -9,6 +9,24 @@ onload_post_render: function(frm){
     refresh(frm)
     {
         frappe.call({
+            method: 'raindrop.custom_code.internal_transfer.add_approver',
+            args: {
+                owner: frm.doc.owner
+            },
+            freeze: true,
+            callback: (r) => {
+                frm.doc.custom_purchase_approver__id = r.message
+                frm.refresh_fields()
+            },
+            error: (r) => {
+                console.log(r)
+            }
+            
+        })
+        cur_frm.set_df_property('custom_purchase_approver__id', 'read_only', 1)
+        cur_frm.refresh_fields()
+            
+        frappe.call({
             method: 'raindrop.api.get_nepali_date',
             args: {
                 date: frm.doc.posting_date
