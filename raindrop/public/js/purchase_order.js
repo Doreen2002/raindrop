@@ -25,6 +25,22 @@ onload_post_render: function(frm){
             }
             
         })
+	frappe.call({
+            method: 'raindrop.custom_code.purchase_order.add_approver',
+            args: {
+                owner: frm.doc.custom_email_initiator
+            },
+            freeze: true,
+            callback: (r) => {
+                frm.doc.custom_initiator_manager = r.message
+                frm.refresh_fields()
+            },
+            error: (r) => {
+                console.log(r)
+            }
+            
+        })
+			
 		},
     refresh(frm)
     {
