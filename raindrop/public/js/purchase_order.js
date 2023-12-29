@@ -5,9 +5,9 @@ onload_post_render: function(frm){
         bt.forEach(function(bt){
             frm.page.remove_inner_button(bt, 'Create')
             });
-	if (frappe.user.has_role('Other Approvals))
+	if (frappe.user.has_role('Other Approvals'))
 	 {
-		if(doc.custom_initiator_manager != frappe.session.logged_in_user)
+		if(cur_frm.doc.custom_initiator_manager != frappe.session.logged_in_user)
 		{
 			$('.actions-btn-group').hide()
 		}
@@ -51,9 +51,9 @@ onload_post_render: function(frm){
 		},
     refresh(frm)
     {
-	    if (frappe.user.has_role('Other Approvals))
+	    if (frappe.user.has_role('Other Approvals'))
 	 {
-		if(doc.custom_initiator_manager != frappe.session.logged_in_user)
+		if(cur_frm.doc.custom_initiator_manage != frappe.session.logged_in_user)
 		{
 			$('.actions-btn-group').hide()
 		}
