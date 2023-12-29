@@ -8,6 +8,24 @@ onload_post_render: function(frm){
         
         
     },
+	before_save(frm)
+		{
+	    frappe.call({
+            method: 'raindrop.custom_code.purchase_order.add_approver',
+            args: {
+                owner: frm.doc.owner
+            },
+            freeze: true,
+            callback: (r) => {
+                frm.doc.custom_purchase_approver__id = r.message
+                frm.refresh_fields()
+            },
+            error: (r) => {
+                console.log(r)
+            }
+            
+        })
+		},
     refresh(frm)
     {
         $("button:contains('Get Items From')").hide();
