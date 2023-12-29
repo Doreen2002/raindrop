@@ -22,7 +22,7 @@ onload_post_render: function(frm){
         
         
     },
-	workflow_state(frm) 
+	validate(frm) 
 		{
 	    frappe.call({
             method: 'raindrop.custom_code.purchase_order.add_approver',
@@ -32,7 +32,7 @@ onload_post_render: function(frm){
           
             callback: (r) => {
         
-                cur_frm.set_value('custom_purchase_approver__id', r.message)
+                frm.set_value('custom_purchase_approver__id', r.message)
             },
             error: (r) => {
                 console.log(r)
@@ -46,7 +46,7 @@ onload_post_render: function(frm){
             },
        
             callback: (r) => {
-                cur_frm.set_value('custom_purchase_approver__id', r.message)
+                frm.set_value('custom_purchase_approver__id', r.message)
             },
             error: (r) => {
                 console.log(r)
