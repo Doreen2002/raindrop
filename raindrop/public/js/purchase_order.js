@@ -22,7 +22,7 @@ onload_post_render: function(frm){
         
         
     },
-	workflow_state(frm) => 
+	workflow_state(frm) 
 		{
 	    frappe.call({
             method: 'raindrop.custom_code.purchase_order.add_approver',
