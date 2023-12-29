@@ -8,11 +8,10 @@ onload_post_render: function(frm){
         
         
     },
-    refresh(frm)
-    {
-             
-             frappe.call({
-            method: 'raindrop.custom_code.internal_transfer.add_approver',
+        before_save(frm)
+                {
+           frappe.call({
+            method: 'raindrop.custom_code.purchase_receipt.add_approver',
             args: {
                 owner: frm.doc.owner
             },
@@ -26,6 +25,11 @@ onload_post_render: function(frm){
             }
             
         })
+                },
+    refresh(frm)
+    {
+             
+            
         cur_frm.set_df_property('custom_purchase_approver__id', 'read_only', 1)
         cur_frm.refresh_fields()
             
