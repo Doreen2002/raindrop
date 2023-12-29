@@ -9,9 +9,9 @@ def on_update(doc, method):
         total = 0
         for item in doc.items:
             total += item.amount
-        buying = frappe.get_doc('Buying Settings')
-        if total > buying.custom_purchase_amount_limit and "Purchase Master Manager"  in frappe.get_roles() :
-                frappe.throw("The Material Purchase Is Above Limit, Recommend to General Manager ")
+        buying = frappe.db.get_value("Employee", {"user_id":doc.owner}, "custom_purchase_approval_limit")
+        if total > buying and "First Manager" or "Second Manager" in frappe.get_roles() :
+                frappe.throw("The Material Purchase Is Above Limit, Send to General Manager or Immediate Manger ")
                 doc.workflow_state = "Pending"
     
 
