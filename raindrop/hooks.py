@@ -138,7 +138,7 @@ doc_events = {
 	},
     "Purchase Order": {
 		"on_update": "raindrop.custom_code.purchase_order.on_update",
-	        "before_insert": raindrop.custom_code.purchase_order.before_insert"
+	        "before_insert": "raindrop.custom_code.purchase_order.before_insert"
 		# "on_cancel": "method",
 		# "on_trash": "method"
 	},
