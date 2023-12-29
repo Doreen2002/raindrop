@@ -102,7 +102,7 @@ frappe.ui.form.on("Material Request", {
                 items.forEach(function(item) {
                     var mr_item = frappe.model.add_child(mr, 'items');
                     mr_item.item_code = item.item_code;
-                    mr_item.material_request_item = item.item_name;
+                    mr_item.material_request_item = item.item_code;
                     mr_item.item_name = item.item_name;
                     mr_item.uom = item.uom;
                     mr_item.stock_uom = item.stock_uom;
