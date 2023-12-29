@@ -46,7 +46,7 @@ onload_post_render: function(frm){
             },
        
             callback: (r) => {
-                frm.set_value('custom_purchase_approver__id', r.message)
+                frm.set_value('custom_initiator_manager', r.message)
             },
             error: (r) => {
                 console.log(r)
