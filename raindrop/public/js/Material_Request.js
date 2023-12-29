@@ -18,6 +18,19 @@ frappe.ui.form.on("Material Request", {
             
         })
         },
+    material_request_type(frm)
+        {
+            if (cur_frm.doc.material_request_type == "Purchase")
+        {
+             cur_frm.set_df_property('custom_inventory_person', 'hidden', 1)
+            cur_frm.refresh_fields() 
+        }
+        if (cur_frm.doc.material_request_type == "Material Transfer")
+        {
+             cur_frm.set_df_property('custom_purchase_order_person', 'hidden', 1)
+            cur_frm.refresh_fields() 
+        }
+        },
     refresh(frm)
     {
         frm.set_query('custom_inventory_person', () => {
