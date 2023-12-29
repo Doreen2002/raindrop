@@ -13,7 +13,7 @@ onload_post_render: function(frm){
 	    frappe.call({
             method: 'raindrop.custom_code.purchase_order.add_approver',
             args: {
-                owner: frm.doc.owner
+                owner: frm.doc.modified_by
             },
             freeze: true,
             callback: (r) => {
