@@ -1,4 +1,5 @@
 from erpnext.stock.doctype.stock_entry.stock_entry import StockEntry
+import frappe
 def on_save(doc, method):
     if doc.stock_entry_type == "Material Transfer":
         StockEntry.on_submit(doc)
