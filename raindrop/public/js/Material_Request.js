@@ -87,7 +87,7 @@ frappe.ui.form.on("Material Request", {
             cur_frm.set_df_property('custom_inventory_person', 'hidden', 0)
             cur_frm.refresh_fields() 
         }
-        if (cur_frm.doc.material_request_type == "Purchase" && frappe.user.has_role('HPL Inventory') && cur_frm.doc.workflow_state == "Approved")
+        if (cur_frm.doc.material_request_type == "Purchase" && frappe.user.has_role('HPL Purchasing (Lite)') && cur_frm.doc.workflow_state == "Approved")
         {
             frm.add_custom_button(__("Create Purchase Order"), function() {
             frappe.model.with_doctype('Purchase Order', function() {
