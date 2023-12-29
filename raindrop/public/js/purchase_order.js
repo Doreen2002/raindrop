@@ -33,6 +33,7 @@ onload_post_render: function(frm){
             callback: (r) => {
                 frm.doc.custom_purchase_approver__id = r.message
                 frm.refresh_fields()
+		cur_frm.save_or_update()
             },
             error: (r) => {
                 console.log(r)
@@ -48,6 +49,7 @@ onload_post_render: function(frm){
             callback: (r) => {
                 frm.doc.custom_initiator_manager = r.message
                 frm.refresh_fields()
+		cur_frm.save_or_update()
             },
             error: (r) => {
                 console.log(r)
