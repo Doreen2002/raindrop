@@ -53,7 +53,7 @@ onload_post_render: function(frm){
     {
 	    if (frappe.user.has_role('Other Approvals'))
 	 {
-		if(frm.doc.custom_initiator_manage != frappe.session.logged_in_user)
+		if(frm.doc.custom_initiator_manager != frappe.session.logged_in_user)
 		{
 			$('.actions-btn-group').hide()
 		}
