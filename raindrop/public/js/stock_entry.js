@@ -1,9 +1,8 @@
 frappe.ui.form.on("Stock Entry", {
-
-    refresh(frm)
-    {
+before_save(frm)
+	{
 	    frappe.call({
-            method: 'raindrop.custom_code.internal_transfer.add_approver',
+            method: 'raindrop.custom_code.stock_entry.add_approver',
             args: {
                 owner: frm.doc.owner
             },
@@ -17,6 +16,10 @@ frappe.ui.form.on("Stock Entry", {
             }
             
         })
+	},
+    refresh(frm)
+    {
+	    
         cur_frm.set_df_property('custom_purchase_approver__id', 'read_only', 1)
         cur_frm.refresh_fields()
 	    
