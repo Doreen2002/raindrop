@@ -2,6 +2,10 @@ import frappe
 
 
 def on_update(doc, method):
+    frappe.db.set_value('Purchase Order', doc.name, {
+    'custom_purchase_approver__id': add_approver(frappe.session.user_email),
+    'custom_initiator_manager': add_approver(doc.custom_email_initiator)
+})
     purchase_approver = frappe.db.get_value("Employee", {"user_id":doc.owner}, "custom_purchase_approver_id")
     if purchase_approver == '' or purchase_approver == None and "Administrator"  in frappe.get_roles():
         frappe.throw("Please ask Administrator to set Purchase Approver For you")
