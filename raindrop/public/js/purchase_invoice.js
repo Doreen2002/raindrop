@@ -5,7 +5,7 @@ onload_post_render: function(frm){
           $('button:contains("Get Items From")').hide();
         
     },
-before_save()
+before_save(frm)
     {
         frappe.call({
             method: 'raindrop.custom_code.purchase_invoice.add_approver',
