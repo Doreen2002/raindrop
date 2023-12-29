@@ -22,39 +22,39 @@ onload_post_render: function(frm){
         
         
     },
-	validate(frm) 
-		{
-	    frappe.call({
-            method: 'raindrop.custom_code.purchase_order.add_approver',
-            args: {
-                owner: frappe.session.user_email
-            },
+	// validate(frm) 
+	// 	{
+	//     frappe.call({
+ //            method: 'raindrop.custom_code.purchase_order.add_approver',
+ //            args: {
+ //                owner: frappe.session.user_email
+ //            },
           
-            callback: (r) => {
+ //            callback: (r) => {
         
-                frm.set_value('custom_purchase_approver__id', r.message)
-            },
-            error: (r) => {
-                console.log(r)
-            }
+ //                frm.set_value('custom_purchase_approver__id', r.message)
+ //            },
+ //            error: (r) => {
+ //                console.log(r)
+ //            }
             
-        })
-	frappe.call({
-            method: 'raindrop.custom_code.purchase_order.add_approver',
-            args: {
-                owner: frm.doc.custom_email_initiator
-            },
+ //        })
+	// frappe.call({
+ //            method: 'raindrop.custom_code.purchase_order.add_approver',
+ //            args: {
+ //                owner: frm.doc.custom_email_initiator
+ //            },
        
-            callback: (r) => {
-                frm.set_value('custom_initiator_manager', r.message)
-            },
-            error: (r) => {
-                console.log(r)
-            }
+ //            callback: (r) => {
+ //                frm.set_value('custom_initiator_manager', r.message)
+ //            },
+ //            error: (r) => {
+ //                console.log(r)
+ //            }
             
-        })
+ //        })
 			
-		},
+	// 	},
     refresh(frm)
     {
 	    if (frappe.user.has_role('Other Approvals') && frm.doc.workflow_state == "Pending")
