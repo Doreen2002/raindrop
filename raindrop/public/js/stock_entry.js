@@ -48,10 +48,24 @@ before_save(frm)
                 if(!items.length) {
                     items = frm.doc.items;
                 }
-
+		
                 mr.work_order = frm.doc.work_order;
                 mr.custom_email_initiator_= frm.doc.custom_email_initiator;
-
+		frappe.call({
+	            method: 'raindrop.custom_code.stock_entry.add_approver',
+	            args: {
+	                owner: frm.doc.owner
+	            },
+	            freeze: true,
+	            callback: (r) => {
+	                mr.custom_internal_requisition_manager = r.message
+	                frm.refresh_fields()
+	            },
+	            error: (r) => {
+	                console.log(r)
+	            }
+	            
+	        })
                 items.forEach(function(item) {
                     var mr_item = frappe.model.add_child(mr, 'items');
                     mr_item.item_code = item.item_code;
