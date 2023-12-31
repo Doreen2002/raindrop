@@ -14,26 +14,23 @@ onload_post_render: function(frm){
        }
 	
 	
-	// if (frm.doc.workflow_state == "Pending" && frm.doc.custom_initiator_manager != frappe.session.logged_in_user)
-	//  {
-	// 	$('.actions-btn-group').hide()
-	// }
-	// else
-	// {
-	// 	$('.actions-btn-group').show()
-	// }
-	//  if (frm.doc.workflow_state != "Pending" || frm.doc.workflow_state != "Draft" )
-	//  {
+	if (frm.doc.workflow_state == "Pending" && frm.doc.custom_initiator_manager != frappe.session.logged_in_user)
+	 {
+		$('.actions-btn-group').hide()
+	}
+	
+	 if (frm.doc.workflow_state != "Pending" || frm.doc.workflow_state != "Draft" )
+	 {
 		 
-	// 	if  ( frm.doc.custom_purchase_approver__id != frappe.session.logged_in_user)
-	//  {
-	// 	$('.actions-btn-group').hide()
-	// }
-	//  }
-	// else
-	// {
-	// 	$('.actions-btn-group').show()
-	// }
+		if  ( frm.doc.custom_purchase_approver__id != frappe.session.logged_in_user)
+	 {
+		$('.actions-btn-group').hide()
+	}
+	 }
+	if (frm.doc.workflow_state == "Pending" || frm.doc.workflow_state == "Draft" )
+	{
+		$('.actions-btn-group').show()
+	}
         $("button:contains('Get Items From')").hide();
         $("button:contains('Tools')").hide();
         $("button:contains('Status')").hide();
