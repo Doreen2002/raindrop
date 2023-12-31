@@ -32,7 +32,9 @@ onload_post_render: function(frm){
             
         cur_frm.set_df_property('custom_purchase_approver__id', 'read_only', 1)
         cur_frm.refresh_fields()
-            
+        cur_frm.set_df_property('custom_email__initiator', 'read_only', 1)
+        cur_frm.refresh_fields()
+        
         $("button:contains('Get Items From')").hide();
 
         frappe.call({
