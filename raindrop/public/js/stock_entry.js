@@ -51,6 +51,7 @@ before_save(frm)
 		
                 mr.work_order = frm.doc.work_order;
                 mr.custom_email_initiator_= frm.doc.custom_email_initiator;
+		mr.custom_internal_requisition_manager = frm.doc.custom_internal_requisition_manager;
 		
                 items.forEach(function(item) {
                     var mr_item = frappe.model.add_child(mr, 'items');
