@@ -22,7 +22,10 @@ onload_post_render: function(frm){
 	 {
 		$('.actions-btn-group').hide()
 	}
-        
+        $("button:contains('Get Items From')").hide();
+        $("button:contains('Tools')").hide();
+        $("button:contains('Status')").hide();
+        $("button:contains('Update Items')").hide()
         
     },
 	// validate(frm) 
