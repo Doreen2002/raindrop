@@ -18,6 +18,10 @@ onload_post_render: function(frm){
 	 {
 		$('.actions-btn-group').hide()
 	}
+	else
+	{
+		$('.actions-btn-group').show()
+	}
 	 if (frm.doc.workflow_state != "Pending" || frm.doc.workflow_state != "Draft" )
 	 {
 		 
@@ -26,6 +30,10 @@ onload_post_render: function(frm){
 		$('.actions-btn-group').hide()
 	}
 	 }
+	else
+	{
+		$('.actions-btn-group').show()
+	}
         $("button:contains('Get Items From')").hide();
         $("button:contains('Tools')").hide();
         $("button:contains('Status')").hide();
