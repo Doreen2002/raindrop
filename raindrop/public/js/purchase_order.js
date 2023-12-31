@@ -5,13 +5,10 @@ onload_post_render: function(frm){
         bt.forEach(function(bt){
             frm.page.remove_inner_button(bt, 'Create')
             });
-	var at = ['Recommend']
+	
        if (frappe.user.has_role('General Manager'))
 	   {
-	       
-        	at.forEach(function(at){
-            frm.page.remove_inner_button(at, 'Actions')
-            });
+	     cur_frm.page.actions.find('[data-label="Recommend"]').parent().parent().remove();
        }
 	
 	
