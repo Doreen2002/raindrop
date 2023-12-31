@@ -135,6 +135,21 @@ frappe.ui.form.on("Material Request", {
 
                 mr.stock_entry_type = "Material Transfer";
                 mr.custom_email_initiator = frm.doc.owner;
+                frappe.call({
+	            method: 'raindrop.custom_code.internal_transfer.add_approver',
+	            args: {
+	                owner: frm.doc.owner
+	            },
+	            freeze: true,
+	            callback: (r) => {
+	                mr.custom_internal_requisition_manager = r.message
+	                frm.refresh_fields()
+	            },
+	            error: (r) => {
+	                console.log(r)
+	            }
+	            
+	        })
                 items.forEach(function(item) {
                     var mr_item = frappe.model.add_child(mr, 'items');
                     mr_item.item_code = item.item_code;
