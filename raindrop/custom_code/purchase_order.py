@@ -4,6 +4,7 @@ def before_insert(doc, method):
     
     doc.custom_purchase_approver__id = add_approver(doc.modified_by)
     doc.custom_initiator_manager = add_approver(doc.custom_email_initiator)
+    doc.custom_purchase_request_manager = add_approver(doc.owner)
 
     
 def on_update(doc, method):
