@@ -1,4 +1,15 @@
 frappe.ui.form.on("Material Request", {
+onload_post_render: function(frm){
+	
+if (frm.doc.workflow_state == "Pending" && frm.doc.custom_internal_requisition_manager != frappe.session.logged_in_user)
+	 {
+		$('.actions-btn-group').hide()
+	}
+	if ( frm.doc.workflow_state == "Draft" )
+	{
+		$('.actions-btn-group').show()
+	}
+},
 
     before_save(frm)
         {
