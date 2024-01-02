@@ -21,6 +21,8 @@ before_save(frm)
     {
 	    
         cur_frm.set_df_property('custom_purchase_approver__id', 'read_only', 1)
+        cur_frm.set_df_property('custom_purchase_approver__id', 'hidden', 1)
+	cur_frm.set_df_property('custom_internal_requisition_manager', 'hidden', 1)
         cur_frm.refresh_fields()
 	    
 	    $("button:contains('Create')").hide();

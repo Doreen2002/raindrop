@@ -9,6 +9,15 @@ if (frm.doc.workflow_state == "Pending" && frm.doc.custom_purchase_approver__id 
 	{
 		$('.actions-btn-group').show()
 	}
+	cur_frm.set_df_property('custom_purchase_approver__id', 'hidden', 1);
+	cur_frm.set_df_property('custom_internal_requisition_manager', 'hidden', 1);
+        cur_frm.refresh_fields();
+	if ( cur_frm.doc.__unsaved != 1)
+	{
+	cur_frm.set_df_property('custom_purchase_order_person', 'hidden', 1);
+	cur_frm.set_df_property('custom_inventory_person', 'hidden', 1);
+	 cur_frm.refresh_fields();
+	}
 
 },
 
@@ -49,6 +58,13 @@ if (frm.doc.workflow_state == "Pending" && frm.doc.custom_purchase_approver__id 
         },
     refresh(frm)
     {
+	if ( cur_frm.doc.__unsaved != 1)
+	{
+	cur_frm.set_df_property('custom_purchase_order_person', 'hidden', 1);
+	cur_frm.set_df_property('custom_inventory_person', 'hidden', 1);
+	 cur_frm.refresh_fields();
+	}
+	    
         frm.set_query('custom_inventory_person', () => {
         return {
             filters: {
