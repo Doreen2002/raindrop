@@ -15,7 +15,7 @@ def on_update(doc, method):
         total = 0
         for item in doc.items:
             total += item.amount
-        limit_amount = frappe.db.get_value("Employee", {"user_id":doc.owner}, "custom_purchase_approval_limit")
+        limit_amount = frappe.db.get_value("Employee", {"user_id":frappe.session.logged_in_user}, "custom_purchase_approval_limit")
         buying =  float(f'{limit_amount.strip()}') 
         if "General Manager" not  in frappe.get_roles() :
             if total > buying:
