@@ -5,6 +5,8 @@ onload_post_render: function(frm){
         bt.forEach(function(bt){
             frm.page.remove_inner_button(bt, 'Create')
             });
+   
+       
         
         
     },
@@ -29,7 +31,7 @@ onload_post_render: function(frm){
     refresh(frm)
     {
              
-            
+        cur_frm.set_df_property(' custom_purchase_approver__id', 'hidden', 1);  
         cur_frm.set_df_property('custom_purchase_approver__id', 'read_only', 1)
         cur_frm.refresh_fields()
         cur_frm.set_df_property('custom_email__initiator', 'read_only', 1)
