@@ -18,14 +18,14 @@ def execute(filters=None):
 			'fieldname': 'invoice_no',
 			'label': _('Invoice No'),
 			'fieldtype': 'Link',
-		'option': 'Sales Invoice'
+		'options': 'Sales Invoice'
 		   
 		},
 	{
 			'fieldname': 'customer',
 			'label': _('Customer Name'),
 			'fieldtype': 'Link',
-		'option': 'Customer'
+		'options': 'Customer'
 		   
 		},
 	{
