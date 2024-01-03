@@ -143,8 +143,43 @@ def execute(filters=None):
 		},
 	{
 			'fieldname': 'total_amount',
-			'label': _('Total Amount'),
+			'label': _('Currency'),
 			'fieldtype': 'Data',
+	   
+		   
+		},
+	{
+			'fieldname': 'blank',
+			'label': _(''),
+			'fieldtype': 'Data',
+	   
+		   
+		},
+	{
+			'fieldname': 'taxable_amount',
+			'label': _('Taxable Amount'),
+			'fieldtype': 'Currency',
+	   
+		   
+		},
+	{
+			'fieldname': 'vat',
+			'label': _('13% VAT'),
+			'fieldtype': 'Currency',
+	   
+		   
+		},
+	{
+			'fieldname': 'blank_two',
+			'label': _(''),
+			'fieldtype': 'Currency',
+	   
+		   
+		},
+	{
+			'fieldname': 'invoice_total',
+			'label': _('Invoice Total'),
+			'fieldtype': 'Currency',
 	   
 		   
 		},
@@ -158,8 +193,8 @@ def execute(filters=None):
 		for item in items:
 			total_amount += item.amount
 			total += item.amount
-			data.append([sale.posting_date, sale.custom_document_number, sale.customer, sale.custom_billing_address, '', '', '', item.description, item.uom, item.qty, item.rate, item.amount, '', '', '', '', '', '', '', total_amount])
-		data.append(['', 'Total Invoice', '', '', '', '', '', '', total, '', '', '', '', '', '', '', '', '', '', total_amount])	
+			data.append([sale.posting_date, sale.custom_document_number, sale.customer, sale.custom_billing_address, '', '', '', item.description, item.uom, item.qty, item.rate, item.amount, '', '', '', '', '', '', '', total_amount,'', '', '', '', ''])
+		data.append(['', 'Invoice Total', '', '', '', '', '', 'Invoice Total :', total, '', '', '', '', '', '', '', '', '', '', total_amount, '', '', '', '', ''])	
 	return columns, data
 
 
