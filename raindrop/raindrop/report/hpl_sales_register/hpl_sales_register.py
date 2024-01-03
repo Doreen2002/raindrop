@@ -57,13 +57,6 @@ def execute(filters=None):
 		   
 		},
 	{
-			'fieldname': 'phone_no',
-			'label': _('Phone No'),
-			'fieldtype': 'Data',
-	   
-		   
-		},
-	{
 			'fieldname': 'product_description',
 			'label': _('Product Description'),
 			'fieldtype': 'Text',
