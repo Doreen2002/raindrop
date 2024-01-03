@@ -156,7 +156,7 @@ def execute(filters=None):
 		total = 0
 		for item in items:
 			total_amount += item.amount
-			total + = item.amount
+			total += item.amount
 			data.append([sale.posting_date, sale.custom_document_number, sale.customer, sale.custom_billing_address, '', '', '', item.description, item.uom, item.qty, item.rate, item.amount, '', '', '', '', '', '', '', total_amount])
 		data.append(['', 'Total Invoice', '', '', '', '', '', '', total, '', '', '', '', '', '', '', '', '', '', total_amount])	
 	return columns, data
