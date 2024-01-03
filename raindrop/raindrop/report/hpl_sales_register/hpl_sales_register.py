@@ -154,8 +154,8 @@ def execute(filters=None):
 	for sale in sales_invoice:
 		items = frappe.db.get_all("Sales Invoice Item", filters={"parent":sale.name}, fields=['*'])
 		for item in items:
-			data.append([sale.posting_date, sale.custom_document_number, sale.customer, '', '', '', item.description, item.uom, item.qty, item.rate, item.amount, '', '', '', '', '', '', '', ''])
-	frappe.throw(f'{data}')
+			data.append([sale.posting_date, sale.custom_document_number, sale.customer, '', '', '', item.description, item.uom, item.qty, item.rate, item.amount, '', '', '', '', '', '', '', '', ''])
+	
 	return columns, data
 
 
