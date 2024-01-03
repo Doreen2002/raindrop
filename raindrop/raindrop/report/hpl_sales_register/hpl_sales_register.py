@@ -154,6 +154,7 @@ def execute(filters=None):
 	for sale in sales_invoice:
 		items = frappe.db.get_all("Sales Invoice Item", filters={"parent":sale.name}, fields=['*'])
 		total = 0
+		total_amount  = 0
 		for item in items:
 			total_amount += item.amount
 			total += item.amount
