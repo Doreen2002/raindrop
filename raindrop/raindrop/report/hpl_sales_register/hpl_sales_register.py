@@ -80,14 +80,14 @@ def execute(filters=None):
 	{
 			'fieldname': 'rate',
 			'label': _('Rate/Unit'),
-			'fieldtype': 'Data',
+			'fieldtype': 'Currency',
 	   
 		   
 		},
 	{
 			'fieldname': 'gross_amount',
 			'label': _('Gross Amount'),
-			'fieldtype': 'Data',
+			'fieldtype': 'Currency',
 	   
 		   
 		},
@@ -101,21 +101,21 @@ def execute(filters=None):
 		{
 			'fieldname': 'discount_one',
 			'label': _('Discount 1'),
-			'fieldtype': 'Data',
+			'fieldtype': 'Currency',
 	   
 		   
 		},
 		{
 			'fieldname': 'discount_two',
 			'label': _('Discount Two'),
-			'fieldtype': 'Data',
+			'fieldtype': 'Currency',
 	   
 		   
 		},
 		{
 			'fieldname': 'festival_discount',
 			'label': _('Festival Discount'),
-			'fieldtype': 'Data',
+			'fieldtype': 'Currency',
 	   
 		   
 		},
@@ -123,28 +123,28 @@ def execute(filters=None):
 		{
 			'fieldname': 'festival_discount_one',
 			'label': _('Festival Discount 1'),
-			'fieldtype': 'Data',
+			'fieldtype': Currency',
 	   
 		   
 		},
 	{
 			'fieldname': 'qps_discount',
 			'label': _('Qps Discount'),
-			'fieldtype': 'Data',
+			'fieldtype': 'Currency',
 	   
 		   
 		},
 	{
 			'fieldname': 'ind_charge_total',
 			'label': _('Ind. Charge Total'),
-			'fieldtype': 'Data',
+			'fieldtype': 'Currency',
 	   
 		   
 		},
 	{
 			'fieldname': 'total_amount',
-			'label': _('Currency'),
-			'fieldtype': 'Data',
+			'label': _('Total Amount'),
+			'fieldtype': 'Currency',
 	   
 		   
 		},
@@ -194,7 +194,7 @@ def execute(filters=None):
 			total_amount += item.amount
 			total += item.amount
 			data.append([sale.posting_date, sale.custom_document_number, sale.customer, sale.custom_billing_address, '', '', '', item.description, item.uom, item.qty, item.rate, item.amount, '', '', '', '', '', '', '', total_amount,'', '', '', '', ''])
-		data.append(['', 'Invoice Total', '', '', '', '', '', 'Invoice Total :', total, '', '', '', '', '', '', '', '', '', '', total_amount, '', '', '', '', ''])	
+		data.append(['Invoice Total:', 'Invoice Total:', 'Invoice Total:', 'Invoice Total:', 'Invoice Total:', 'Invoice Total:', 'Invoice Total:', 'Invoice Total:', total, '', '', '', '', '', '', '', '', '', '', total_amount, '', '', '', '', ''])	
 	return columns, data
 
 
