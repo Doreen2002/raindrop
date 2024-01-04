@@ -123,7 +123,7 @@ def execute(filters=None):
 		{
 			'fieldname': 'festival_discount_one',
 			'label': _('Festival Discount 1'),
-			'fieldtype': Currency',
+			'fieldtype': 'Currency',
 	   
 		   
 		},
