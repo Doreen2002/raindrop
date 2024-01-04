@@ -1,11 +1,13 @@
 frappe.ui.form.on("Purchase Order", {
 
 onload_post_render: function(frm){
+    if(!frappe.user.has_role('Administrator'))
+    {
         var bt = ['Purchase Invoice', 'Payment',  'Payment Request', 'Subscription']
         bt.forEach(function(bt){
             frm.page.remove_inner_button(bt, 'Create')
             });
-	
+    }
        if (frappe.user.has_role('General Manager'))
 	   {
 	     cur_frm.page.actions.find('[data-label="Recommend"]').parent().parent().remove();
