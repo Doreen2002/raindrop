@@ -42,13 +42,6 @@ def execute(filters=None):
 	   
 		   
 		},
-		{
-			'fieldname': 'truck_no',
-			'label': _('Truck No'),
-			'fieldtype': 'Data',
-	   
-		   
-		},
 	{
 			'fieldname': 'phone_no',
 			'label': _('Phone No'),
@@ -91,56 +84,15 @@ def execute(filters=None):
 	   
 		   
 		},
+		
 		{
-			'fieldname': 'asus',
-			'label': _('Asus Sellout'),
-			'fieldtype': 'Data',
-	   
-		   
-		},
-		{
-			'fieldname': 'discount_one',
-			'label': _('Discount 1'),
+			'fieldname': 'discount',
+			'label': _('Discount'),
 			'fieldtype': 'Currency',
 	   
 		   
 		},
-		{
-			'fieldname': 'discount_two',
-			'label': _('Discount Two'),
-			'fieldtype': 'Currency',
-	   
-		   
-		},
-		{
-			'fieldname': 'festival_discount',
-			'label': _('Festival Discount'),
-			'fieldtype': 'Currency',
-	   
-		   
-		},
-	
-		{
-			'fieldname': 'festival_discount_one',
-			'label': _('Festival Discount 1'),
-			'fieldtype': 'Currency',
-	   
-		   
-		},
-	{
-			'fieldname': 'qps_discount',
-			'label': _('Qps Discount'),
-			'fieldtype': 'Currency',
-	   
-		   
-		},
-	{
-			'fieldname': 'ind_charge_total',
-			'label': _('Ind. Charge Total'),
-			'fieldtype': 'Currency',
-	   
-		   
-		},
+		
 	{
 			'fieldname': 'total_amount',
 			'label': _('Total Amount'),
@@ -195,8 +147,8 @@ def execute(filters=None):
 			total_amount += item.amount
 			total += item.amount
 			total_qty += item.qty
-			data.append([sale.posting_date, sale.custom_document_number, sale.customer, sale.custom_billing_address, '', '', '', item.description, item.uom, item.qty, item.rate, item.amount, '', '', '', '', '', '', '', total_amount,'', '', '', '', total])
-		data.append(['Invoice Total:', 'Invoice Total:', 'Invoice Total:', 'Invoice Total:', 'Invoice Total:', 'Invoice Total:', 'Invoice Total:', 'Invoice Total:', 'Invoice Total:', total_qty, '-', total, '', '', '', '', '', '', '', total, '', '', '', '', total])	
+			data.append([sale.posting_date, sale.custom_document_number, sale.customer, sale.custom_billing_address, '',  '', item.description, item.uom, item.qty, item.rate, item.amount, '',  total_amount,'', '', '', '', total])
+		data.append(['Invoice Total:', 'Invoice Total:', 'Invoice Total:', 'Invoice Total:', 'Invoice Total:', 'Invoice Total:', 'Invoice Total:', 'Invoice Total:', 'Invoice Total:', total_qty, '-', total, '',  total, '', '', '', '', total])	
 	return columns, data
 
 
