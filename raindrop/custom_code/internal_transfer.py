@@ -3,7 +3,7 @@ from frappe.utils import today
 
 def on_update(doc, method):
     purchase_approver = frappe.db.get_value("Employee", {"user_id":doc.owner}, "custom_purchase_approver_id")
-    if purchase_approver == '' or purchase_approver == None and "Administrator"  in frappe.get_roles():
+    if purchase_approver == '' or purchase_approver == None and "Administrator" not in frappe.get_roles():
         frappe.throw("Please ask Administrator to set Purchase Approver For you")
 
 @frappe.whitelist()
