@@ -30,11 +30,11 @@ onload_post_render: function(frm){
                 },
     refresh(frm)
     {
-            if(frappe.user.has_role("Other Approvals"))
+            if(!frappe.user.has_role("Other Approvals"))
             {
                     $("button:contains('Create')").hide();
             }
-         if(frm.doc.workflow_state == "Approved")
+         if(!frm.doc.workflow_state == "Approved")
             {
                     $("button:contains('Create')").hide();
             }
