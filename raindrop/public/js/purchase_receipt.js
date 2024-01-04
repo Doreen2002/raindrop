@@ -30,7 +30,14 @@ onload_post_render: function(frm){
                 },
     refresh(frm)
     {
-             
+            if(frappe.user.has_role("Other Approvals"))
+            {
+                    $("button:contains('Create')").hide();
+            }
+         if(frm.doc.workflow_state == "Approved")
+            {
+                    $("button:contains('Create')").hide();
+            }
         cur_frm.set_df_property(' custom_purchase_approver__id', 'hidden', 1);  
         cur_frm.set_df_property('custom_purchase_approver__id', 'read_only', 1)
         cur_frm.refresh_fields()
