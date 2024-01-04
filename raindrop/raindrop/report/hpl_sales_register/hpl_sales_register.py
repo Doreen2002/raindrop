@@ -190,11 +190,13 @@ def execute(filters=None):
 		items = frappe.db.get_all("Sales Invoice Item", filters={"parent":sale.name}, fields=['*'])
 		total = 0
 		total_amount  = 0
+		total_qty = 0
 		for item in items:
 			total_amount += item.amount
 			total += item.amount
+			total_qty += item.qty
 			data.append([sale.posting_date, sale.custom_document_number, sale.customer, sale.custom_billing_address, '', '', '', item.description, item.uom, item.qty, item.rate, item.amount, '', '', '', '', '', '', '', total_amount,'', '', '', '', ''])
-		data.append(['Invoice Total:', 'Invoice Total:', 'Invoice Total:', 'Invoice Total:', 'Invoice Total:', 'Invoice Total:', 'Invoice Total:', 'Invoice Total:', total, '', '', '', '', '', '', '', '', '', '', total_amount, '', '', '', '', ''])	
+		data.append(['Invoice Total:', 'Invoice Total:', 'Invoice Total:', 'Invoice Total:', 'Invoice Total:', 'Invoice Total:', 'Invoice Total:', 'Invoice Total:', 'Invoice Total:', total_qty, '-', total, '', '', '', '', '', '', '', total_amount, '', '', '', '', ''])	
 	return columns, data
 
 
