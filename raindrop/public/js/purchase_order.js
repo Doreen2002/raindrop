@@ -12,7 +12,7 @@ onload_post_render: function(frm){
        }
 	
 	
-	if (frm.doc.workflow_state == "Pending" && frm.doc.custom_initiator_manager != frappe.session.logged_in_user)
+	if (frm.doc.workflow_state == "Pending" && frm.doc.custom_initiator_manager != frappe.session.logged_in_user && !frappe.user.has_role("Administrator"))
 	 {
 		$('.actions-btn-group').hide()
 	}
@@ -20,7 +20,7 @@ onload_post_render: function(frm){
 	 if (frm.doc.workflow_state != "Pending" || frm.doc.workflow_state != "Draft" )
 	 {
 		 
-		if  ( frm.doc.custom_purchase_approver__id != frappe.session.logged_in_user)
+		if  ( frm.doc.custom_purchase_approver__id != frappe.session.logged_in_user && !frappe.user.has_role("Administrator"))
 	 {
 		$('.actions-btn-group').hide()
 	}
