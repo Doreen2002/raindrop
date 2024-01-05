@@ -159,13 +159,12 @@ def execute(filters=None):
 	purchase_invoice = frappe.db.get_list("Purchase Invoice", filters={"docstatus":1}, fields=['*'])
 	for purchase in purchase_invoice:
 		items = frappe.db.get_all("Purchase Invoice Item", filters={"parent":purchase.name}, fields=['*'])
-		# total = 0
+		total = 0
 		gross_amount = 0 
 		total_qty = 0
-		total = 0
 		for item in items:
-			gross_amount += item.amount
 			total += item.amount
+			gross_amount += item.amount
 			total_qty += item.qty
 			data.append([purchase.posting_date, purchase.custom_bill_number, purchase.supplier, purchase.custom_document_number, '', item.description, item.uom, item.qty, item.rate, gross_amount, '', '', '', '', '', '', '', '', gross_amount * 13/100, total, ''])
 			
