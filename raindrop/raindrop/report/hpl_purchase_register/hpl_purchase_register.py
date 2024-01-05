@@ -8,7 +8,7 @@ from frappe import _
 
 def execute(filters=None):
 	columns =[
-		{
+	{
             'fieldname': 'date',
             'label': _('Date'),
             'fieldtype': 'Date',
@@ -18,54 +18,34 @@ def execute(filters=None):
             'fieldname': 'invoice_no',
             'label': _('Invoice No'),
             'fieldtype': 'Link',
-	    'option': 'Sales Invoice'
+	    'option': 'Purchase Invoice'
            
         },
 	{
-            'fieldname': 'customer',
-            'label': _('Customer Name'),
+            'fieldname': 'supplier',
+            'label': _('Supplier Name'),
             'fieldtype': 'Link',
-	    'option': 'Customer'
+	    'option': 'supplier'
            
         },
 	{
-            'fieldname': 'address',
-            'label': _('Address'),
-            'fieldtype': 'Text',
+            'fieldname': 'pp no',
+            'label': _('PP No'),
+            'fieldtype': 'Link',
+		'option' : 'PO No'
 	   
            
         },
-		{
+	{
             'fieldname': 'vat_no',
             'label': _('Vat No'),
             'fieldtype': 'Data',
 	   
            
         },
-		{
-            'fieldname': 'truck_no',
-            'label': _('Truck No'),
-            'fieldtype': 'Data',
-	   
-           
-        },
 	{
-            'fieldname': 'phone_no',
-            'label': _('Phone No'),
-            'fieldtype': 'Data',
-	   
-           
-        },
-	{
-            'fieldname': 'phone_no',
-            'label': _('Phone No'),
-            'fieldtype': 'Data',
-	   
-           
-        },
-	{
-            'fieldname': 'product_description',
-            'label': _('Product Description'),
+            'fieldname': 'Item_description',
+            'label': _('Item Description'),
             'fieldtype': 'Text',
 	   
            
@@ -98,45 +78,45 @@ def execute(filters=None):
 	   
            
         },
-		{
-            'fieldname': 'asus',
-            'label': _('Asus Sellout'),
-            'fieldtype': 'Data',
-	   
-           
-        },
-		{
-            'fieldname': 'discount_one',
-            'label': _('Discount 1'),
-            'fieldtype': 'Data',
-	   
-           
-        },
-		{
-            'fieldname': 'discount_two',
-            'label': _('Discount Two'),
-            'fieldtype': 'Data',
-	   
-           
-        },
-		{
-            'fieldname': 'festival_discount',
-            'label': _('Festival Discount'),
-            'fieldtype': 'Data',
-	   
-           
-        },
-	
-		{
-            'fieldname': 'festival_discount_one',
-            'label': _('Festival Discount 1'),
+	{
+            'fieldname': 'insurance',
+            'label': _('Insurance'),
             'fieldtype': 'Data',
 	   
            
         },
 	{
-            'fieldname': 'qps_discount',
-            'label': _('Qps Discount'),
+            'fieldname': 'bank Commission',
+            'label': _('Bank Commission'),
+            'fieldtype': 'Data',
+	   
+           
+        },
+	{
+            'fieldname': 'custom clearing',
+            'label': _('Custom Clearing'),
+            'fieldtype': 'Data',
+	   
+           
+        },
+	{
+            'fieldname': 'custom duity',
+            'label': _('Custom Duty'),
+            'fieldtype': 'Data',
+	   
+           
+        },
+	
+	{
+            'fieldname': 'freight',
+            'label': _('Freight'),
+            'fieldtype': 'Data',
+	   
+           
+        },
+	{
+            'fieldname': 'exercise duty',
+            'label': _('Exercise Duty'),
             'fieldtype': 'Data',
 	   
            
@@ -149,12 +129,45 @@ def execute(filters=None):
            
         },
 	{
-            'fieldname': 'total_amount',
-            'label': _('Total Amount'),
+			'fieldname' : 'net amount',
+			'label' : _('Net Amount'),
+			'fieldtype' : 'Data',
+			
+        },
+	{
+		    'fieldname' : 'vat',
+		    'label' : _('13% VAT'),
+		    'fieldtype' : 'Data',
+			
+        },
+		 
+	{
+            'fieldname': 'invoice_totle',
+            'label': _('Invoice Total'),
             'fieldtype': 'Data',
 	   
            
         },
+		
+    {
+            'fieldname' : 'landed cost',
+			'label' : _('Landed Cost'),
+			'fieldtype' : 'Data',
+        },
 	]
-	data = [], []
+	data = []
+	purchase_invoice = frappe.db.get_list("Purchase Invoice", filters={"docstatus":1}, fields=['*'])
+	for purchase in purchase_invoice:
+		items = frappe.db.get_all("Purchase Invoice Item", filters={"parent":purchase.name}, fields=['*'])
+		# total = 0
+		gross_amount = 0 
+		total_qty = 0
+		for item in items:
+			gross_amount += item.amount
+			total += item.amount
+			total_qty += item.qty
+			data.append([purchase.posting_date, purchase.custom_bill_number, purchase.supplier, purchase.custom_dusoment_number, '', item.description, item.uom, item.qty, item.rate, gross_amount, '', '', '', '', '', '', '', '', gross_amount * 13/100, total, ''])
+			
+					
+		
 	return columns, data
