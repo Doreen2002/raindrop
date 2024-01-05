@@ -32,7 +32,7 @@ def execute(filters=None):
             'fieldname': 'pp no',
             'label': _('PP No'),
             'fieldtype': 'Data',
-		'options' : 'Document NUmber'
+		# 'options' : 'Document NUmber'
 	   
            
         },
