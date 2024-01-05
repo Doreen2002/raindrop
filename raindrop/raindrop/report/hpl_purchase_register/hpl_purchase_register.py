@@ -18,21 +18,21 @@ def execute(filters=None):
             'fieldname': 'invoice_no',
             'label': _('Invoice No'),
             'fieldtype': 'Link',
-	    'option': 'Purchase Invoice'
+	    'options': 'Purchase Invoice'
            
         },
 	{
             'fieldname': 'supplier',
             'label': _('Supplier Name'),
             'fieldtype': 'Link',
-	    'option': 'supplier'
+	    'options': 'Supplier'
            
         },
 	{
             'fieldname': 'pp no',
             'label': _('PP No'),
-            'fieldtype': 'Link',
-		'option' : 'PO No'
+            'fieldtype': 'Data',
+		'options' : 'Document NUmber'
 	   
            
         },
@@ -167,7 +167,7 @@ def execute(filters=None):
 			gross_amount += item.amount
 			total += item.amount
 			total_qty += item.qty
-			data.append([purchase.posting_date, purchase.custom_bill_number, purchase.supplier, purchase.custom_dusoment_number, '', item.description, item.uom, item.qty, item.rate, gross_amount, '', '', '', '', '', '', '', '', gross_amount * 13/100, total, ''])
+			data.append([purchase.posting_date, purchase.custom_bill_number, purchase.supplier, purchase.custom_document_number, '', item.description, item.uom, item.qty, item.rate, gross_amount, '', '', '', '', '', '', '', '', gross_amount * 13/100, total, ''])
 			
 					
 		
