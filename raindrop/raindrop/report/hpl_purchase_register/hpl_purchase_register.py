@@ -162,6 +162,7 @@ def execute(filters=None):
 		# total = 0
 		gross_amount = 0 
 		total_qty = 0
+		total = 0
 		for item in items:
 			gross_amount += item.amount
 			total += item.amount
