@@ -144,6 +144,12 @@ def execute(filters=None):
 		},
 	]
 	data = []
+	grand_qty = 0
+	grand_rate = 0
+	grand_amount = 0
+	grand_taxable_amount = 0
+	grand_vat = 0
+	
 	sales_invoice = frappe.db.get_list("Sales Invoice", filters={"docstatus":1}, fields=['*'])
 	for sale in sales_invoice:
 		items = frappe.db.get_all("Sales Invoice Item", filters={"parent":sale.name}, fields=['*'])
@@ -151,13 +157,18 @@ def execute(filters=None):
 		total_amount  = 0
 		total_qty = 0
 		for item in items:
+			grand_qty += item.qty
+			grand_rate += item.rate
+			grand_amount += item.amount
+			grand_taxable_amount += ( (item.qty / item.rate ) - item.discount_amount)
+			grand_vat += item.amount * 13/100
 			total_amount += item.amount
 			total += item.amount
 			total_qty += item.qty
 			data.append([sale.posting_date, sale.custom_document_number, sale.name,  sale.customer, sale.custom_billing_address, '',  '', item.description, item.uom, item.qty, item.rate, item.amount, item.discount_amount,   total_amount,'',(item.qty/item.rate) - item.discount_amount, total_amount * 13/100,  '', total])
 		data.append(['Invoice Total:', 'Invoice Total:', 'Invoice Total:','Invoice Total:', 'Invoice Total:', 'Invoice Total:', 'Invoice Total:', 'Invoice Total:', 'Invoice Total:', total_qty, '', total, '', total,  '', '', '', '', '', total])
 	# grand total code
-	data.append(['', '', '','', 'Grand Total:', '', '', '', '', total_qty, '', total, '', total,  '', '', '', '', '', total])
+	data.append(['', '', '','', 'Grand Total:', '', '', '', '', grand_qty, grand_rate, grand_amount, '', total,grand_taxable_amount  , grand_vat, '', '', '', grand_amount])
 	return columns, data
 
 
