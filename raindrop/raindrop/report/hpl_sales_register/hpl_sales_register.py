@@ -168,7 +168,7 @@ def execute(filters=None):
 			data.append([sale.posting_date, sale.custom_document_number, sale.name,  sale.customer, sale.custom_billing_address, '',  '', item.description, item.uom, item.qty, item.rate, item.amount, item.discount_amount,   total_amount,'',(item.qty/item.rate) - item.discount_amount, total_amount * 13/100,  '', total])
 		data.append(['Invoice Total:', 'Invoice Total:', 'Invoice Total:','Invoice Total:', 'Invoice Total:', 'Invoice Total:', 'Invoice Total:', 'Invoice Total:', 'Invoice Total:', total_qty, '', total, '', total,  '', '', '', '', '', total])
 	# grand total code
-	data.append(['', '', '','', 'Grand Total:', '', '', '', '', grand_qty, grand_rate, grand_amount, '', grand_amount,'', grand_taxable_amount  , grand_vat,  '', '', grand_amount])
+	data.append(['', '', '','', 'Grand Total:', '', '', '', '', grand_qty, grand_rate, grand_amount, '', grand_amount,'', grand_taxable_amount  , grand_vat,  '',grand_amount, grand_amount])
 	return columns, data
 
 
