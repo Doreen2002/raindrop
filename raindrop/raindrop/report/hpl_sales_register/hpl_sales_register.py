@@ -155,7 +155,9 @@ def execute(filters=None):
 			total += item.amount
 			total_qty += item.qty
 			data.append([sale.posting_date, sale.custom_document_number, sale.name,  sale.customer, sale.custom_billing_address, '',  '', item.description, item.uom, item.qty, item.rate, item.amount, item.discount_amount,   total_amount,'',(item.qty/item.rate) - item.discount_amount, total_amount * 13/100,  '', total])
-		data.append(['Invoice Total:', 'Invoice Total:', 'Invoice Total:','Invoice Total:', 'Invoice Total:', 'Invoice Total:', 'Invoice Total:', 'Invoice Total:', 'Invoice Total:', total_qty, '', total, '', total,  '', '', '', '', '', total])	
+		data.append(['Invoice Total:', 'Invoice Total:', 'Invoice Total:','Invoice Total:', 'Invoice Total:', 'Invoice Total:', 'Invoice Total:', 'Invoice Total:', 'Invoice Total:', total_qty, '', total, '', total,  '', '', '', '', '', total])
+	# grand total code
+	data.append(['', '', '','', 'Grand Total:', '', '', '', '', total_qty, '', total, '', total,  '', '', '', '', '', total])
 	return columns, data
 
 
