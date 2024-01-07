@@ -18,7 +18,7 @@ if (frm.doc.workflow_state == "Pending" && frm.doc.custom_purchase_approver__id 
     before_save(frm)
         {
             frappe.call({
-            method: 'raindrop.custom_code.internal_transfer.add_approver',
+            method: 'raindrop.custom_code.journal_entry.add_approver',
             args: {
                 owner: frm.doc.owner
             },
