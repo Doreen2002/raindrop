@@ -34,7 +34,7 @@ app_include_js = "/assets/raindrop/js/raindrop.js"
 doctype_js = {"Material Request" : "public/js/Material_Request.js","Stock Entry" : "public/js/stock_entry.js",
 	      "Journal Entry":"public/js/journal_entry.js", "Sales Invoice" : "public/js/sales_invoice.js",
 	      "Purchase Invoice" : "public/js/purchase_invoice.js", "Purchase Order" : "public/js/purchase_order.js",
-	      "Purchase Receipt" : "public/js/purchase_receipt.js"
+	      "Purchase Receipt" : "public/js/purchase_receipt.js", "Expense Claim" : "public/js/expense_claim.js"
 	     }
 # doctype_js = {}
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
@@ -133,6 +133,21 @@ doc_events = {
 	# },
     "Material Request": {
 		"on_update": "raindrop.custom_code.internal_transfer.on_update"
+		# "on_cancel": "method",
+		# "on_trash": "method"
+	},
+	"Sales Invoice": {
+		"on_update": "raindrop.custom_code.sales_invoice.on_update"
+		# "on_cancel": "method",
+		# "on_trash": "method"
+	},
+	"Journal Entry": {
+		"on_update": "raindrop.custom_code.journal_entry.on_update"
+		# "on_cancel": "method",
+		# "on_trash": "method"
+	},
+	"Expense Claim": {
+		"on_update": "raindrop.custom_code.expense_claim.on_update"
 		# "on_cancel": "method",
 		# "on_trash": "method"
 	},
