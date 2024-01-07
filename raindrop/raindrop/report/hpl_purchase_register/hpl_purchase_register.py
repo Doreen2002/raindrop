@@ -156,7 +156,7 @@ def execute(filters=None):
         },
 	]
 	data = []
-	purchase_invoice = frappe.db.get_list("Purchase Invoice", filters={"docstatus":1}, fields=['*'])
+	purchase_invoice = frappe.db.get_list("Purchase Invoice", filters={"docstatus":1, "is_return":0}, fields=['*'])
 	for purchase in purchase_invoice:
 		items = frappe.db.get_all("Purchase Invoice Item", filters={"parent":purchase.name}, fields=['*'])
 		total = 0
