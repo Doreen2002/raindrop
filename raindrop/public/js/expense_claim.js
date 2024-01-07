@@ -36,24 +36,10 @@ if (frm.doc.workflow_state == "Pending" && frm.doc.expense_approver != frappe.se
         })
         },
 
-    refresh(frm)
-    {
-        frappe.call({
-            method: 'raindrop.api.get_nepali_date',
-            args: {
-                date: frm.doc.posting_date
-            },
-            freeze: true,
-            callback: (r) => {
-                frm.doc.custom_nepali_date = r.message
-                frm.refresh_fields()
-            },
-            error: (r) => {
-                console.log(r)
-            }
-        })
-
-    },
+    // refresh(frm)
+    // {
+       
+    // },
       
 
     
