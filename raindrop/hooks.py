@@ -278,7 +278,7 @@ fixtures = [
         "filters": [
             [
                 "name", "in", [
-			"Journal Entry", "Sales Invoice", "Payment Entry", "Inventory", "Purchase receipt", "Purchase invoice", "Purchase Order", "Purchase Request"
+			"Journal Entry", "Sales Invoice", "Payment Entry", "Inventory", "Purchase Receipt", "Purchase invoice", "Purchase Order", "Purchase Request"
                 ]
             ]
         ]
@@ -289,8 +289,9 @@ fixtures = [
         "filters": [
             [
                 "name", "in", [
-                    "Purchase Order Pending", "Create Purchase Invoice", "Purchase Order", "Purchase Request", "Purchase Request Status", "Internal Requisition Status", "Internal Requesition", "Purchase Invoice",
-			"Purchase Invoice Status", "Purchase Receipt", "Purchase Order Status", "Inventory Transfer Status", "Inventry Transfer"
+                    "Employee Expense request Status", "Journal Entry Status", "Sales Invoice", "Sales Invoice Manager", "Journal Entry", "Inventory Transfer Status Initiator",
+			"Purchase Invoice Status", "Purchase Receipt Status", "Purchase Order Status", "Purchase Order Status", "Internal Requisition Status", "Create Purchase Receipt", 
+			"Transfer Materials", "Purchase Invoice", "Purchase Receipt", "Inventry Transfer", "Internal Requesition", "Purchase Request"
                 ]
             ]
         ]
