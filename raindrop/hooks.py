@@ -291,7 +291,8 @@ fixtures = [
                 "name", "in", [
                     "Employee Expense request Status", "Journal Entry Status", "Sales Invoice", "Sales Invoice Manager", "Journal Entry", "Inventory Transfer Status Initiator",
 			"Purchase Invoice Status", "Purchase Receipt Status", "Purchase Order Status", "Purchase Order Status", "Internal Requisition Status", "Create Purchase Receipt", 
-			"Transfer Materials", "Purchase Invoice", "Purchase Receipt", "Inventry Transfer", "Internal Requesition", "Purchase Request"
+			"Transfer Materials", "Purchase Invoice", "Purchase Receipt", "Inventry Transfer", "Internal Requesition", "Purchase Request", "Inventory Transfer Status",
+			"Create Purchase Invoice"
                 ]
             ]
         ]
