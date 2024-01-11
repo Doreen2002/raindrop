@@ -4,13 +4,27 @@
   "doctype": "Workflow",
   "document_type": "Journal Entry",
   "is_active": 1,
-  "modified": "2023-12-20 22:22:57.236566",
+  "modified": "2024-01-08 00:15:53.096764",
   "name": "Journal Entry",
   "override_status": 0,
   "send_email_alert": 0,
   "states": [
    {
-    "allow_edit": "Employee",
+    "allow_edit": "HPL Employee Center",
+    "avoid_status_override": 0,
+    "doc_status": "0",
+    "is_optional_state": 0,
+    "message": null,
+    "next_action_email_template": null,
+    "parent": "Journal Entry",
+    "parentfield": "states",
+    "parenttype": "Workflow",
+    "state": "Draft",
+    "update_field": null,
+    "update_value": null
+   },
+   {
+    "allow_edit": "Other Approvals",
     "avoid_status_override": 0,
     "doc_status": "0",
     "is_optional_state": 0,
@@ -24,7 +38,7 @@
     "update_value": null
    },
    {
-    "allow_edit": "Accounts Manager",
+    "allow_edit": "Other Approvals",
     "avoid_status_override": 0,
     "doc_status": "1",
     "is_optional_state": 0,
@@ -38,7 +52,7 @@
     "update_value": null
    },
    {
-    "allow_edit": "Accounts Manager",
+    "allow_edit": "Other Approvals",
     "avoid_status_override": 0,
     "doc_status": "0",
     "is_optional_state": 0,
@@ -54,9 +68,20 @@
   ],
   "transitions": [
    {
+    "action": "Send For Approval",
+    "allow_self_approval": 1,
+    "allowed": "HPL Employee Center",
+    "condition": null,
+    "next_state": "Pending",
+    "parent": "Journal Entry",
+    "parentfield": "transitions",
+    "parenttype": "Workflow",
+    "state": "Draft"
+   },
+   {
     "action": "Approve",
     "allow_self_approval": 1,
-    "allowed": "Accounts Manager",
+    "allowed": "Other Approvals",
     "condition": null,
     "next_state": "Approved",
     "parent": "Journal Entry",
@@ -67,7 +92,7 @@
    {
     "action": "Reject",
     "allow_self_approval": 1,
-    "allowed": "Accounts Manager",
+    "allowed": "Other Approvals",
     "condition": null,
     "next_state": "Rejected",
     "parent": "Journal Entry",
@@ -84,13 +109,27 @@
   "doctype": "Workflow",
   "document_type": "Sales Invoice",
   "is_active": 1,
-  "modified": "2023-12-20 22:22:57.383639",
+  "modified": "2024-01-08 00:58:19.570431",
   "name": "Sales Invoice",
   "override_status": 0,
   "send_email_alert": 0,
   "states": [
    {
-    "allow_edit": "Employee",
+    "allow_edit": "HPL Employee Center",
+    "avoid_status_override": 0,
+    "doc_status": "0",
+    "is_optional_state": 0,
+    "message": null,
+    "next_action_email_template": null,
+    "parent": "Sales Invoice",
+    "parentfield": "states",
+    "parenttype": "Workflow",
+    "state": "Draft",
+    "update_field": null,
+    "update_value": null
+   },
+   {
+    "allow_edit": "Other Approvals",
     "avoid_status_override": 0,
     "doc_status": "0",
     "is_optional_state": 0,
@@ -104,7 +143,7 @@
     "update_value": null
    },
    {
-    "allow_edit": "Accounts Manager",
+    "allow_edit": "Other Approvals",
     "avoid_status_override": 0,
     "doc_status": "1",
     "is_optional_state": 0,
@@ -118,7 +157,7 @@
     "update_value": null
    },
    {
-    "allow_edit": "Accounts Manager",
+    "allow_edit": "Other Approvals",
     "avoid_status_override": 0,
     "doc_status": "0",
     "is_optional_state": 0,
@@ -134,9 +173,20 @@
   ],
   "transitions": [
    {
+    "action": "Send For Approval",
+    "allow_self_approval": 1,
+    "allowed": "HPL Employee Center",
+    "condition": null,
+    "next_state": "Pending",
+    "parent": "Sales Invoice",
+    "parentfield": "transitions",
+    "parenttype": "Workflow",
+    "state": "Draft"
+   },
+   {
     "action": "Approve",
     "allow_self_approval": 1,
-    "allowed": "Accounts Manager",
+    "allowed": "Other Approvals",
     "condition": null,
     "next_state": "Approved",
     "parent": "Sales Invoice",
@@ -147,7 +197,7 @@
    {
     "action": "Reject",
     "allow_self_approval": 1,
-    "allowed": "Accounts Manager",
+    "allowed": "Other Approvals",
     "condition": null,
     "next_state": "Rejected",
     "parent": "Sales Invoice",
@@ -244,7 +294,7 @@
   "doctype": "Workflow",
   "document_type": "Material Request",
   "is_active": 1,
-  "modified": "2023-12-21 11:13:15.611907",
+  "modified": "2024-01-10 15:36:15.547445",
   "name": "Purchase Request",
   "override_status": 0,
   "send_email_alert": 0,
@@ -264,7 +314,7 @@
     "update_value": null
    },
    {
-    "allow_edit": "HPL Accountant Manager",
+    "allow_edit": "Other Approvals",
     "avoid_status_override": 0,
     "doc_status": "0",
     "is_optional_state": 0,
@@ -278,7 +328,7 @@
     "update_value": null
    },
    {
-    "allow_edit": "HPL Accountant Manager",
+    "allow_edit": "Other Approvals",
     "avoid_status_override": 0,
     "doc_status": "1",
     "is_optional_state": 0,
@@ -292,7 +342,7 @@
     "update_value": null
    },
    {
-    "allow_edit": "HPL Accountant Manager",
+    "allow_edit": "Other Approvals",
     "avoid_status_override": 0,
     "doc_status": "0",
     "is_optional_state": 0,
@@ -306,7 +356,7 @@
     "update_value": null
    },
    {
-    "allow_edit": "HPL Employee",
+    "allow_edit": "HPL Employee Center",
     "avoid_status_override": 0,
     "doc_status": "0",
     "is_optional_state": 0,
@@ -335,7 +385,7 @@
    {
     "action": "Send For Approval",
     "allow_self_approval": 1,
-    "allowed": "HPL Employee",
+    "allowed": "HPL Employee Center",
     "condition": "doc.material_request_type == \"Material Transfer\"",
     "next_state": "Pending",
     "parent": "Purchase Request",
@@ -346,7 +396,7 @@
    {
     "action": "Approve",
     "allow_self_approval": 1,
-    "allowed": "HPL Accountant Manager",
+    "allowed": "Other Approvals",
     "condition": "doc.material_request_type == \"Purchase\" or doc.material_request_type == \"Material Transfer\"",
     "next_state": "Approved",
     "parent": "Purchase Request",
@@ -357,7 +407,7 @@
    {
     "action": "Reject",
     "allow_self_approval": 1,
-    "allowed": "HPL Accountant Manager",
+    "allowed": "Other Approvals",
     "condition": "doc.material_request_type == \"Purchase\" or doc.material_request_type == \"Material Transfer\"",
     "next_state": "Rejected",
     "parent": "Purchase Request",
@@ -374,13 +424,13 @@
   "doctype": "Workflow",
   "document_type": "Purchase Order",
   "is_active": 1,
-  "modified": "2023-12-20 22:22:57.804746",
+  "modified": "2023-12-29 17:32:13.765085",
   "name": "Purchase Order",
   "override_status": 0,
   "send_email_alert": 0,
   "states": [
    {
-    "allow_edit": "HPL Inventory",
+    "allow_edit": "HPL Purchasing (Lite)",
     "avoid_status_override": 0,
     "doc_status": "0",
     "is_optional_state": 0,
@@ -394,7 +444,7 @@
     "update_value": null
    },
    {
-    "allow_edit": "HPL Accountant Manager",
+    "allow_edit": "Other Approvals",
     "avoid_status_override": 0,
     "doc_status": "0",
     "is_optional_state": 0,
@@ -404,20 +454,48 @@
     "parentfield": "states",
     "parenttype": "Workflow",
     "state": "Pending",
-    "update_field": null,
-    "update_value": null
+    "update_field": "",
+    "update_value": ""
    },
    {
-    "allow_edit": "HPL Accountant Manager",
+    "allow_edit": "Other Approvals",
     "avoid_status_override": 0,
-    "doc_status": "1",
+    "doc_status": "0",
     "is_optional_state": 0,
     "message": null,
     "next_action_email_template": null,
     "parent": "Purchase Order",
     "parentfield": "states",
     "parenttype": "Workflow",
-    "state": "Approved",
+    "state": "Pending Approval",
+    "update_field": null,
+    "update_value": null
+   },
+   {
+    "allow_edit": "Other Approvals",
+    "avoid_status_override": 0,
+    "doc_status": "0",
+    "is_optional_state": 0,
+    "message": null,
+    "next_action_email_template": null,
+    "parent": "Purchase Order",
+    "parentfield": "states",
+    "parenttype": "Workflow",
+    "state": "Partially Approved",
+    "update_field": null,
+    "update_value": null
+   },
+   {
+    "allow_edit": "Other Approvals",
+    "avoid_status_override": 0,
+    "doc_status": "0",
+    "is_optional_state": 0,
+    "message": null,
+    "next_action_email_template": null,
+    "parent": "Purchase Order",
+    "parentfield": "states",
+    "parenttype": "Workflow",
+    "state": "Awaiting Approval",
     "update_field": null,
     "update_value": null
    },
@@ -436,7 +514,35 @@
     "update_value": null
    },
    {
-    "allow_edit": "HPL Accountant Manager",
+    "allow_edit": "Other Approvals",
+    "avoid_status_override": 0,
+    "doc_status": "1",
+    "is_optional_state": 0,
+    "message": null,
+    "next_action_email_template": null,
+    "parent": "Purchase Order",
+    "parentfield": "states",
+    "parenttype": "Workflow",
+    "state": "Approved",
+    "update_field": null,
+    "update_value": null
+   },
+   {
+    "allow_edit": "General Manager",
+    "avoid_status_override": 0,
+    "doc_status": "1",
+    "is_optional_state": 0,
+    "message": null,
+    "next_action_email_template": null,
+    "parent": "Purchase Order",
+    "parentfield": "states",
+    "parenttype": "Workflow",
+    "state": "Approved",
+    "update_field": null,
+    "update_value": null
+   },
+   {
+    "allow_edit": "Other Approvals",
     "avoid_status_override": 0,
     "doc_status": "0",
     "is_optional_state": 0,
@@ -446,34 +552,6 @@
     "parentfield": "states",
     "parenttype": "Workflow",
     "state": "Rejected",
-    "update_field": null,
-    "update_value": null
-   },
-   {
-    "allow_edit": "General Manager",
-    "avoid_status_override": 0,
-    "doc_status": "0",
-    "is_optional_state": 0,
-    "message": null,
-    "next_action_email_template": null,
-    "parent": "Purchase Order",
-    "parentfield": "states",
-    "parenttype": "Workflow",
-    "state": "Pending",
-    "update_field": null,
-    "update_value": null
-   },
-   {
-    "allow_edit": "General Manager",
-    "avoid_status_override": 0,
-    "doc_status": "0",
-    "is_optional_state": 0,
-    "message": null,
-    "next_action_email_template": null,
-    "parent": "Purchase Order",
-    "parentfield": "states",
-    "parenttype": "Workflow",
-    "state": "Approved",
     "update_field": null,
     "update_value": null
    },
@@ -496,7 +574,7 @@
    {
     "action": "Send For Approval",
     "allow_self_approval": 1,
-    "allowed": "HPL Inventory",
+    "allowed": "HPL Purchasing (Lite)",
     "condition": null,
     "next_state": "Pending",
     "parent": "Purchase Order",
@@ -507,8 +585,8 @@
    {
     "action": "Approve",
     "allow_self_approval": 1,
-    "allowed": "HPL Accountant Manager",
-    "condition": null,
+    "allowed": "Other Approvals",
+    "condition": "",
     "next_state": "Approved",
     "parent": "Purchase Order",
     "parentfield": "transitions",
@@ -518,8 +596,8 @@
    {
     "action": "Reject",
     "allow_self_approval": 1,
-    "allowed": "HPL Accountant Manager",
-    "condition": null,
+    "allowed": "Other Approvals",
+    "condition": "",
     "next_state": "Rejected",
     "parent": "Purchase Order",
     "parentfield": "transitions",
@@ -529,13 +607,112 @@
    {
     "action": "Recommend",
     "allow_self_approval": 1,
-    "allowed": "HPL Accountant Manager",
-    "condition": null,
-    "next_state": "Recommended",
+    "allowed": "Other Approvals",
+    "condition": "",
+    "next_state": "Pending Approval",
     "parent": "Purchase Order",
     "parentfield": "transitions",
     "parenttype": "Workflow",
     "state": "Pending"
+   },
+   {
+    "action": "Recommend",
+    "allow_self_approval": 1,
+    "allowed": "Other Approvals",
+    "condition": "",
+    "next_state": "Partially Approved",
+    "parent": "Purchase Order",
+    "parentfield": "transitions",
+    "parenttype": "Workflow",
+    "state": "Pending Approval"
+   },
+   {
+    "action": "Approve",
+    "allow_self_approval": 1,
+    "allowed": "Other Approvals",
+    "condition": "",
+    "next_state": "Approved",
+    "parent": "Purchase Order",
+    "parentfield": "transitions",
+    "parenttype": "Workflow",
+    "state": "Pending Approval"
+   },
+   {
+    "action": "Reject",
+    "allow_self_approval": 1,
+    "allowed": "Other Approvals",
+    "condition": "",
+    "next_state": "Rejected",
+    "parent": "Purchase Order",
+    "parentfield": "transitions",
+    "parenttype": "Workflow",
+    "state": "Pending Approval"
+   },
+   {
+    "action": "Recommend",
+    "allow_self_approval": 1,
+    "allowed": "Other Approvals",
+    "condition": "",
+    "next_state": "Awaiting Approval",
+    "parent": "Purchase Order",
+    "parentfield": "transitions",
+    "parenttype": "Workflow",
+    "state": "Partially Approved"
+   },
+   {
+    "action": "Approve",
+    "allow_self_approval": 1,
+    "allowed": "Other Approvals",
+    "condition": "",
+    "next_state": "Approved",
+    "parent": "Purchase Order",
+    "parentfield": "transitions",
+    "parenttype": "Workflow",
+    "state": "Partially Approved"
+   },
+   {
+    "action": "Reject",
+    "allow_self_approval": 1,
+    "allowed": "Other Approvals",
+    "condition": "",
+    "next_state": "Rejected",
+    "parent": "Purchase Order",
+    "parentfield": "transitions",
+    "parenttype": "Workflow",
+    "state": "Partially Approved"
+   },
+   {
+    "action": "Recommend",
+    "allow_self_approval": 1,
+    "allowed": "Other Approvals",
+    "condition": "",
+    "next_state": "Recommended",
+    "parent": "Purchase Order",
+    "parentfield": "transitions",
+    "parenttype": "Workflow",
+    "state": "Awaiting Approval"
+   },
+   {
+    "action": "Approve",
+    "allow_self_approval": 1,
+    "allowed": "Other Approvals",
+    "condition": null,
+    "next_state": "Approved",
+    "parent": "Purchase Order",
+    "parentfield": "transitions",
+    "parenttype": "Workflow",
+    "state": "Awaiting Approval"
+   },
+   {
+    "action": "Reject",
+    "allow_self_approval": 1,
+    "allowed": "Other Approvals",
+    "condition": "",
+    "next_state": "Rejected",
+    "parent": "Purchase Order",
+    "parentfield": "transitions",
+    "parenttype": "Workflow",
+    "state": "Awaiting Approval"
    },
    {
     "action": "Approve",
@@ -568,7 +745,7 @@
   "doctype": "Workflow",
   "document_type": "Stock Entry",
   "is_active": 1,
-  "modified": "2023-12-20 22:22:57.578094",
+  "modified": "2024-01-11 00:12:27.794833",
   "name": "Inventory",
   "override_status": 0,
   "send_email_alert": 0,
@@ -588,7 +765,7 @@
     "update_value": null
    },
    {
-    "allow_edit": "HPL Accountant Manager",
+    "allow_edit": "Other Approvals",
     "avoid_status_override": 0,
     "doc_status": "0",
     "is_optional_state": 0,
@@ -602,9 +779,9 @@
     "update_value": null
    },
    {
-    "allow_edit": "HPL Accountant Manager",
+    "allow_edit": "Other Approvals",
     "avoid_status_override": 0,
-    "doc_status": "0",
+    "doc_status": "1",
     "is_optional_state": 0,
     "message": null,
     "next_action_email_template": null,
@@ -616,7 +793,7 @@
     "update_value": null
    },
    {
-    "allow_edit": "HPL Accountant Manager",
+    "allow_edit": "Other Approvals",
     "avoid_status_override": 0,
     "doc_status": "0",
     "is_optional_state": 0,
@@ -645,7 +822,7 @@
    {
     "action": "Approve",
     "allow_self_approval": 1,
-    "allowed": "HPL Accountant Manager",
+    "allowed": "Other Approvals",
     "condition": "",
     "next_state": "Approved",
     "parent": "Inventory",
@@ -656,7 +833,7 @@
    {
     "action": "Reject",
     "allow_self_approval": 1,
-    "allowed": "HPL Accountant Manager",
+    "allowed": "Other Approvals",
     "condition": "",
     "next_state": "Rejected",
     "parent": "Inventory",
@@ -673,7 +850,7 @@
   "doctype": "Workflow",
   "document_type": "Purchase Receipt",
   "is_active": 1,
-  "modified": "2023-12-21 10:53:04.995468",
+  "modified": "2023-12-28 13:44:53.674167",
   "name": "Purchase receipt",
   "override_status": 0,
   "send_email_alert": 0,
@@ -693,7 +870,7 @@
     "update_value": null
    },
    {
-    "allow_edit": "HPL Accountant Manager",
+    "allow_edit": "Other Approvals",
     "avoid_status_override": 0,
     "doc_status": "0",
     "is_optional_state": 0,
@@ -707,7 +884,7 @@
     "update_value": null
    },
    {
-    "allow_edit": "HPL Accountant Manager",
+    "allow_edit": "Other Approvals",
     "avoid_status_override": 0,
     "doc_status": "1",
     "is_optional_state": 0,
@@ -721,7 +898,7 @@
     "update_value": null
    },
    {
-    "allow_edit": "HPL Accountant Manager",
+    "allow_edit": "Other Approvals",
     "avoid_status_override": 0,
     "doc_status": "0",
     "is_optional_state": 0,
@@ -750,7 +927,7 @@
    {
     "action": "Approve",
     "allow_self_approval": 1,
-    "allowed": "HPL Accountant Manager",
+    "allowed": "Other Approvals",
     "condition": "",
     "next_state": "Approved",
     "parent": "Purchase receipt",
@@ -761,7 +938,7 @@
    {
     "action": "Reject",
     "allow_self_approval": 1,
-    "allowed": "HPL Accountant Manager",
+    "allowed": "Other Approvals",
     "condition": null,
     "next_state": "Rejected",
     "parent": "Purchase receipt",
@@ -778,13 +955,13 @@
   "doctype": "Workflow",
   "document_type": "Purchase Invoice",
   "is_active": 1,
-  "modified": "2023-12-20 22:22:57.724027",
+  "modified": "2023-12-28 13:43:48.406890",
   "name": "Purchase invoice",
   "override_status": 0,
   "send_email_alert": 0,
   "states": [
    {
-    "allow_edit": "HPL Employee",
+    "allow_edit": "HPL Employee Center",
     "avoid_status_override": 0,
     "doc_status": "0",
     "is_optional_state": 0,
@@ -798,7 +975,7 @@
     "update_value": null
    },
    {
-    "allow_edit": "HPL Accountant Manager",
+    "allow_edit": "Other Approvals",
     "avoid_status_override": 0,
     "doc_status": "0",
     "is_optional_state": 0,
@@ -812,7 +989,7 @@
     "update_value": null
    },
    {
-    "allow_edit": "HPL Accountant Manager",
+    "allow_edit": "Other Approvals",
     "avoid_status_override": 0,
     "doc_status": "1",
     "is_optional_state": 0,
@@ -826,7 +1003,7 @@
     "update_value": null
    },
    {
-    "allow_edit": "HPL Accountant Manager",
+    "allow_edit": "Other Approvals",
     "avoid_status_override": 0,
     "doc_status": "0",
     "is_optional_state": 0,
@@ -844,7 +1021,7 @@
    {
     "action": "Send For Approval",
     "allow_self_approval": 1,
-    "allowed": "HPL Employee",
+    "allowed": "HPL Employee Center",
     "condition": null,
     "next_state": "Pending",
     "parent": "Purchase invoice",
@@ -855,7 +1032,7 @@
    {
     "action": "Approve",
     "allow_self_approval": 1,
-    "allowed": "HPL Accountant Manager",
+    "allowed": "Other Approvals",
     "condition": null,
     "next_state": "Approved",
     "parent": "Purchase invoice",
@@ -866,7 +1043,7 @@
    {
     "action": "Reject",
     "allow_self_approval": 1,
-    "allowed": "HPL Accountant Manager",
+    "allowed": "Other Approvals",
     "condition": null,
     "next_state": "Rejected",
     "parent": "Purchase invoice",
