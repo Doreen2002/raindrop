@@ -177,7 +177,7 @@ if (frm.doc.workflow_state == "Pending" && frm.doc.custom_purchase_approver__id 
                     items = frm.doc.items;
                 }
 
-                mr.stock_entry_type = "Material Transfer";
+                mr.stock_entry_type = "Material Issue";
                 mr.custom_email_initiator = frm.doc.owner;
                 frappe.call({
 	            method: 'raindrop.custom_code.internal_transfer.add_approver',
