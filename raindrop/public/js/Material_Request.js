@@ -171,7 +171,7 @@ if (frm.doc.workflow_state == "Pending" && frm.doc.custom_purchase_approver__id 
         }
         if (cur_frm.doc.material_request_type == "Material Transfer" && frappe.user.has_role('HPL Inventory') && cur_frm.doc.workflow_state == "Approved")
         {
-            frm.add_custom_button(__("Transfer Material"), function() {
+            frm.add_custom_button(__("Issue Material"), function() {
             frappe.model.with_doctype('Stock Entry', function() {
                 var mr = frappe.model.get_new_doc('Stock Entry');
                 var items = frm.get_field('items').grid.get_selected_children();
@@ -181,6 +181,7 @@ if (frm.doc.workflow_state == "Pending" && frm.doc.custom_purchase_approver__id 
 
                 mr.stock_entry_type = "Material Issue";
                 mr.custom_email_initiator = frm.doc.owner;
+		mr.custom_cost_center = frm.doc.custom_cost_center
                 frappe.call({
 	            method: 'raindrop.custom_code.internal_transfer.add_approver',
 	            args: {
