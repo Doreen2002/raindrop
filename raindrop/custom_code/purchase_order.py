@@ -26,7 +26,8 @@ def on_update(doc, method):
     
 
 @frappe.whitelist()
-def add_approver(owner):
-    purchase_approver = frappe.db.get_value("Employee", {"user_id":owner}, "custom_purchase_approver_id")
+def add_approver(owner, cost_center):
+    employee = frappe.db.get_value("Employee", {"user_id":owner}, "name")
+    purchase_approver = frappe.db.get_value("Employee Cost Center Manager", {"parent":employee, "cost_center":cost_center}, "supervisor")
     if purchase_approver != '' or purchase_approver != None:
         return purchase_approver
