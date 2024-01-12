@@ -1,7 +1,7 @@
 from erpnext.stock.doctype.stock_entry.stock_entry import StockEntry
 import frappe
 def on_save(doc, method):
-    if doc.stock_entry_type == "Material Transfer":
+    if doc.stock_entry_type == "Material Issue":
         StockEntry.on_submit(doc)
 def on_update(doc, method):
     #get logged emloyee ID
