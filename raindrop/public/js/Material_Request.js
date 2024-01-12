@@ -132,7 +132,8 @@ if (frm.doc.workflow_state == "Pending" && frm.doc.custom_purchase_approver__id 
 		frappe.call({
 	            method: 'raindrop.custom_code.internal_transfer.add_approver',
 	            args: {
-	                owner: frm.doc.owner
+	                owner: frm.doc.owner,
+			custom_cost_center: frm.doc.custom_cost_center
 	            },
 	            freeze: true,
 	            callback: (r) => {
@@ -185,7 +186,8 @@ if (frm.doc.workflow_state == "Pending" && frm.doc.custom_purchase_approver__id 
                 frappe.call({
 	            method: 'raindrop.custom_code.internal_transfer.add_approver',
 	            args: {
-	                owner: frm.doc.owner
+	                owner: frm.doc.owner,
+			custom_cost_center: frm.doc.custom_cost_center
 	            },
 	            freeze: true,
 	            callback: (r) => {
