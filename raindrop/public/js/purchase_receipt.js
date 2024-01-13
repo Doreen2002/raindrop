@@ -15,7 +15,8 @@ onload_post_render: function(frm){
            frappe.call({
             method: 'raindrop.custom_code.purchase_receipt.add_approver',
             args: {
-                owner: frm.doc.owner
+                owner: frm.doc.owner,
+                custom_cost_center: frm.doc.cost_center
             },
             freeze: true,
             callback: (r) => {
