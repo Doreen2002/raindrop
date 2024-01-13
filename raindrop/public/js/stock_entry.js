@@ -57,6 +57,7 @@ before_save(frm)
 		mr.custom_internal_requisition_manager = frm.doc.custom_internal_requisition_manager;
 		mr.material_request_type = "Purchase"
 		mr.custom_cost_center = frm.doc.custom_cost_center
+		mr.custom_purpose = frm.doc.purpose
                 items.forEach(function(item) {
                     var mr_item = frappe.model.add_child(mr, 'items');
                     mr_item.item_code = item.item_code;
