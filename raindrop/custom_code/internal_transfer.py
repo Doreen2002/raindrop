@@ -20,7 +20,7 @@ def add_approver(owner, custom_cost_center):
 
 @frappe.whitelist()
 def get_approver(owner):
-    approver_list
+    approver_list = []
     employee = frappe.db.get_value("Employee", {"user_id":owner}, "name")
     approvers = frappe.db.get_all("Employee Cost Center Manager", filters={"parent":employee}, fields=['*'])
     if approvers == []:
