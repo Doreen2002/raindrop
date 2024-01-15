@@ -60,6 +60,38 @@ if (frm.doc.workflow_state == "Pending" && frm.doc.custom_purchase_approver__id 
         },
     refresh(frm)
     {
+
+	if(frm.is_new)
+	{
+		frappe.call({
+            method: 'raindrop.custom_code.internal_transfer.get_approver',
+            args: {
+                owner: frm.doc.transaction_date,
+		
+            },
+            freeze: true,
+            callback: (r) => {
+                if(r.message.length > 1)
+		{
+		frm.set_query('custom_cost_center', () => {
+                return {
+                    filters: {
+                        name: ['in', r.message]
+                    }
+                }
+            })
+		}
+		 if(r.message.length == 1)   
+		 {
+			frm.doc.custom_cost_center = r.message[0]
+			 frm.refresh_fields()
+		 }
+            },
+            error: (r) => {
+                console.log(r)
+            }
+        })
+	}
 	if ( cur_frm.doc.__unsaved != 1)
 	{
 	cur_frm.set_df_property('custom_purchase_order_person', 'hidden', 1);
