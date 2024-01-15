@@ -71,6 +71,7 @@ if (frm.doc.workflow_state == "Pending" && frm.doc.custom_purchase_approver__id 
             },
             freeze: true,
             callback: (r) => {
+		console.log(r.message)
                 if(r.message.length > 1)
 		{
 		frm.set_query('custom_cost_center', () => {
