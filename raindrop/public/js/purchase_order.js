@@ -72,6 +72,39 @@ onload_post_render: function(frm){
 	// 	},
     refresh(frm)
     {
+	    //cost center code
+	    if(frm.is_new)
+	{
+		frappe.call({
+            method: 'raindrop.custom_code.purchase_order.get_approver',
+            args: {
+                owner: frm.doc.owner,
+		
+            },
+            freeze: true,
+            callback: (r) => {
+		console.log(r.message)
+                if(r.message.length > 1)
+		{
+		frm.set_query('cost_center', () => {
+                return {
+                    filters: {
+                        name: ['in', r.message]
+                    }
+                }
+            })
+		}
+		 if(r.message.length == 1)   
+		 {
+			frm.doc.custom_cost_center = r.message[0]
+			 frm.refresh_fields()
+		 }
+            },
+            error: (r) => {
+                console.log(r)
+            }
+        })
+	}
 	  
         $("button:contains('Get Items From')").hide();
         $("button:contains('Tools')").hide();
