@@ -66,7 +66,7 @@ if (frm.doc.workflow_state == "Pending" && frm.doc.custom_purchase_approver__id 
 		frappe.call({
             method: 'raindrop.custom_code.internal_transfer.get_approver',
             args: {
-                owner: frm.doc.transaction_date,
+                owner: frm.doc.owner,
 		
             },
             freeze: true,
