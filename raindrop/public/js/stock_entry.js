@@ -20,6 +20,38 @@ before_save(frm)
 	},
     refresh(frm)
     {
+	    if(frm.is_new)
+	{
+		frappe.call({
+            method: 'raindrop.custom_code.stock_entry.get_approver',
+            args: {
+                owner: frm.doc.owner,
+		
+            },
+            freeze: true,
+            callback: (r) => {
+		console.log(r.message)
+                if(r.message.length > 1)
+		{
+		frm.set_query('custom_cost_center', () => {
+                return {
+                    filters: {
+                        name: ['in', r.message]
+                    }
+                }
+            })
+		}
+		 if(r.message.length == 1)   
+		 {
+			frm.doc.custom_cost_center = r.message[0]
+			 frm.refresh_fields()
+		 }
+            },
+            error: (r) => {
+                console.log(r)
+            }
+        })
+	}
 	    
         cur_frm.set_df_property('custom_purchase_approver__id', 'read_only', 1)
         cur_frm.set_df_property('custom_purchase_approver__id', 'hidden', 1)
