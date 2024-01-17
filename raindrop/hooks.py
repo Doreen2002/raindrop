@@ -126,11 +126,11 @@ doctype_js = {"Material Request" : "public/js/Material_Request.js","Stock Entry"
 # Hook on document methods and events
 
 doc_events = {
-	# "Purchase Invoice": {
-	# 	"on_submit": "raindrop.custom_code.purchase_invoice.on_submit",
-	# 	# "on_cancel": "method",
-	# 	# "on_trash": "method"
-	# },
+	 "Purchase Invoice": {
+		"on_submit": "raindrop.custom_code.purchase_invoice.on_submit",
+	 	# "on_cancel": "method",
+	 	# "on_trash": "method"
+	 },
     "Material Request": {
 		"on_update": "raindrop.custom_code.internal_transfer.on_update"
 		# "on_cancel": "method",
