@@ -6,7 +6,8 @@ def on_submit(doc, method):
     
     for tax in doc.taxes:
         for item_val in doc.items:
-            items.append(
+            if add_deduct_tax == "Deduct":
+                items.append(
                         {
                         'party_type': 'Supplier',
                         'party': doc.supplier,
@@ -32,6 +33,7 @@ def on_submit(doc, method):
                         'reference_name':doc.name
                         }
                     )
+            
     journal = frappe.new_doc('Journal Entry')
     journal.posting_date = doc.posting_date
     journal.multi_currency = 1
