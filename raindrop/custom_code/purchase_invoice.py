@@ -14,7 +14,9 @@ def on_submit(doc, method):
                         'debit_in_account_currency': item_val.base_net_amount * tax.rate/100,
                         'credit_in_account_currency':0,
                         'cost_center':doc.cost_center,
-                        'account_currency': doc.currency
+                        'account_currency': doc.currency,
+                        'reference_type':"Purchase Invoice",
+                        'reference_name':doc.name
                         }
                     )
             items.append(
@@ -25,7 +27,9 @@ def on_submit(doc, method):
                         'debit_in_account_currency':0,
                         'credit_in_account_currency':item_val.base_net_amount * tax.rate/100,
                         'cost_center':doc.cost_center,
-                        'account_currency': doc.currency
+                        'account_currency': doc.currency,
+                        'reference_type':"Purchase Invoice",
+                        'reference_name':doc.name
                         }
                     )
     journal = frappe.new_doc('Journal Entry')
