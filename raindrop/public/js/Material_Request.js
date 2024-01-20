@@ -163,6 +163,7 @@ if (frm.doc.workflow_state == "Pending" && frm.doc.custom_purchase_approver__id 
                 mr.work_order = frm.doc.work_order;
                 mr.custom_email_initiator = frm.doc.custom_email_initiator_;
 		mr.custom_purpose = frm.doc.custom_purpose
+		mr.cost_center = frm.doc.custom_cost_center;
 		frappe.call({
 	            method: 'raindrop.custom_code.internal_transfer.add_approver',
 	            args: {
