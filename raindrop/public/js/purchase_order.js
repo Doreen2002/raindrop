@@ -96,7 +96,7 @@ onload_post_render: function(frm){
 		}
 		 if(r.message.length == 1)   
 		 {
-			frm.doc.custom_cost_center = r.message[0]
+			frm.doc.cost_center = r.message[0]
 			 frm.refresh_fields()
 		 }
             },
