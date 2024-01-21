@@ -2,6 +2,7 @@ import frappe
 from frappe.utils import today
 from frappe.utils import cint, cstr, flt, get_link_to_form, getdate, new_line_sep, nowdate
 from frappe import _, msgprint
+from frappe.query_builder.functions import Sum
 
 def get_mr_items_ordered_qty(doc, mr_items):
     mr_items_ordered_qty = {}
