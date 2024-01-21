@@ -2,7 +2,7 @@ import frappe
 from frappe.utils import today
 from frappe.utils import cint, cstr, flt, get_link_to_form, getdate, new_line_sep, nowdate
 from frappe import _, msgprint
-from erpnext.erpnext.stock.doctype.material_request.material_request import get_mr_items_ordered_qty
+from erpnext.stock.doctype.material_request.material_request import get_mr_items_ordered_qty
 
 def update_completed_qty(doc, method):
     mr_items = None
