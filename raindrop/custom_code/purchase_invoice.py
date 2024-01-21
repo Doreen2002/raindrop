@@ -10,7 +10,7 @@ def on_submit(doc, method):
                 items.append(
                         {
                         'account': item_val.expense_account,
-                        'debit_in_account_currency': item_val.base_net_amount * tax.rate/100,
+                        'debit_in_account_currency': item_val.base_amount * 13/100,
                         'credit_in_account_currency':0,
                         'cost_center':doc.cost_center,
                         'account_currency': doc.currency
@@ -20,7 +20,7 @@ def on_submit(doc, method):
                         {
                         'account': tax.account_head,
                         'debit_in_account_currency':0,
-                        'credit_in_account_currency':item_val.base_net_amount * tax.rate/100,
+                        'credit_in_account_currency':item_val.base_amount * 13/100,
                         'cost_center':doc.cost_center,
                         'account_currency': doc.currency,
                         }
