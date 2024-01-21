@@ -6,7 +6,7 @@ def on_submit(doc, method):
     
     for tax in doc.taxes:
         for item_val in doc.items:
-            if tax.add_deduct_tax == "Deduct":
+            if tax.add_deduct_tax == "Deduct" or tax.add_deduct_tax == "Add":
                 items.append(
                         {
                         'party_type': 'Supplier',
