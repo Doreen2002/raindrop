@@ -248,6 +248,8 @@ if (frm.doc.workflow_state == "Pending" && frm.doc.custom_purchase_approver__id 
                     mr_item.transfer_qty = item.qty
                     mr_item.basic_rate = item.rate
                     mr_item.t_warehouse = item.warehouse;
+		    mr_item.material_request = frm.doc.name;
+		   mr_item.material_request_item = item.item_code;
                
                    
                 });
