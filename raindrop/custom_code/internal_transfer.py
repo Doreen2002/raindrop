@@ -4,7 +4,7 @@ from frappe.utils import today
 
 def update_completed_qty(doc, method):
     mr_items = None
-    if self.material_request_type == 'Purchase':
+    if doc.material_request_type == 'Purchase':
         return
 
     if not mr_items:
