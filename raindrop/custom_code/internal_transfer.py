@@ -3,16 +3,16 @@ from frappe.utils import today
 from frappe.utils import cint, cstr, flt, get_link_to_form, getdate, new_line_sep, nowdate
 from frappe import _, msgprint
 
-def get_mr_items_ordered_qty(self, mr_items):
+def get_mr_items_ordered_qty(doc, mr_items):
     mr_items_ordered_qty = {}
-    mr_items = [d.name for d in self.get('items') if d.name in mr_items]
+    mr_items = [d.name for d in doc.get('items') if d.name in mr_items]
 
     doctype = qty_field = None
     if self.material_request_type in ('Material Issue',
             'Material Transfer', 'Customer Provided'):
         doctype = frappe.qb.DocType('Stock Entry Detail')
         qty_field = doctype.transfer_qty
-    elif self.material_request_type == 'Manufacture':
+    elif doc.material_request_type == 'Manufacture':
         doctype = frappe.qb.DocType('Work Order')
         qty_field = doctype.qty
 
@@ -39,7 +39,7 @@ def update_completed_qty(doc, method):
     if not mr_items:
         mr_items = [d.name for d in doc.items]
 
-    mr_items_ordered_qty = doc.get_mr_items_ordered_qty(mr_items)
+    mr_items_ordered_qty = get_mr_items_ordered_qty(frappe.get_doc("Material Request", doc.items[0].material_request), mr_items)
     mr_qty_allowance = frappe.db.get_single_value('Stock Settings',
             'mr_qty_allowance')
 
