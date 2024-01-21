@@ -22,8 +22,6 @@ def on_submit(doc, method):
                     )
             items.append(
                         {
-                        'party_type': 'Supplier',
-                        'party': doc.supplier,
                         'account': tax.account_head,
                         'debit_in_account_currency':0,
                         'credit_in_account_currency':item_val.base_net_amount * tax.rate/100,
