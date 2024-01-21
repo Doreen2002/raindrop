@@ -39,7 +39,7 @@ def update_completed_qty(doc, method):
     if not mr_items:
         mr_items = [d.name for d in doc.items]
 
-    mr_items_ordered_qty = get_mr_items_ordered_qty(frappe.get_doc("Material Request", doc.parent), mr_items)
+    mr_items_ordered_qty = get_mr_items_ordered_qty(frappe.get_doc("Material Request", doc.name), mr_items)
     mr_qty_allowance = frappe.db.get_single_value('Stock Settings',
             'mr_qty_allowance')
 
