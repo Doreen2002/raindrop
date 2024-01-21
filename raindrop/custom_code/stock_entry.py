@@ -1,19 +1,22 @@
 from erpnext.stock.doctype.stock_entry.stock_entry import StockEntry
 import frappe
 from frappe import _
-from erpnext.stock.stock_ledger import NegativeStockError, get_previous_sle, get_valuation_rate
-from erpnext.stock.stock_ledger import NegativeStockError, get_previous_sle, get_valuation_rate
-from frappe.utils import (
-	cint,
-	comma_or,
-	cstr,
-	flt,
-	format_time,
-	formatdate,
-	getdate,
-	month_diff,
-	nowdate,
-)
+
+def validate(doc, method): 
+	total_transfered = 0
+	stock_transfer
+	for item in doc.items:
+		stock = frappe.db.get_all("Stock Entry Detail", filters = {"material_request_item": item.material_request_item}, fields=['*']
+		for s in stock:
+			total_transfered += s.qty
+		total_transfered += item.qty
+		mr = frappe.db.get_value("Material Request Item", item.material_request_item, 'qty')
+		if total_transfered > frappe.db.get_value("Material Request Item", item.material_request_item, 'qty'):
+			frappe.throw(f"{ Cannot Transfer {total_transfered} more than requested {mr} for Item {item.name})
+		
+															  
+		
+
 def on_save(doc, method):
     if doc.stock_entry_type == 'Material Issue':
         from erpnext.stock.stock_ledger import is_negative_stock_allowed
