@@ -21,7 +21,8 @@ def validate(doc, method):
 		stock = frappe.db.get_all("Stock Entry Detail", filters = {"material_request_item": item.material_request_item}, fields=['*'])
 		for s in stock:
 			total_transfered += s.qty
-		total_transfered += item.qty
+		if doc.__unsaved == 1:
+			total_transfered += item.qty
 		mr = frappe.db.get_value("Material Request Item", item.material_request_item, 'qty')
 		if total_transfered > frappe.db.get_value("Material Request Item", item.material_request_item, 'qty'):
 			frappe.throw(f"Cannot Transfer {total_transfered} more than requested {mr} for Item {item.item_name}")
