@@ -14,47 +14,40 @@ from frappe.utils import (
 	nowdate,
 )
 def on_save(doc, method):
-    if doc.stock_entry_type == "Material Issue":
-	    from erpnext.stock.stock_ledger import is_negative_stock_allowed
-	    for d in doc.items:
-		allow_negative_stock = is_negative_stock_allowed(item_code=d.item_code)
-		previous_sle = get_previous_sle(
-			{
-				"item_code": d.item_code,
-				"warehouse": d.s_warehouse or d.t_warehouse,
-				"posting_date": doc.ng_da,
-				"posting_time": doc.ng_ti,
-			}
-		)
-		
-		# get actual stock at source warehouse
-		d.actual_qty = previous_sle.get("qty_after_transaction") or 0
-		
-		# validate qty during submit
-		if (
-			
-			d.s_warehouse
-			and not allow_negative_stock
-			and flt(d.actual_qty, d.precision("actual_qty"))
-			< flt(d.transfer_qty, d.precision("actual_qty"))
-		):
-			frappe.throw(
-				_(
-					"Row {0}: Quantity not available for {4} in warehouse {1} at posting time of the entry ({2} {3})"
-				).format(
-					d.idx,
-					frappe.bold(d.s_warehouse),
-					formatdate(self.posting_date),
-					format_time(self.posting_time),
-					frappe.bold(d.item_code),
-				)
-				+ "<br><br>"
-				+ _("Available quantity is {0}, you need {1}").format(
-					frappe.bold(flt(d.actual_qty, d.precision("actual_qty"))), frappe.bold(d.transfer_qty)
-				),
-				NegativeStockError,
-				title=_("Insufficient Stock"),
-			)
+    if doc.stock_entry_type == 'Material Issue':
+        from erpnext.stock.stock_ledger import is_negative_stock_allowed
+        for d in doc.items:
+            allow_negative_stock = \
+                is_negative_stock_allowed(item_code=d.item_code)
+            previous_sle = get_previous_sle({
+                'item_code': d.item_code,
+                'warehouse': d.s_warehouse or d.t_warehouse,
+                'posting_date': doc.ng_da,
+                'posting_time': doc.ng_ti,
+                })
+
+        # get actual stock at source warehouse
+
+            d.actual_qty = previous_sle.get('qty_after_transaction') \
+                or 0
+
+        # validate qty during submit
+
+            if d.s_warehouse and not allow_negative_stock \
+                and flt(d.actual_qty, d.precision('actual_qty')) \
+                < flt(d.transfer_qty, d.precision('actual_qty')):
+                frappe.throw(_('Row {0}: Quantity not available for {4} in warehouse {1} at posting time of the entry ({2} {3})'
+                             ).format(d.idx,
+                             frappe.bold(d.s_warehouse),
+                             formatdate(self.posting_date),
+                             format_time(self.posting_time),
+                             frappe.bold(d.item_code)) + '<br><br>'
+                             + _('Available quantity is {0}, you need {1}'
+                             ).format(frappe.bold(flt(d.actual_qty,
+                             d.precision('actual_qty'))),
+                             frappe.bold(d.transfer_qty)),
+                             NegativeStockError,
+                             title=_('Insufficient Stock'))
 def on_update(doc, method):
     #get logged emloyee ID
     employee = frappe.db.get_value("Employee", {"user_id":doc.owner}, "name")
