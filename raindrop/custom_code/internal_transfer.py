@@ -2,7 +2,33 @@ import frappe
 from frappe.utils import today
 from frappe.utils import cint, cstr, flt, get_link_to_form, getdate, new_line_sep, nowdate
 from frappe import _, msgprint
-from erpnext.stock.doctype.material_request.material_request import get_mr_items_ordered_qty
+
+def get_mr_items_ordered_qty(self, mr_items):
+    mr_items_ordered_qty = {}
+    mr_items = [d.name for d in self.get('items') if d.name in mr_items]
+
+    doctype = qty_field = None
+    if self.material_request_type in ('Material Issue',
+            'Material Transfer', 'Customer Provided'):
+        doctype = frappe.qb.DocType('Stock Entry Detail')
+        qty_field = doctype.transfer_qty
+    elif self.material_request_type == 'Manufacture':
+        doctype = frappe.qb.DocType('Work Order')
+        qty_field = doctype.qty
+
+    if doctype and qty_field:
+        query = \
+            frappe.qb.from_(doctype).select(doctype.material_request_item,
+                Sum(qty_field)).where((doctype.material_request
+                == self.name)
+                & doctype.material_request_item.isin(mr_items)
+                & (doctype.docstatus
+                == 1)).groupby(doctype.material_request_item)
+
+        mr_items_ordered_qty = frappe._dict(query.run())
+
+    return mr_items_ordered_qty
+
 
 def update_completed_qty(doc, method):
     mr_items = None
