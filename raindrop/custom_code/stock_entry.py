@@ -15,8 +15,8 @@ from frappe.utils import (
 )
 def on_save(doc, method):
     if doc.stock_entry_type == "Material Issue":
-        from erpnext.stock.stock_ledger import is_negative_stock_allowed
-	for d in doc.items:
+	    from erpnext.stock.stock_ledger import is_negative_stock_allowed
+	    for d in doc.items:
 		allow_negative_stock = is_negative_stock_allowed(item_code=d.item_code)
 		previous_sle = get_previous_sle(
 			{
