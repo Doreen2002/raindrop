@@ -9,7 +9,7 @@ def on_submit(doc, method):
             if tax.add_deduct_tax == "Add" and "VAT" in tax.account_head:
                 items.append(
                         {
-                        'account': doc.credit_to,
+                        'account': item_val.expense_account,
                         'debit_in_account_currency': item_val.base_net_amount * tax.rate/100,
                         'credit_in_account_currency':0,
                         'cost_center':doc.cost_center,
