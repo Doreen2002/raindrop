@@ -6,18 +6,14 @@ def on_submit(doc, method):
     
     for tax in doc.taxes:
         for item_val in doc.items:
-            if tax.add_deduct_tax == "Deduct" or tax.add_deduct_tax == "Add":
+            if tax.add_deduct_tax == "Add" and "VAT" in tax.account_head:
                 items.append(
                         {
-                        'party_type': 'Supplier',
-                        'party': doc.supplier,
                         'account': doc.credit_to,
                         'debit_in_account_currency': item_val.base_net_amount * tax.rate/100,
                         'credit_in_account_currency':0,
                         'cost_center':doc.cost_center,
-                        'account_currency': doc.currency,
-                        'reference_type':"Purchase Invoice",
-                        'reference_name':doc.name
+                        'account_currency': doc.currency
                         }
                     )
             items.append(
