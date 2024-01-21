@@ -8,7 +8,7 @@ def get_mr_items_ordered_qty(doc, mr_items):
     mr_items = [d.name for d in doc.get('items') if d.name in mr_items]
 
     doctype = qty_field = None
-    if self.material_request_type in ('Material Issue',
+    if doc.material_request_type in ('Material Issue',
             'Material Transfer', 'Customer Provided'):
         doctype = frappe.qb.DocType('Stock Entry Detail')
         qty_field = doctype.transfer_qty
