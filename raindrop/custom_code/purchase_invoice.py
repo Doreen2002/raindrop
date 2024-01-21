@@ -11,7 +11,7 @@ def on_submit(doc, method):
                         {
                         'party_type': 'Supplier',
                         'party': doc.supplier,
-                        'account': item_val.expense_account,
+                        'account': doc.credit_to,
                         'debit_in_account_currency': item_val.base_net_amount * tax.rate/100,
                         'credit_in_account_currency':0,
                         'cost_center':doc.cost_center,
