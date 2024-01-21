@@ -4,6 +4,7 @@ from frappe.utils import today
 
 def update_completed_qty(doc, method):
     mr_items = None
+    doc = frappe.db.get_doc("Material Request", doc.items[0].material_request)
     if doc.material_request_type == 'Purchase':
         return
 
