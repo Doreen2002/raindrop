@@ -164,7 +164,7 @@ doc_events = {
 	},
      "Stock Entry": {
 		"on_update": "raindrop.custom_code.stock_entry.on_save",
-	        "validate": "erpnext.stock.doctype.material_request.material_request.update_completed_and_requested_qty"
+	        "validate": "erpnext.stock.doctype.material_request.material_request.update_completed_qty"
 		
 	}
 }
