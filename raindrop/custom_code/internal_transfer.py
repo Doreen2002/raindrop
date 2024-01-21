@@ -21,7 +21,7 @@ def get_mr_items_ordered_qty(doc, mr_items):
         query = \
             frappe.qb.from_(doctype).select(doctype.material_request_item,
                 Sum(qty_field)).where((doctype.material_request
-                == self.name)
+                == doc.name)
                 & doctype.material_request_item.isin(mr_items)
                 & (doctype.docstatus
                 == 1)).groupby(doctype.material_request_item)
