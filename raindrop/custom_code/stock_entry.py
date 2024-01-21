@@ -4,7 +4,6 @@ from frappe import _
 
 def validate(doc, method): 
 	total_transfered = 0
-	stock_transfer
 	for item in doc.items:
 		stock = frappe.db.get_all("Stock Entry Detail", filters = {"material_request_item": item.material_request_item}, fields=['*'])
 		for s in stock:
