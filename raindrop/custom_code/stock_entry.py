@@ -12,7 +12,7 @@ def validate(doc, method):
 		total_transfered += item.qty
 		mr = frappe.db.get_value("Material Request Item", item.material_request_item, 'qty')
 		if total_transfered > frappe.db.get_value("Material Request Item", item.material_request_item, 'qty'):
-			frappe.throw(f"{ Cannot Transfer {total_transfered} more than requested {mr} for Item {item.name})
+			frappe.throw(f"Cannot Transfer {total_transfered} more than requested {mr} for Item {item.name}")
 		
 															  
 		
