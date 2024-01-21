@@ -26,10 +26,10 @@ def on_save(doc, method):
 				"posting_time": doc.ng_ti,
 			}
 		)
-
+		
 		# get actual stock at source warehouse
 		d.actual_qty = previous_sle.get("qty_after_transaction") or 0
-
+		
 		# validate qty during submit
 		if (
 			
