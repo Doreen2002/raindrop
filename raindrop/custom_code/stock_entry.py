@@ -1,5 +1,6 @@
 from erpnext.stock.doctype.stock_entry.stock_entry import StockEntry
 import frappe
+from frappe import _
 from erpnext.stock.stock_ledger import NegativeStockError, get_previous_sle, get_valuation_rate
 from erpnext.stock.stock_ledger import NegativeStockError, get_previous_sle, get_valuation_rate
 from frappe.utils import (
