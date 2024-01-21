@@ -2,7 +2,7 @@ from erpnext.stock.doctype.stock_entry.stock_entry import StockEntry
 import frappe
 def on_save(doc, method):
     if doc.stock_entry_type == "Material Issue":
-        StockEntry.validate(doc)
+        StockEntry.set_actual_qty(doc)
 def on_update(doc, method):
     #get logged emloyee ID
     employee = frappe.db.get_value("Employee", {"user_id":doc.owner}, "name")
