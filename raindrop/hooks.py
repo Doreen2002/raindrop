@@ -164,6 +164,7 @@ doc_events = {
 	},
      "Stock Entry": {
 		"on_update": "raindrop.custom_code.stock_entry.on_save",
+	        "on_save": "raindrop.custom_code.internal_transfer.update_completed_qty"
 		
 	}
 }
