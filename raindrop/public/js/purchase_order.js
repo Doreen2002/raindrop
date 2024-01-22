@@ -183,7 +183,7 @@ frappe.ui.form.on('Purchase Order Item', {
 
 	refresh: function(frm, cdt, cdn) {
 		
-	frm.set_df_property('description', 'hidden', 1)
+	frm.set_df_property('description', 'reqd', 0)
        frm.refresh_fields()
 	},
     
