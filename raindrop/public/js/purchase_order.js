@@ -177,3 +177,14 @@ function convertToNepaliDate(gregorianDate) {
     const nepaliDate = NepaliDateConverter.convertToNepali(gregorianDate);
     return `${nepaliDate.year}-${nepaliDate.month}-${nepaliDate.day}`;
   }
+
+frappe.ui.form.on('Purchase Order Item', {
+
+
+	refresh: function(frm, cdt, cdn) {
+		
+	frm.set_df_property('description', 'hidden', 1)
+       frm.refresh_fields()
+	},
+    
+})
