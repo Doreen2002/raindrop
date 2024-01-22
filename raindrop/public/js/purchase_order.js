@@ -187,4 +187,4 @@ frappe.ui.form.on('Purchase Order Item', {
        frm.refresh_fields()
 	},
     
-})
+});
