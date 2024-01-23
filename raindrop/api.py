@@ -374,44 +374,68 @@ def create_purchase_order():
                     items.clear()
                     for row in reader:
                         if  row[0].strip() == value[0].strip():
-                            if row[46] == '0':
+                            if row[38] == '0%':
                                 tax = ''
-                            elif row[46] != '0':
+                            elif row[38] != '0%':
                                 tax = "Nepal Tax - HPL"
-                            if row[43] == '':
+                            if row[39] == '':
                                 item = "Virtual Item"
                             elif row[43] != '':
                                 item = frappe.db.get_value('Item', {'custom_name':row[43]}, 'name')
-                            if row[45] != '' and value[45].replace("$", "") >= 1:
-                                qty = value[45].replace("$", "")
+                            if row[43] != '' and float(row[43]) >= 1:
+                                qty = row[43]
                             else:
                                 qty = 1
                                 rate = 0
-                            if row[44] != '' and (row[45] != '' and value[45].replace("$", "") >= 1):  
-                                rate = value[45].replace("$", "")
-                            elif row[44] == '':
+                            if row[40] != '' and (row[40] != '' and float(row[40]) >= 1):
+                                rate = row[40]
+                            elif row[40] == '':
                                 rate = 0
-                            if row[43] == '':
+                            if row[39] == '' and row[34] != '':
+                                if not frappe.db.exists('Account', f"{row[34].strip()} - HPL"):
+                                    acc = frappe.new_doc('Account')
+                                    acc.account_name = row[34].strip()
+                                    acc.account_type = "Expense Account"
+                                    acc.root_type = "Expense"
+                                    acc.report_type = "Profit and Loss"
+                                    acc.parent_account = "52000 - Other Expenses - HPL"
+                                    acc.is_group = 0
+                                    acc.insert(ignore_mandatory=True)
+                                    frappe.db.commit()
+                                    items.append(
+                                    {
+                                    "item_code":"Virtual Item",
+                                    "qty": 1,
+                                    "rate": row[54],
+                                    "schedule_date":date_converter(value[1]),
+                                    "description":row[14],
+                                    "expense_account":f"{row[34].strip()} - HPL",
+                                    "custom_expense_category":value[33],
+                                    "cost_center":f'{row[36]} - HPL'
+                                        }
+                                        )
+
                                 items.append(
                                 {
                                 "item_code":"Virtual Item",
                                 "qty": 1,
-                                "rate": row[40],
+                                "rate": row[54],
                                 "schedule_date":date_converter(value[1]),
                                 "description":row[14],
-                                "expense_account":"Vitual Item Expenses - HPL",
-                                "custom_expense_category":value[33],
-                                "cost_center":f'{row[36]} - HPL'
+                                 "expense_account":f"{row[34].strip()} - HPL",
+                                 "custom_expense_category":value[33],
+                                 "cost_center":f'{row[36]} - HPL'
                                     }
                                     )
-                            elif row[43] != '':
+                            elif row[39] != '':
                                 items.append(
                                 {
-                                "item_code":frappe.db.get_value('Item', {'custom_name':row[43]}, 'name'),
+                                "item_code":frappe.db.get_value('Item', {'custom_name':row[39]}, 'name'),
                                 "qty": qty ,
                                 "rate": rate,
                                 "schedule_date":date_converter(value[1]),
                                 "description":row[14],
+                                "expense_account":"49000 - OtherCostGoodSold - HPL",
                                 "custom_expense_category":value[33],
                                 "cost_center":f'{row[36]} - HPL'
                                     }
