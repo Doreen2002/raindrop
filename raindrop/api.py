@@ -369,7 +369,7 @@ def create_purchase_order():
         for value in reader_po:
             try:
                 items = []
-                with open('/home/frappe/frappe-bench/apps/raindrop/HPL Purchase Invoice NPR 2013_2020.xlsx - Sheet1.csv') as templates:
+                with open('/home/frappe/frappe-bench/apps/raindrop/HPL PO Final Transaction 2024  - Sheet1.csv') as templates:
                     reader = csv.reader(templates, delimiter=',')
                     items.clear()
                     for row in reader:
