@@ -1081,12 +1081,12 @@ def create_sales_invoice_2023():
                 print(f'{e} {value[2]}')
 
 def create_jounal_entry():
-    with open('/home/frappe/frappe-bench/apps/raindrop/Journal Voucher Number 2024 - Sheet1.csv') as design_file:
+    with open('/home/frappe/frappe-bench/apps/raindrop/Journal Voucher Number 2024 - Sheet1_f.csv') as design_file:
         reader_po = csv.reader(design_file, delimiter=',')
         for value in reader_po:
             try:
                 items = []
-                with open('/home/frappe/frappe-bench/apps/raindrop/Journal Voucher 2024 - Sheet_1.csv') as templates:
+                with open('/home/frappe/frappe-bench/apps/raindrop/Journal Voucher 2024 - Sheet1_s.csv') as templates:
                     reader = csv.reader(templates, delimiter=',')
                     items.clear()
                     for row in reader:
