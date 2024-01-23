@@ -411,7 +411,7 @@ def create_purchase_order():
                                     "description":row[14],
                                     "expense_account":f"{row[34].strip()} - HPL",
                                     "custom_expense_category":value[33],
-                                    "cost_center":f'{row[36]} - HPL'
+                                    "cost_center":f'{row[12]} - HPL'
                                         }
                                         )
 
@@ -424,7 +424,7 @@ def create_purchase_order():
                                 "description":row[14],
                                  "expense_account":f"{row[34].strip()} - HPL",
                                  "custom_expense_category":value[33],
-                                 "cost_center":f'{row[36]} - HPL'
+                                 "cost_center":f'{row[12]} - HPL'
                                     }
                                     )
                             elif row[39] != '':
@@ -437,7 +437,7 @@ def create_purchase_order():
                                 "description":row[14],
                                 "expense_account":"49000 - OtherCostGoodSold - HPL",
                                 "custom_expense_category":value[33],
-                                "cost_center":f'{row[36]} - HPL'
+                                "cost_center":f'{row[12]} - HPL'
                                     }
                                     )
                
