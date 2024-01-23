@@ -387,7 +387,7 @@ def create_purchase_order():
                             else:
                                 qty = 1
                                 rate = 0
-                            if row[44] != '' and (row[45] != '' and float(f'{value[45].replace('$', '').strip()}') >= 1):  
+                            if row[44] != '' and (row[45] != '' and float(f'{value[45].replace("$", "").strip()}') >= 1):  
                                 rate = float(f'{value[45].replace('$', '').strip()}')
                             elif row[44] == '':
                                 rate = 0
