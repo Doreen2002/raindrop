@@ -357,7 +357,7 @@ import frappe
 from datetime import datetime
 
 def date_converter(date_str):
-    date_obj = datetime.strptime(date_str, "%d/%m/%Y")
+    date_obj = datetime.strptime(date_str, "%m/%d/%Y")
     formatted_date = date_obj.strftime("%Y-%m-%d")
     return formatted_date
 
@@ -553,7 +553,7 @@ def create_purchase_order_2023():
                                     "description":row[14],
                                     "expense_account":f"{row[34].strip()} - HPL",
                                     "custom_expense_category":value[33],
-                                    "cost_center":f'{row[36]} - HPL'
+                                    "cost_center":f'{row[12]} - HPL'
                                         }
                                         )
 
@@ -566,7 +566,7 @@ def create_purchase_order_2023():
                                 "description":row[14],
                                  "expense_account":f"{row[34].strip()} - HPL",
                                  "custom_expense_category":value[33],
-                                 "cost_center":f'{row[36]} - HPL'
+                                 "cost_center":f'{row[12]} - HPL'
                                     }
                                     )
                             elif row[39] != '':
@@ -579,7 +579,7 @@ def create_purchase_order_2023():
                                 "description":row[14],
                                 "expense_account":"49000 - OtherCostGoodSold - HPL",
                                 "custom_expense_category":value[33],
-                                "cost_center":f'{row[36]} - HPL'
+                                "cost_center":f'{row[12]} - HPL'
                                     }
                                     )
                
