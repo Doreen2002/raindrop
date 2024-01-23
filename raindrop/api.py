@@ -382,13 +382,13 @@ def create_purchase_order():
                                 item = "Virtual Item"
                             elif row[43] != '':
                                 item = frappe.db.get_value('Item', {'custom_name':row[43]}, 'name')
-                            if row[45] != '' and float(f'{value[45].replace('$', '').strip()}') >= 1:
-                                qty = float(f'{value[45].replace('$', '').strip()}')
+                            if row[45] != '' and float(f'{value[45].replace("$", "").strip()}') >= 1:
+                                qty = float(f'{value[45].replace("$", "").strip()}')
                             else:
                                 qty = 1
                                 rate = 0
                             if row[44] != '' and (row[45] != '' and float(f'{value[45].replace("$", "").strip()}') >= 1):  
-                                rate = float(f'{value[45].replace('$', '').strip()}')
+                                rate = float(f'{value[45].replace("$", "").strip()}')
                             elif row[44] == '':
                                 rate = 0
                             if row[43] == '':
