@@ -1213,12 +1213,12 @@ def create_cash_bank_received():
 
 
 def create_supplier_payment():
-    with open( '/home/frappe/frappe-bench/apps/raindrop/Supplier Payment Number 2020_2023 - Sheet1.csv' ) as design_file:
+    with open( '/home/frappe/frappe-bench/apps/raindrop/Supplier Payment 2024 Number  - Sheet1_f.csv' ) as design_file:
         reader_po = csv.reader(design_file, delimiter=',')
         for value in reader_po:
             try:
                 total = 0.0
-                with open('/home/frappe/frappe-bench/apps/raindrop/Supplier Payment 2020_2023 - Sheet1.csv') as templates:
+                with open('/home/frappe/frappe-bench/apps/raindrop/Supplier Payment 2024 - Sheet1_s.csv') as templates:
                     reader = csv.reader(templates, delimiter=',')
                     for row in reader:
                         if  row[0].strip() == value[0].strip():
