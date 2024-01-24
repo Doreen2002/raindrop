@@ -1748,14 +1748,14 @@ def create_cash_bank():
 
 #bank transfer 
 def create_bank_transfer():
-    with open('/home/frappe/frappe-bench/apps/raindrop/Bank Transfer (Contra Voucher) Number 2020_2023 - Sheet1.csv') as design_file:
+    with open('/home/frappe/frappe-bench/apps/raindrop/HPL Bank Transfer  Number 2024 - Sheet1_f.csv') as design_file:
         reader_po = csv.reader(design_file, delimiter=',')
         for value in reader_po:
             try:
                 items = []
                 row_number = 4
                 doc = frappe.new_doc('Journal Entry')
-                with open('/home/frappe/frappe-bench/apps/raindrop/Bank Transfer (Contra Voucher) 2020_2023 - Sheet1.csv' ) as templates:
+                with open('/home/frappe/frappe-bench/apps/raindrop/HPL Bank Transfer 2024 - Sheet1_s.csv' ) as templates:
                     reader = csv.reader(templates, delimiter=',')
                     items.clear()
                     for row in reader:
