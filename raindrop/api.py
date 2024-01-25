@@ -1393,6 +1393,8 @@ def create_payment():
                     cost_center = f'{value[8]} - HPL',
                 payment = frappe.new_doc('Payment Entry')
                 payment.payment_type = "Receive"	
+                payment.custom_internal_id = value[0]
+                payment.custom_document_number = value[23]
                 payment.custom_period = value[2]
                 payment.custom_subsidiary = value[4]
                 payment.custom_location = value[9]
