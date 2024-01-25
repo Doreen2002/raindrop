@@ -1984,7 +1984,9 @@ def create_employee_expenses():
                 with open('/home/frappe/frappe-bench/apps/raindrop/HPL Employee Expenses 2024 - Sheet1_s.csv') as templates:
                     reader = csv.reader(templates, delimiter=',')
                     for row in reader:
-                        if row[0]  == value[0] and row[12] != '':
+                        if row[12] == '' or row[12] == None:
+                            row[12] == "Office: Other Expenses"
+                        if row[0]  == value[0]:
                             if not frappe.db.exists('Expense Claim Type', row[12]):
                                 exp = frappe.new_doc("Expense Claim Type")
                                 exp.expense_type = row[12]
@@ -1994,7 +1996,7 @@ def create_employee_expenses():
                                 })
                                 exp.insert()
                                 frappe.db.commit()
-
+                            
                             items.append(
                                 {
                                     "expense_type": row[12],
