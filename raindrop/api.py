@@ -496,8 +496,11 @@ def create_purchase_order():
                     doc.schedule_date = date_converter(value[1])
                     for item in items:
                         doc.append("items", item)
-                    doc.workflow_state = value[13]
+                    doc.workflow_state = "Pending"
                     doc.insert()
+                    frappe.db.commit()
+                    po_name = frappe.db.get_value("Purchase Order", {"custom_document_number":value[2]}, 'name')
+                    frappe.db.set_value('Purchase Order', po_name, 'workflow_state', value[13])
                     frappe.db.commit()
             except Exception as e:
                 print(f'{e} {value[2]}')
