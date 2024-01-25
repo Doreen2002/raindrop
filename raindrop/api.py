@@ -510,12 +510,12 @@ def create_purchase_order():
 
 
 def create_purchase_order_2023():
-    with open('/home/frappe/frappe-bench/apps/raindrop/HPL PO Final Transaction  - Sheet1.csv') as design_file:
+    with open('/home/frappe/frappe-bench/apps/raindrop/HPL PO Final Transaction  Number  - Sheet1_F.csv') as design_file:
         reader_po = csv.reader(design_file, delimiter=',')
         for value in reader_po:
             try:
                 items = []
-                with open('/home/frappe/frappe-bench/apps/raindrop/HPL PO Final Transaction  - Sheet_1.csv') as templates:
+                with open('/home/frappe/frappe-bench/apps/raindrop/HPL PO Final Transaction  (1) - Sheet1_S.csv') as templates:
                     reader = csv.reader(templates, delimiter=',')
                     items.clear()
                     for row in reader:
