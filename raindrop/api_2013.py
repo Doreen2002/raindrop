@@ -2080,7 +2080,7 @@ def stock_out_2013():
 
 
 def delete_pur():
-    po = frappe.db.get_list('Purchase Order', filters=[[ 'creation', 'between', ['2023-12-25', '2024-01-11']]]) 
+    po = frappe.db.get_list('Purchase Order', filters=[[ 'creation', 'between', ['2024-01-23', '2024-01-23']]]) 
     for item in po:
         frappe.db.delete("Purchase Order", {"name":item["name"]})
         frappe.db.commit()
