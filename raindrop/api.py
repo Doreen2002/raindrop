@@ -497,6 +497,7 @@ def create_purchase_order():
                     for item in items:
                         doc.append("items", item)
                     doc.workflow_state = value[13]
+                    doc.insert()
                     frappe.db.commit()
             except Exception as e:
                 print(f'{e} {value[2]}')
