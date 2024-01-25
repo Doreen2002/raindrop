@@ -1988,12 +1988,12 @@ def create_employee_expenses():
                         if row[12] != '' or row[12] != None:
                             expense_account = row[12]
                         if row[0]  == value[0]:
-                            if not frappe.db.exists('Expense Claim Type', expense_account]):
+                            if not frappe.db.exists('Expense Claim Type', expense_account):
                                 exp = frappe.new_doc("Expense Claim Type")
                                 exp.expense_type = expense_account
                                 exp.append("accounts", {
                                     "company":frappe.db.get_list('Company', pluck='name')[0],
-                                    "default_account":frappe.db.get_value('Account', {'name': ['like', f'%{expense_account]}%']}, 'name')
+                                    "default_account":frappe.db.get_value('Account', {'name': ['like', f'%{expense_account}%']}, 'name')
                                 })
                                 exp.insert()
                                 frappe.db.commit()
