@@ -736,6 +736,8 @@ def create_goods_received_2023():
                             doc.set_warehouse="KATHMANDU - HPL"
                         if value[6] == "KIRNE":
                             doc.set_warehouse="KIRNE - HPL"
+                        if value[6] == '' or value[6] == None:
+                            doc.set_warehouse="KIRNE - HPL"
                         doc.cost_center = cost_center
                         doc.custom_requested_by = value[8]
                         doc.custom_created_by = value[3]
