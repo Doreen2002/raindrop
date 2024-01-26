@@ -2086,7 +2086,7 @@ def delete_pur():
         frappe.db.commit()
         
 def delete_pur_re():
-    po = frappe.db.get_list('Purchase Receipt', filters=[[ 'creation', 'between', ['2024-01-01', '2024-01-11']]]) 
+    po = frappe.db.get_list('Purchase Receipt', filters=[[ 'creation', 'between', ['2024-12-29', '2024-12-31']]]) 
     for item in po:
         frappe.db.delete("Purchase Receipt", {"name":item["name"]})
         frappe.db.commit()
