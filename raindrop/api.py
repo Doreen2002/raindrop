@@ -1763,7 +1763,7 @@ def create_bank_transfer():
         for value in reader_po:
             try:
                 items = []
-                row_number = 4
+                row_number = 5
                 doc = frappe.new_doc('Journal Entry')
                 with open('/home/frappe/frappe-bench/apps/raindrop/HPL Bank Transfer 2024 - Sheet1_s.csv' ) as templates:
                     reader = csv.reader(templates, delimiter=',')
@@ -1788,7 +1788,7 @@ def create_bank_transfer():
                                         'exchange_rate': row[18],
                                         "account_currency":currency
                                     })
-                                row_number +=1
+                                row_number -=1
                             if row[6] == "Eur":
                                 currency = "EUR"
                                 account = create_account(account=f'{row[row_number]}(EUR)',root_type="Expense", parent="51000 - Direct Expenses - HPL",  currency='EUR')
