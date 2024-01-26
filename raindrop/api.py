@@ -1980,12 +1980,12 @@ def create_user(email, firstname):
 
 
 def create_employee_expenses():
-    with open( '/home/frappe/frappe-bench/apps/raindrop/HPL Employee Expenses Upload Number  2024 - Sheet1.csv ') as design_file:
+    with open( '/home/frappe/frappe-bench/apps/raindrop/HPL Employee Expenses Upload   Number 2024 - Sheet1.csv') as design_file:
         reader_po = csv.reader(design_file, delimiter=',')
         for value in reader_po:
             try:
                 items = []
-                with open('/home/frappe/frappe-bench/apps/raindrop/HPL Employee Expenses Upload  2024 - Sheet1.csv ') as templates:
+                with open('/home/frappe/frappe-bench/apps/raindrop/HPL Employee Expenses Upload  2024 - Sheet1.csv') as templates:
                     reader = csv.reader(templates, delimiter=',')
                     for row in reader:
                         if row[0]  == value[0]:
