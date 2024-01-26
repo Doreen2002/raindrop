@@ -703,7 +703,7 @@ def create_goods_received_2023():
 
                     if len(items) > 0:
                         doc = frappe.new_doc('Purchase Receipt')
-                        doc.supplier = value[16]
+                        doc.supplier = frappe.db.get_value("Purchase Order", {"custom_document_number":value[32]}, 'supplier')
                         #doc.purchase_order = frappe.db.get_value("Purchase Order", {"custom_document_number":value[31]}, 'name')
                         doc.set_posting_time = 1
                         doc.posting_date = date_converter(value[1])
