@@ -1995,7 +1995,7 @@ def create_employee_expenses():
                                         exp.expense_type = row[12]
                                         exp.append("accounts", {
                                             "company":frappe.db.get_list('Company', pluck='name')[0],
-                                            "default_account":frappe.db.get_value('Account', {'name': ['like', f'%{row[12]}%']}, 'name')
+                                            "default_account":frappe.db.get_value('Account', {'name': ['like', f'%{row[12].replace(':', '').strip()}%']}, 'name')
                                         })
                                         exp.insert()
                                         frappe.db.commit()
