@@ -2012,7 +2012,7 @@ def create_employee_expenses():
                             
                                 items.append(
                                     {
-                                        "expense_type": expense_account,
+                                        "expense_type": row[12],
                                         "expense_date": date_converter_month(row[1]) ,
                                         "custom_memo":row[7],
                                         "description":row[7],
