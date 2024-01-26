@@ -1989,34 +1989,42 @@ def create_employee_expenses():
                     reader = csv.reader(templates, delimiter=',')
                     for row in reader:
                         if row[0]  == value[0]:
-                            expense_account = "Office: Other Expenses"
-                            if row[12] != '' or row[12] != None:
-                                expense_account = row[12]
-                            if not frappe.db.exists('Expense Claim Type', expense_account):
-                                exp = frappe.new_doc("Expense Claim Type")
-                                exp.expense_type = expense_account
-                                exp.append("accounts", {
-                                    "company":frappe.db.get_list('Company', pluck='name')[0],
-                                    "default_account":frappe.db.get_value('Account', {'name': ['like', f'%{expense_account}%']}, 'name')
-                                })
-                                exp.insert()
-                                frappe.db.commit()
+                                if row[12] != '' or row[12] != None:
+                                    if not frappe.db.exists('Expense Claim Type', row[12]):
+                                        exp = frappe.new_doc("Expense Claim Type")
+                                        exp.expense_type = row[12]
+                                        exp.append("accounts", {
+                                            "company":frappe.db.get_list('Company', pluck='name')[0],
+                                            "default_account":frappe.db.get_value('Account', {'name': ['like', f'%{row[12]}%']}, 'name')
+                                        })
+                                        exp.insert()
+                                        frappe.db.commit()
+                                if row[12] == '' or row[12] == None:
+                                    if not frappe.db.exists('Expense Claim Type', 'Office: Other Expenses'):
+                                        exp = frappe.new_doc("Expense Claim Type")
+                                        exp.expense_type = 'Office: Other Expenses'
+                                        exp.append("accounts", {
+                                            "company":frappe.db.get_list('Company', pluck='name')[0],
+                                            "default_account":frappe.db.get_value('Account', {'name': ['like', 'Office: Other Expenses']}, 'name')
+                                        })
+                                        exp.insert()
+                                        frappe.db.commit()
                             
-                            items.append(
-                                {
-                                    "expense_type": expense_account,
-                                    "expense_date": date_converter_month(row[1]) ,
-                                    "custom_memo":row[7],
-                                    "description":row[7],
-                                    "cost_center":f'{row[15]} - HPL',
-                                    "custom_receipt":row[21],
-                                    "custom_ref_no":row[22],
-                                    "custom_name":row[23],
-                                    "amount": row[24].strip().replace('(', '').replace(')', ''),
-                                     "sanctioned_amount": row[24].strip().replace('(', '').replace(')', '')
-                                }
-                                
-                            )
+                                items.append(
+                                    {
+                                        "expense_type": expense_account,
+                                        "expense_date": date_converter_month(row[1]) ,
+                                        "custom_memo":row[7],
+                                        "description":row[7],
+                                        "cost_center":f'{row[15]} - HPL',
+                                        "custom_receipt":row[21],
+                                        "custom_ref_no":row[22],
+                                        "custom_name":row[23],
+                                        "amount": row[24].strip().replace('(', '').replace(')', ''),
+                                         "sanctioned_amount": row[24].strip().replace('(', '').replace(')', '')
+                                    }
+                                    
+                                )
                 if items != []:
                     doc = frappe.new_doc("Expense Claim")
                     frappe.db.set_value('Employee', frappe.db.get_value('Employee', {'name': ['like', f'%{value[3]}%']}, 'name'), 'status', 'Active')
