@@ -853,6 +853,8 @@ def create_purchase_invoice_2020():
                 doc.supplier = frappe.db.get_value("Purchase Order", {"custom_document_number":row[52]}, 'supplier')
                 for item in items:
                     doc.append('items', item)
+                for tax in taxes:
+                    doc.append("taxes", tax)
                 if value[6] == "Nepalese Rupee":
                     doc.currency = "NPR"
                     doc.conversion_rate = value[26]
