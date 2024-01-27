@@ -2092,7 +2092,7 @@ def delete_pur_re():
         frappe.db.commit()
         
 def delete_pur_inv():
-    po = frappe.db.get_list('Purchase Invoice', filters=[[ 'creation', 'between', ['2024-01-01', '2024-01-11']]]) 
+    po = frappe.db.get_list('Purchase Invoice', filters=[[ 'creation', 'between', ['2023-12-29', '2023-12-31']]]) 
     for item in po:
         frappe.db.delete("Purchase Invoice", {"name":item["name"]})
         frappe.db.delete("GL Entry", {"voucher_no":item["name"]})
