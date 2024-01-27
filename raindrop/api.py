@@ -782,7 +782,7 @@ def create_purchase_invoice_2020():
                         if row[0] == value[0] and  not 'TDS' in row[39] and row[39] != '' :
                             name = frappe.db.get_value("Purchase Order", {"custom_document_number":row[52]}, 'name')
                             if row[38] != '0%':
-                                tax_template.append(row[38])
+                                tax_template.append('VAT - HPL')
                             items.append(
                                 {
                                 "item_code": frappe.db.get_value("Item", {"custom_name":row[39]}, 'name'),
@@ -828,7 +828,7 @@ def create_purchase_invoice_2020():
                                         "add_deduct_tax":"Add",
                                         'rate':0,
                                         "tax_amount":row[55],
-                                        "account_head":f"{row[35]} - HPL",
+                                        "account_head":"VAT - HPL",
                                         "description":value[15]
                                             })
                                     
