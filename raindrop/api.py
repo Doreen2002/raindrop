@@ -781,8 +781,6 @@ def create_purchase_invoice_2020():
                             cost_center = f"{row[45]} - HPL"
                         if row[0] == value[0] and  not 'TDS' in row[39] and row[39] != '' :
                             name = frappe.db.get_value("Purchase Order", {"custom_document_number":row[52]}, 'name')
-                        #     if row[38] != '0%':
-                        #         tax_template.append('VAT - HPL')
                             items.append(
                                 {
                                 "item_code": frappe.db.get_value("Item", {"custom_name":row[39]}, 'name'),
@@ -792,7 +790,7 @@ def create_purchase_invoice_2020():
                                 "expense_account":"49000 - OtherCostGoodSold - HPL",
                                 "description":row[15],
                                 "purchase_order": frappe.db.get_value("Purchase Order", {"custom_document_number":row[52]}, 'name'),
-                                "purchase_order_item": frappe.db.get_value("Purchase Order Item", {"parent":name}, 'name'),
+                                "purchase_order_item": frappe.db.get_value("Purchase Order Item", {"parent":name, "item_code":frappe.db.get_value("Item", {"custom_name":row[39]}, 'name')}, 'name'),
                                 "project":create_project(row[31])
                                 }
                             
@@ -802,7 +800,7 @@ def create_purchase_invoice_2020():
                                     {
                                         'charge_type':"Actual",
                                         "add_deduct_tax":"Add",
-                                        'rate':0,
+                                        'rate':13,
                                         "tax_amount":row[54],
                                         "account_head":"VAT - HPL",
                                         "description":value[15]
@@ -855,19 +853,6 @@ def create_purchase_invoice_2020():
                 doc.supplier = frappe.db.get_value("Purchase Order", {"custom_document_number":row[52]}, 'supplier')
                 for item in items:
                     doc.append('items', item)
-                # if taxes != []:
-                #     for tax in taxes:
-                #         doc.append('taxes', tax)
-                # if tax_template != []:
-                #     if tax_template[-1] != '0%':
-                #         doc.taxes_and_charges = "Nepal Tax - HPL"
-                #         doc.append('taxes',
-                #         {
-                #             'charge_type':"On Net Total",
-                #             "rate":13,
-                #             "account_head":"VAT - HPL",
-                #             "description":value[15]
-                #                 })
                 if value[6] == "Nepalese Rupee":
                     doc.currency = "NPR"
                     doc.conversion_rate = value[26]
@@ -901,7 +886,6 @@ def create_purchase_invoice_2020():
                 if value[7] == "KIRNE":
                     doc.update_stock = 1
                     doc.set_warehouse="KIRNE - HPL"
-                
                 doc.custom_procurement_person = value[16]
                 doc.terms = value[10]
                 doc.rounding_adjustment = 0
