@@ -795,16 +795,7 @@ def create_purchase_invoice_2020():
                                 }
                             
                             )
-                            if row[38] == '13%':
-                                    taxes.append(
-                                    {
-                                        'charge_type':"Actual",
-                                        "add_deduct_tax":"Add",
-                                        'rate':13,
-                                        "tax_amount":row[54],
-                                        "account_head":"VAT - HPL",
-                                        "description":value[15]
-                                            })
+            
                         if row[0] == value[0] and row[39] == '' and not 'TDS' in row[35]:
                             items.append(
                                     {
@@ -816,16 +807,7 @@ def create_purchase_invoice_2020():
                                     "description":row[15],
                                         }
                                         )
-                            if row[38] == '13%':
-                                    taxes.append(
-                                    {
-                                        'charge_type':"Actual",
-                                        "add_deduct_tax":"Add",
-                                        'rate':0,
-                                        "tax_amount":row[54],
-                                        "account_head":"VAT - HPL",
-                                        "description":value[15]
-                                            })
+                            
                         
                         if row[0] == value[0] and 'TDS' in row[39] or 'TDS' in row[35]:
                             taxes.append(
@@ -839,7 +821,16 @@ def create_purchase_invoice_2020():
                                             })
                    
                                     
-
+                if value[38] == '13%':
+                    taxes.append(
+                    {
+                        'charge_type':"Actual",
+                        "add_deduct_tax":"Add",
+                        'rate':0,
+                        "tax_amount":value[54],
+                        "account_head":"VAT - HPL",
+                        "description":value[15]
+                            })
                 doc = frappe.new_doc("Purchase Invoice")
                 doc.custom_bill_number = value[1]
                 doc.custom_internal_id = value[0]
