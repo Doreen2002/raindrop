@@ -780,7 +780,7 @@ def create_purchase_invoice_2020():
                         if row[45] != '':
                             cost_center = f"{row[45]} - HPL"
                         if row[0] == value[0] and  not 'TDS' in row[39] and row[39] != '' :
-                        #     name = frappe.db.get_value("Purchase Order", {"custom_document_number":row[52]}, 'name')
+                            name = frappe.db.get_value("Purchase Order", {"custom_document_number":row[52]}, 'name')
                         #     if row[38] != '0%':
                         #         tax_template.append('VAT - HPL')
                             items.append(
@@ -816,7 +816,7 @@ def create_purchase_invoice_2020():
                                         'charge_type':"Actual",
                                         "add_deduct_tax":"Deduct",
                                         'rate':0,
-                                        "tax_amount":row[40],
+                                        "tax_amount":row[58],
                                         "account_head":f"{row[35]} - HPL",
                                         "description":value[15]
                                             })
