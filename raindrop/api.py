@@ -805,6 +805,10 @@ def create_purchase_invoice_2020():
                                     "cost_center": cost_center,
                                     "expense_account":f"{row[35]} - HPL",
                                     "description":row[15],
+                                    "purchase_order": frappe.db.get_value("Purchase Order", {"custom_document_number":row[52]}, 'name'),
+                                    "po_detail": frappe.db.get_value("Purchase Order Item", {"parent":name, "item_code":frappe.db.get_value("Item", {"custom_name":row[39]}, 'name')}, 'name'),
+                                    "project":create_project(row[31])
+
                                         }
                                         )
                             
@@ -836,7 +840,7 @@ def create_purchase_invoice_2020():
                 doc.custom_internal_id = value[0]
                 doc.set_posting_time = 1
                 doc.posting_date = date_converter_month(value[2])
-                doc.bill_no = value[52]
+                doc.bill_no = value[1]
                 doc.bill_date = date_converter_month(value[2])
                 doc.custom_document_number = value[3]
                 doc.custom_created_by = value[4]
@@ -893,7 +897,7 @@ def create_purchase_invoice_2020():
                 doc.custom_vendor = value[18]
                 doc.custom_line_id = value[33]
                 doc.disable_rounded_total = 1
-                doc.submit()
+                doc.submit() or doc.save()
                 frappe.db.commit()
             
             except Exception as e:
