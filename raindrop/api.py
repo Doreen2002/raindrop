@@ -809,16 +809,16 @@ def create_purchase_invoice_2020():
                                         )
                             
                         
-                        if row[0] == value[0] and 'TDS' in row[39] or 'TDS' in row[35]:
-                            taxes.append(
-                                    {
-                                        'charge_type':"Actual",
-                                        "add_deduct_tax":"Deduct",
-                                        'rate':0,
-                                        "tax_amount":row[58],
-                                        "account_head":f"{row[35]} - HPL",
-                                        "description":value[15]
-                                            })
+                if'TDS' in value[39] or 'TDS' in value[35]:
+                    taxes.append(
+                            {
+                                'charge_type':"Actual",
+                                "add_deduct_tax":"Deduct",
+                                'rate':0,
+                                "tax_amount":value[58],
+                                "account_head":f"{row[35]} - HPL",
+                                "description":value[15]
+                                    })
                    
                                     
                 if value[38] == '13%':
