@@ -841,7 +841,7 @@ def create_purchase_invoice_2020():
                 doc.custom_document_number = value[3]
                 doc.custom_created_by = value[4]
                 doc.custom_subsidiary = value[5]
-                doc.supplier = frappe.db.get_value("Purchase Order", {"custom_document_number":value[52]}, 'supplier')
+                doc.supplier = frappe.db.get_value("Purchase Order", {"custom_document_number":value[52]}, 'supplier') or value[32]
                 for item in items:
                     doc.append('items', item)
                 for tax in taxes:
