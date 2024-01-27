@@ -2070,7 +2070,7 @@ def create_service_purchase_return_2023():
                                     "qty":-1,
                                     "price_list_rate":row[25],
                                     "rate":row[25],
-                                    "amount": -1 * float(f'{value[27].strip()}'),
+                                    "amount": -1 * float(f'{value[27].replace("$", "").replace(",", "").strip()}'), 
                                     "cost_center": cost_center,
                                     "description":row[20],
                                     "project":create_project(row[15])
