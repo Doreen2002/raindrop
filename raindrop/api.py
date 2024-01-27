@@ -790,7 +790,7 @@ def create_purchase_invoice_2020():
                                 "expense_account":"49000 - OtherCostGoodSold - HPL",
                                 "description":row[15],
                                 "purchase_order": frappe.db.get_value("Purchase Order", {"custom_document_number":row[52]}, 'name'),
-                                "purchase_order_item": frappe.db.get_value("Purchase Order Item", {"parent":name, "item_code":frappe.db.get_value("Item", {"custom_name":row[39]}, 'name')}, 'name'),
+                                "po_detail": frappe.db.get_value("Purchase Order Item", {"parent":name, "item_code":frappe.db.get_value("Item", {"custom_name":row[39]}, 'name')}, 'name'),
                                 "project":create_project(row[31])
                                 }
                             
