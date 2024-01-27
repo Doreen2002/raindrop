@@ -811,8 +811,7 @@ def create_purchase_invoice_2020():
                         
                         if row[0] == value[0]:
                             if 'TDS' in row[39] or 'TDS' in row[35]:
-                                if row[39] != '':
-                                    taxes.append(
+                                taxes.append(
                                     {
                                         'charge_type':"Actual",
                                         "add_deduct_tax":"Deduct",
@@ -821,7 +820,7 @@ def create_purchase_invoice_2020():
                                         "account_head":f"{row[35]} - HPL",
                                         "description":value[15]
                                             })
-                                if row[39] == '':
+                                if row[38] == '13%':
                                     taxes.append(
                                     {
                                         'charge_type':"Actual",
@@ -838,10 +837,12 @@ def create_purchase_invoice_2020():
                 doc.custom_internal_id = value[0]
                 doc.set_posting_time = 1
                 doc.posting_date = date_converter_month(value[2])
+                doc.bill_no = value[1]
+                doc.bill_date = date_converter_month(value[2])
                 doc.custom_document_number = value[3]
                 doc.custom_created_by = value[4]
                 doc.custom_subsidiary = value[5]
-                doc.supplier = value[32]
+                doc.supplier = frappe.db.get_value("Purchase Order", {"custom_document_number":row[52]}, 'supplier')
                 for item in items:
                     doc.append('items', item)
                 if taxes != []:
