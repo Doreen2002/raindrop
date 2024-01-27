@@ -797,29 +797,6 @@ def create_purchase_invoice_2020():
                                 }
                             
                             )
-                        if row[0] == value[0] and row[39] == '' and not 'TDS' in row[35]:
-                            items.append(
-                                    {
-                                    "item_code":"Virtual Item",
-                                    "rate":row[55],
-                                    "qty":1,
-                                    "cost_center": cost_center,
-                                    "expense_account":f"{row[35]} - HPL",
-                                    "description":row[15],
-                                        }
-                                        )
-                        
-                        if row[0] == value[0]:
-                            if 'TDS' in row[39] or 'TDS' in row[35]:
-                                taxes.append(
-                                    {
-                                        'charge_type':"Actual",
-                                        "add_deduct_tax":"Deduct",
-                                        'rate':0,
-                                        "tax_amount":row[58],
-                                        "account_head":f"{row[35]} - HPL",
-                                        "description":value[15]
-                                            })
                             if row[38] == '13%':
                                     taxes.append(
                                     {
@@ -830,6 +807,39 @@ def create_purchase_invoice_2020():
                                         "account_head":"VAT - HPL",
                                         "description":value[15]
                                             })
+                        if row[0] == value[0] and row[39] == '' and not 'TDS' in row[35]:
+                            items.append(
+                                    {
+                                    "item_code":"Virtual Item",
+                                    "rate":row[53],
+                                    "qty":1,
+                                    "cost_center": cost_center,
+                                    "expense_account":f"{row[35]} - HPL",
+                                    "description":row[15],
+                                        }
+                                        )
+                            if row[38] == '13%':
+                                    taxes.append(
+                                    {
+                                        'charge_type':"Actual",
+                                        "add_deduct_tax":"Add",
+                                        'rate':13,
+                                        "tax_amount":0,
+                                        "account_head":"VAT - HPL",
+                                        "description":value[15]
+                                            })
+                        
+                        if row[0] == value[0] and 'TDS' in row[39] or 'TDS' in row[35]:
+                            taxes.append(
+                                    {
+                                        'charge_type':"Actual",
+                                        "add_deduct_tax":"Deduct",
+                                        'rate':0,
+                                        "tax_amount":row[58],
+                                        "account_head":f"{row[35]} - HPL",
+                                        "description":value[15]
+                                            })
+                   
                                     
 
                 doc = frappe.new_doc("Purchase Invoice")
@@ -837,7 +847,7 @@ def create_purchase_invoice_2020():
                 doc.custom_internal_id = value[0]
                 doc.set_posting_time = 1
                 doc.posting_date = date_converter_month(value[2])
-                doc.bill_no = value[1]
+                doc.bill_no = value[52]
                 doc.bill_date = date_converter_month(value[2])
                 doc.custom_document_number = value[3]
                 doc.custom_created_by = value[4]
