@@ -824,7 +824,7 @@ def create_purchase_invoice_2020():
                                         'charge_type':"Actual",
                                         "add_deduct_tax":"Add",
                                         'rate':0,
-                                        "tax_amount":row[54],,
+                                        "tax_amount":row[54],
                                         "account_head":"VAT - HPL",
                                         "description":value[15]
                                             })
