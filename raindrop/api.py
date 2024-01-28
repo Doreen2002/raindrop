@@ -1158,7 +1158,7 @@ def create_cash_bank_received():
                                     acc.is_group = 0
                                     acc.insert(ignore_mandatory=True)
                                     frappe.db.commit()
-                            total = total + row[28]
+                            # total = total + row[28]
                 payment = frappe.new_doc("Payment Entry")
                 payment.party_type = "Supplier"
                 payment.party = value[8]
