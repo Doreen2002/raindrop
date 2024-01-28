@@ -1148,9 +1148,9 @@ def create_cash_bank_received():
                     for row in reader:
                         total = 0
                         if  row[0].strip() == value[0].strip():
-                            if not frappe.db.exists('Account', f"{row[22].strip()} - HPL"):
+                            if not frappe.db.exists('Account', f"{row[14].strip()} - HPL"):
                                     acc = frappe.new_doc('Account')
-                                    acc.account_name = row[22].strip()
+                                    acc.account_name = row[14].strip()
                                     acc.account_type = "Payable"
                                     acc.root_type = "Liability"
                                     acc.report_type = "Balance Sheet"
@@ -1158,10 +1158,10 @@ def create_cash_bank_received():
                                     acc.is_group = 0
                                     acc.insert(ignore_mandatory=True)
                                     frappe.db.commit()
-                            total = total + row[43]
+                            total = total + row[28]
                 payment = frappe.new_doc("Payment Entry")
                 payment.party_type = "Supplier"
-                payment.party = value[11]
+                payment.party = value[8]
                 currency = 'NPR'
                 if value[5] == "Nepalese Rupee":
                     currency = "NPR"
@@ -1177,10 +1177,10 @@ def create_cash_bank_received():
                     currency = "GBP"
                 elif value[5] == "Norwegian Krone":
                     currency = "NOK"
-                if value[7] == '':
+                if value[9] == '':
                     cost_center = "Main - HPL"
-                if value[7] != '':
-                    cost_center = f'{value[8]} - HPL',
+                if value[9] != '':
+                    cost_center = f'{value[9]} - HPL',
                 payment = frappe.new_doc('Payment Entry')
                 payment.payment_type = "Pay"	
                 payment.custom_internal_id = value[0]
@@ -1188,20 +1188,20 @@ def create_cash_bank_received():
                 payment.custom_subsidiary = value[4]
                 payment.custom_location = value[6]
                 payment.custom_line_id = value[21]
-                payment.custom_created_by = value[2]
+                payment.custom_created_by = value[3]
                 payment.mode_of_payment = "Cash"	
                 payment.party_type = "Supplier"
                 payment.posting_date = date_converter(value[1])
                 payment.paid_to_account_currency  = currency
                 payment.paid_from_account_currency = currency
                 payment.cost_center = cost_center
-                payment.paid_amount = value[16]
+                payment.paid_amount = value[28]
                 payment.received_amount =  payment.paid_amount 
-                payment.paid_to = f'{value[12]} - HPL'
-                payment.paid_from = f'{value[22]} - HPL'
-                payment.target_exchange_rate = value[15]
-                payment.project =value[20]
-                payment.reference_no=value[11]
+                payment.paid_to = f'{value[7]} - HPL'
+                payment.paid_from = f'{value[14]} - HPL'
+                payment.target_exchange_rate = value[11]
+                # payment.project =value[20]
+                payment.reference_no=value[10]
                 payment.reference_date = date_converter(value[1])
                 payment.cost_center = cost_center
                 payment.docstatus = 1
