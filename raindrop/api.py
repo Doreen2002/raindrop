@@ -1159,9 +1159,8 @@ def create_cash_bank_received():
                                     acc.insert(ignore_mandatory=True)
                                     frappe.db.commit()
                             # total = total + row[28]
-                payment = frappe.new_doc("Payment Entry")
-                payment.party_type = "Supplier"
-                payment.party = value[8] or "No Supplier"
+                # payment = frappe.new_doc("Payment Entry")
+                
                 currency = 'NPR'
                 if value[5] == "Nepalese Rupee":
                     currency = "NPR"
@@ -1182,6 +1181,8 @@ def create_cash_bank_received():
                 if value[9] != '':
                     cost_center = f'{value[9]} - HPL',
                 payment = frappe.new_doc('Payment Entry')
+                payment.party_type = "Supplier"
+                payment.party = value[8] or "No Supplier"
                 payment.payment_type = "Pay"	
                 payment.custom_internal_id = value[0]
                 payment.custom_document_number = value[2]
