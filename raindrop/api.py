@@ -1471,7 +1471,7 @@ def stock_out():
                     stock.insert()
                     frappe.db.commit()
             except Exception as e:
-                print(f'{e} {value[1]} ')
+                print(f'{e} {value[0]} ')
 
 
 def stock_in_one():
