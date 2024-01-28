@@ -1982,14 +1982,14 @@ def create_employee_expenses():
                     reader = csv.reader(templates, delimiter=',')
                     for row in reader:
                         if row[0]  == value[0]:
-                                create_account(account=f'{row[12]}',root_type="Expense", parent="51000 - Direct Expenses - HPL",  currency='NPR')
+                                
                                 if row[12] != '' or row[12] != None:
                                     if not frappe.db.exists('Expense Claim Type', row[12]):
                                         exp = frappe.new_doc("Expense Claim Type")
                                         exp.expense_type = row[12]
                                         exp.append("accounts", {
                                             "company":frappe.db.get_list('Company', pluck='name')[0],
-                                            "default_account":frappe.db.get_value('Account', {'name': ['like', f'%{row[12].replace(":", " ").strip()}%']}, 'name')
+                                            "default_account":create_account(account=f'{row[12]}',root_type="Expense", parent="51000 - Direct Expenses - HPL",  currency='NPR')
                                         })
                                         exp.insert()
                                         frappe.db.commit()
