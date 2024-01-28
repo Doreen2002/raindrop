@@ -1196,7 +1196,7 @@ def create_cash_bank_received():
                 payment.paid_from_account_currency = currency
                 payment.cost_center = cost_center
                 payment.paid_amount = value[28]
-                payment.received_amount =  payment.paid_amount 
+                payment.received_amount =  value[28]
                 payment.paid_to = f'{value[7]} - HPL'
                 payment.paid_from = f'{value[14]} - HPL'
                 payment.target_exchange_rate = value[11]
@@ -1208,7 +1208,7 @@ def create_cash_bank_received():
                 payment.insert()
                 frappe.db.commit()
             except Exception as e:
-                print(f"{e} {value}")
+                print(f"{e} {value[28]}")
 
 
 
