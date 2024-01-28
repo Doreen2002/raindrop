@@ -1139,11 +1139,11 @@ def create_jounal_entry():
             except Exception as e:
                 print(f'{e} {value[11]} ')
 def create_cash_bank_received():
-    with open('/home/frappe/frappe-bench/apps/raindrop/HPL Journal Number NPR 2020_2023 - Sheet1 (2).csv' ) as design_file:
+    with open('/home/frappe/frappe-bench/apps/raindrop/HPL Cash Bank Received Others Income - Sheet1.csv' ) as design_file:
         reader_po = csv.reader(design_file, delimiter=',')
         for value in reader_po:
             try:
-                with open('/home/frappe/frappe-bench/apps/raindrop/HPL Journal Entry NPR 2020_2023 - Sheet1.csv') as templates:
+                with open('/home/frappe/frappe-bench/apps/raindrop/HPL Cash Bank Received Others Income - Sheet1.csv') as templates:
                     reader = csv.reader(templates, delimiter=',')
                     for row in reader:
                         total = 0
