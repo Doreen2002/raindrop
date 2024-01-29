@@ -22,7 +22,7 @@ def on_update(doc, method):
         buying =  float(f'{limit_amount.strip()}') 
         if "General Manager" not  in frappe.get_roles() :
             if total > buying:
-                    frappe.throw("The Material Purchase Is Above Limit, Send to General Manager or Immediate Manger ")
+                    frappe.throw(f"The Material Purchase Is Above Limit, Send to General Manager or Immediate Manger. Limit is {buying} and total amount on PO is {total} ")
                
     
 
