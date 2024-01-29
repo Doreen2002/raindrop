@@ -24,7 +24,7 @@ def on_save(doc, method):
                 is_negative_stock_allowed(item_code=d.item_code)
             previous_sle = get_previous_sle({
                 'item_code': d.item_code,
-                'warehouse': d.s_warehouse or d.t_warehouse,
+                'warehouse': d.from_warehouse or d.warehouse,
                 'posting_date': doc.posting_date,
                 'posting_time': doc.posting_time,
                 })
@@ -36,12 +36,12 @@ def on_save(doc, method):
 
         # validate qty during submit
 
-            if d.s_warehouse and not allow_negative_stock \
+            if d.from_warehouse and not allow_negative_stock \
                 and flt(d.actual_qty, d.precision('actual_qty')) \
                 < flt(d.transfer_qty, d.precision('actual_qty')):
                 frappe.throw(_('Row {0}: Quantity not available for {4} in warehouse {1} at posting time of the entry ({2} {3})'
                              ).format(d.idx,
-                             frappe.bold(d.s_warehouse),
+                             frappe.bold(d.from_warehouse),
                              formatdate(doc.posting_date),
                              format_time(doc.posting_time),
                              frappe.bold(d.item_code)) + '<br><br>'
