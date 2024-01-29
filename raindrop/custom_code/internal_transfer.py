@@ -32,14 +32,14 @@ def on_save(doc, method):
 
         # get actual stock at source warehouse
 
-            d.actual_qty = previous_sle.get('qty_after_transaction') \
+            d.custom_actual_qty = previous_sle.get('qty_after_transaction') \
                 or 0
 
         # validate qty during submit
 
             if d.from_warehouse and not allow_negative_stock \
-                and flt(d.actual_qty, d.precision('actual_qty')) \
-                < flt(d.transfer_qty, d.precision('actual_qty')):
+                and flt(d.custom_actual_qty, d.precision('actual_qty')) \
+                < flt(d.qty, d.precision('actual_qty')):
                 frappe.throw(_('Row {0}: Quantity not available for {4} in warehouse {1} at posting time of the entry ({2} {3})'
                              ).format(d.idx,
                              frappe.bold(d.from_warehouse),
@@ -47,9 +47,9 @@ def on_save(doc, method):
                              format_time(now()),
                              frappe.bold(d.item_code)) + '<br><br>'
                              + _('Available quantity is {0}, you need {1}'
-                             ).format(frappe.bold(flt(d.actual_qty,
+                             ).format(frappe.bold(flt(d.custom_actual_qty,
                              d.precision('actual_qty'))),
-                             frappe.bold(d.transfer_qty)),
+                             frappe.bold(d.qty)),
                              NegativeStockError,
                              title=_('Insufficient Stock'))
 
