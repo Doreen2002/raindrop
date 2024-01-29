@@ -72,6 +72,17 @@ onload_post_render: function(frm){
 	// 	},
     refresh(frm)
     {
+	    if(cur_frm.doc.workflow_state == "Approved" 
+	       {
+		    frappe.db.get_value("Item", cur_frm.doc.items[0].item_code, 'is_stock_item').then( r => { 
+			  if  ( r.message.is_stock_item == 1 && frappe.session.user_email != "keshav.kc@hpl.com.np")
+
+			  {
+					 $("button:contains('Create')").hide(); 
+			  }
+
+		    })
+	    	}
 	    //cost center code
 	    if(frm.is_new)
 	{
