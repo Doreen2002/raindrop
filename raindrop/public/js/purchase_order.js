@@ -1,6 +1,37 @@
 frappe.ui.form.on("Purchase Order", {
 
 onload_post_render: function(frm){
+
+frappe.call({
+            method: 'raindrop.custom_code.purchase_order.get_approver',
+            args: {
+                owner: frm.doc.owner,
+		
+            },
+	            freeze: true,
+	            callback: (r) => {
+			console.log(r.message)
+	                if(r.message.length > 1)
+			{
+			frm.set_query('cost_center', () => {
+	                return {
+	                    filters: {
+	                        name: ['in', r.message]
+	                    }
+	                }
+	            })
+			}
+			 if(r.message.length == 1)   
+			 {
+				frm.doc.cost_center = r.message[0]
+				 frm.refresh_fields()
+			 }
+	            },
+	            error: (r) => {
+	                console.log(r)
+	            }
+        })
+	
     if(!frappe.user.has_role('Administrator'))
     {
         var bt = ['Purchase Invoice', 'Payment',  'Payment Request', 'Subscription']
@@ -84,38 +115,37 @@ onload_post_render: function(frm){
 		    })
 	    	}
 	    //cost center code
-	    if(frm.is_new)
-	{
+	 
 		frappe.call({
             method: 'raindrop.custom_code.purchase_order.get_approver',
             args: {
                 owner: frm.doc.owner,
 		
             },
-            freeze: true,
-            callback: (r) => {
-		console.log(r.message)
-                if(r.message.length > 1)
-		{
-		frm.set_query('cost_center', () => {
-                return {
-                    filters: {
-                        name: ['in', r.message]
-                    }
-                }
-            })
-		}
-		 if(r.message.length == 1)   
-		 {
-			frm.doc.cost_center = r.message[0]
-			 frm.refresh_fields()
-		 }
-            },
-            error: (r) => {
-                console.log(r)
-            }
+	            freeze: true,
+	            callback: (r) => {
+			console.log(r.message)
+	                if(r.message.length > 1)
+			{
+			frm.set_query('cost_center', () => {
+	                return {
+	                    filters: {
+	                        name: ['in', r.message]
+	                    }
+	                }
+	            })
+			}
+			 if(r.message.length == 1)   
+			 {
+				frm.doc.cost_center = r.message[0]
+				 frm.refresh_fields()
+			 }
+	            },
+	            error: (r) => {
+	                console.log(r)
+	            }
         })
-	}
+	
 	  
         $("button:contains('Get Items From')").hide();
         $("button:contains('Tools')").hide();
