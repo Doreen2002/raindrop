@@ -133,7 +133,7 @@ doc_events = {
 	 },
     "Material Request": {
 		"on_update": "raindrop.custom_code.internal_transfer.on_update",
-	    	"on_save": "raindrop.custom_code.internal_transfer.on_save",
+	    	"validate": "raindrop.custom_code.internal_transfer.on_save",
 		# "on_cancel": "method",
 		# "on_trash": "method"
 	},
