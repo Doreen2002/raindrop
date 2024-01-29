@@ -17,7 +17,7 @@ from frappe.utils import (
 )
 
 def on_save(doc, method):
-    if doc.stock_entry_type == 'Material Transfer':
+    if doc.material_request_type == 'Material Transfer':
         from erpnext.stock.stock_ledger import is_negative_stock_allowed
         for d in doc.items:
             allow_negative_stock = \
