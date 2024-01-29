@@ -152,7 +152,8 @@ frappe.call({
         $("button:contains('Status')").hide();
         $("button:contains('Update Items')").hide()
 	cur_frm.set_df_property('custom_purchase_approver__id', 'hidden', 1)
-	cur_frm.set_df_property('custom_initiator_manager', 'hidden', 1)   
+	cur_frm.set_df_property('custom_initiator_manager', 'hidden', 1)  
+	cur_frm.set_df_property('custom_purchase_request_manager', 'hidden', 1) 
         cur_frm.refresh_fields() 
         frappe.call({
             method: 'raindrop.api.get_nepali_date',
