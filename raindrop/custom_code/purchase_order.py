@@ -19,8 +19,8 @@ def on_update(doc, method):
         limit_amount = 0
         for item in doc.items:
             total += item.amount
-        user = frappe.session.user_email
-        limit_amount += frappe.db.get_value("Employee", {"user_id": user}, "custom_purchase_limit") 
+        
+        limit_amount += frappe.db.get_value("Employee", {"user_id": frappe.session.user}, "custom_purchase_limit") 
         if "General Manager" not  in frappe.get_roles() :
             if total > limit_amount :
                     frappe.throw(f"The Material Purchase Is Above Limit, Send to General Manager or Immediate Manger. Limit is {limit_amount } and total amount on PO is {total} ")
