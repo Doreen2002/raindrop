@@ -1,40 +1,40 @@
 import frappe 
 import json
 
-# def on_submit(doc, method):
-#     items = []
+def on_submit(doc, method):
+    items = []
     
-#     for tax in doc.taxes:
-#         if tax.add_deduct_tax == "Add" and "VAT" in tax.account_head:
-#             for item_val in doc.items:
-#                 items.append(
-#                                 {
-#                                 'account': item_val.expense_account,
-#                                 'debit_in_account_currency': item_val.base_amount * 13/100,
-#                                 'credit_in_account_currency':0,
-#                                 'cost_center':doc.cost_center,
-#                                 'account_currency': doc.currency
-#                                 }
-#                             )
-#                 items.append(
-#                                 {
-#                                 'account': tax.account_head,
-#                                 'debit_in_account_currency':0,
-#                                 'credit_in_account_currency':item_val.base_amount * 13/100,
-#                                 'cost_center':doc.cost_center,
-#                                 'account_currency': doc.currency,
-#                                 }
-#                             )
+    for tax in doc.taxes:
+        if tax.add_deduct_tax == "Add" and "VAT" in tax.account_head:
+            for item_val in doc.items:
+                items.append(
+                                {
+                                'account': item_val.expense_account,
+                                'debit_in_account_currency': item_val.base_amount * 13/100,
+                                'credit_in_account_currency':0,
+                                'cost_center':doc.cost_center,
+                                'account_currency': doc.currency
+                                }
+                            )
+                items.append(
+                                {
+                                'account': tax.account_head,
+                                'debit_in_account_currency':0,
+                                'credit_in_account_currency':item_val.base_amount * 13/100,
+                                'cost_center':doc.cost_center,
+                                'account_currency': doc.currency,
+                                }
+                            )
             
-#     journal = frappe.new_doc('Journal Entry')
-#     journal.posting_date = doc.posting_date
-#     journal.multi_currency = 1
-#     for item in items:
-#         journal.append('accounts', item)
-#     journal.docstatus = 1
-#     journal.insert()
-#     frappe.db.commit()
-#     doc.custom_journal_entry= journal.name
+    journal = frappe.new_doc('Journal Entry')
+    journal.posting_date = doc.posting_date
+    journal.multi_currency = 1
+    for item in items:
+        journal.append('accounts', item)
+    journal.docstatus = 1
+    journal.insert()
+    frappe.db.commit()
+    doc.custom_journal_entry= journal.name
 
 def on_update(doc, method):
     #get logged emloyee ID
