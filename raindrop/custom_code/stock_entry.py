@@ -16,13 +16,12 @@ from frappe.utils import (
 )
 
 def validate(doc, method): 
-	pass
-	# total_transfered = 0
-	# for item in doc.items:
-	# 	mr = frappe.db.get_value("Material Request Item", item.material_request_item, 'qty')
-	# 	ordered_qty = frappe.db.get_value("Material Request Item", item.material_request_item, 'ordered_qty') + item.qty
-	# 	if ordered_qty > mr:
-	# 		frappe.throw(f"Cannot Transfer {ordered_qty} more than requested {mr} for Item {item.item_name}")
+	total_transfered = 0
+	for item in doc.items:
+		mr = frappe.db.get_value("Material Request Item", item.material_request_item, 'qty')
+		ordered_qty = frappe.db.get_value("Material Request Item", item.material_request_item, 'ordered_qty') + item.qty
+		if ordered_qty > mr:
+			frappe.throw(f"Cannot Transfer {ordered_qty} more than requested {mr} for Item {item.item_name}")
 		
 															  
 		
