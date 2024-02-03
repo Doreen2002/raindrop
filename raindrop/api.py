@@ -32,7 +32,6 @@ def create_gl_entry_credit(account, cost_center, amount, currency,  against, vou
     doc.remarks = remarks
     doc.is_opening = "No"
     doc.is_advanced = "No"
-    doc.fiscal_year = fiscal_year
     doc.company = company
     doc.docstatus = 1
     doc.insert()
@@ -56,7 +55,6 @@ def create_gl_entry_debit(account, cost_center, amount, currency,  against, vouc
     doc.remarks = remarks
     doc.is_opening = "No"
     doc.is_advanced = "No"
-    doc.fiscal_year = fiscal_year
     doc.company = company
     doc.docstatus = 1
     doc.insert()
