@@ -2,6 +2,10 @@ frappe.ui.form.on("Purchase Order", {
 
 onload_post_render: function(frm){
 
+	var df=frappe.meta.get_docfield("Purchase Order Item”, "rate",frm.doc.name);
+	df.reqd=0;
+	frm.refresh_fields();
+
 
 	if(cur_frm.doc.workflow_state == "Approved" )
 	       {
@@ -235,13 +239,4 @@ function convertToNepaliDate(gregorianDate) {
     return `${nepaliDate.year}-${nepaliDate.month}-${nepaliDate.day}`;
   }
 
-frappe.ui.form.on('Purchase Order Item', {
 
-
-	refresh: function(frm, cdt, cdn) {
-		
-	frm.set_df_property('description', 'reqd', 0)
-       frm.refresh_fields()
-	},
-    
-});
