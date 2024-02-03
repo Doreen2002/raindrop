@@ -2,7 +2,7 @@ frappe.ui.form.on("Purchase Order", {
 
 onload_post_render: function(frm){
 
-	var d f= frappe.meta.get_docfield("Purchase Order Item", "description", frm.doc.name);
+	var df= frappe.meta.get_docfield("Purchase Order Item", "description", frm.doc.name);
 	df.reqd = 0;
 	frm.refresh_fields();
 
