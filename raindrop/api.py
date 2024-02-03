@@ -17,11 +17,11 @@ def create_gl_entries():
     payment_entries = frappe.db.get_list("Payment Entry", fields= ["*"])
     for pay in payment_entries:
         if not frappe.db.exists("GL Entry", {"voucher_no":pay.name}):
-            create_gl_entry_credit(pay.posting_date, pay.paid_from, pay.cost_center, pay.paid_amount,  pay.party_type, pay.party, pay.paid_to, pay.name, pay.project, pay.reference_no,  pay.company)
-            create_gl_entry_debit(pay.posting_date,pay.paid_to, pay.cost_center, pay.paid_amount, pay.party, pay.name, pay.project, pay.reference_no, pay.company)
+            create_gl_entry_credit(pay.posting_date, pay.paid_from, pay.cost_center, pay.paid_amount, pay.paid_from_account_cureency,  pay.party_type, pay.party, pay.paid_to, pay.name, pay.project, pay.reference_no,  pay.company)
+            create_gl_entry_debit(pay.posting_date,pay.paid_to, pay.cost_center, pay.paid_amount, pay.paid_to_account_cureency, pay.party, pay.name, pay.project, pay.reference_no, pay.company)
 
 @frappe.whitelist()
-def create_gl_entry_credit(posting_date, account, cost_center, amount,  party_type, party, against, voucher_no, project, remarks,  company):
+def create_gl_entry_credit(posting_date, account, cost_center, amount, currency, party_type, party, against, voucher_no, project, remarks,  company):
     try:
         doc = frappe.new_doc("GL Entry")
         doc.posting_date = posting_date
