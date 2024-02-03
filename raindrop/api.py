@@ -7,7 +7,7 @@ import requests
 from frappe.utils import today
 
 def delete_gl():
-    frappe.db.delete("GL Entry", filters=[[ 'creation', 'between', ['2024-02-03', '2024-02-03']]])
+    frappe.db.delete("GL Entry", [[ 'creation', 'between', ['2024-02-03', '2024-02-03']]])
     frappe.db.commit()
 
 @frappe.whitelist()
