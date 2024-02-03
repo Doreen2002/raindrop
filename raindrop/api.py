@@ -11,8 +11,8 @@ def create_gl_entries():
     payment_entries = frappe.db.get_list("Payment Entry", fields= ["*"])
     for pay in payment_entries:
         if not frappe.db.exists("GL Entry", {"voucher_no":pay.name}):
-            create_gl_entry_credit(pay.paid_from, pay.cost_center, pay.paid_amount, pay.currency, pay.party, pay.name, pay.project, pay.reference_no,  pay.company)
-            create_gl_entry_debit(pay.paid_to, pay.cost_center, pay.paid_amount, pay.currency, pay.party, pay.name, pay.project, pay.reference_no, pay.company)
+            create_gl_entry_credit(pay.paid_from, pay.cost_center, pay.paid_amount, "NPR", pay.party, pay.name, pay.project, pay.reference_no,  pay.company)
+            create_gl_entry_debit(pay.paid_to, pay.cost_center, pay.paid_amount, "NPR", pay.party, pay.name, pay.project, pay.reference_no, pay.company)
 
 @frappe.whitelist()
 def create_gl_entry_credit(account, cost_center, amount, currency,  against, voucher_no, project, remarks,  company):
