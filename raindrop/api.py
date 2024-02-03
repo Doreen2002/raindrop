@@ -16,49 +16,56 @@ def create_gl_entries():
 
 @frappe.whitelist()
 def create_gl_entry_credit(account, cost_center, amount, currency,  against, voucher_no, project, remarks,  company):
-    doc = frappe.new_doc("GL Entry")
-    doc.posting_date = today()
-    doc.account= account
-    doc.cost_center = cost_center
-    doc.debit =  0
-    doc.credit = amount
-    doc.account_currency = currency
-    doc.debit_in_account_currency = 0
-    doc.credit_in_account_currency = amount
-    doc.against = against
-    doc.voucher_type = "Payment Entry"
-    doc.voucher_no = voucher_no
-    doc.project = project
-    doc.remarks = remarks
-    doc.is_opening = "No"
-    doc.is_advanced = "No"
-    doc.company = company
-    doc.docstatus = 1
-    doc.insert()
-    frappe.db.commit()
+    try:
+        doc = frappe.new_doc("GL Entry")
+        doc.posting_date = today()
+        doc.account= account
+        doc.cost_center = cost_center
+        doc.debit =  0
+        doc.credit = amount
+        doc.account_currency = currency
+        doc.debit_in_account_currency = 0
+        doc.credit_in_account_currency = amount
+        doc.against = against
+        doc.voucher_type = "Payment Entry"
+        doc.voucher_no = voucher_no
+        doc.project = project
+        doc.remarks = remarks
+        doc.is_opening = "No"
+        doc.is_advanced = "No"
+        doc.company = company
+        doc.docstatus = 1
+        doc.insert()
+        frappe.db.commit()
+    except Exception as e:
+        print(f"{e}")
+     
 
 @frappe.whitelist()
 def create_gl_entry_debit(account, cost_center, amount, currency,  against, voucher_no, project, remarks,  company):
-    doc = frappe.new_doc("GL Entry")
-    doc.posting_date = today()
-    doc.account= account
-    doc.cost_center = cost_center
-    doc.debit =  amount
-    doc.credit = 0
-    doc.account_currency = currency
-    doc.debit_in_account_currency = amount
-    doc.credit_in_account_currency = 0
-    doc.against = against
-    doc.voucher_type = "Payment Entry"
-    doc.voucher_no = voucher_no
-    doc.project = project
-    doc.remarks = remarks
-    doc.is_opening = "No"
-    doc.is_advanced = "No"
-    doc.company = company
-    doc.docstatus = 1
-    doc.insert()
-    frappe.db.commit()
+    try:
+        doc = frappe.new_doc("GL Entry")
+        doc.posting_date = today()
+        doc.account= account
+        doc.cost_center = cost_center
+        doc.debit =  amount
+        doc.credit = 0
+        doc.account_currency = currency
+        doc.debit_in_account_currency = amount
+        doc.credit_in_account_currency = 0
+        doc.against = against
+        doc.voucher_type = "Payment Entry"
+        doc.voucher_no = voucher_no
+        doc.project = project
+        doc.remarks = remarks
+        doc.is_opening = "No"
+        doc.is_advanced = "No"
+        doc.company = company
+        doc.docstatus = 1
+        doc.insert()
+        frappe.db.commit()
+    except Exception as e:
+        print(f"{e}")
     
 
 @frappe.whitelist()
