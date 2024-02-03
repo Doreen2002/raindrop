@@ -6,6 +6,12 @@ import pandas as pd
 import requests
 from frappe.utils import today
 
+def delete_gl():
+    po = frappe.db.get_list('GL Entry', filters=[[ 'creation', 'between', ['2024-02-03', '2024-02-03']]]) 
+    for item in po:
+        frappe.db.delete("GL Entry", {"voucher_no":item["name"]})
+        frappe.db.commit()
+
 @frappe.whitelist()
 def create_gl_entries():
     payment_entries = frappe.db.get_list("Payment Entry", fields= ["*"])
