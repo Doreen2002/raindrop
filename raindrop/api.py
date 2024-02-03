@@ -4,8 +4,64 @@ import datetime as real_Date
 import nepali_datetime
 import pandas as pd
 import requests
+from frappe.utils import today
 
+@frappe.whitelist()
+def create_gl_entries():
+    payment_entries = frappe.db.get_list("Payment Entry", fields= ["*"])
+    for pay in payment_entries:
+        if not frappe.db.exists("GL Entry", {"voucher_no":pay.name}):
+            create_gl_entry_credit(pay.paid_from, pay.cost_center, pay.paid_amount, pay.currency, pay.party, pay.name, pay.project, pay.reference_no,  pay.company)
+            create_gl_entry_debit(pay.paid_to, pay.cost_center, pay.paid_amount, pay.currency, pay.party, pay.name, pay.project, pay.reference_no, pay.company)
 
+@frappe.whitelist()
+def create_gl_entry_credit(account, cost_center, amount, currency,  against, voucher_no, project, remarks,  company):
+    doc = frappe.new_doc("GL Entry")
+    doc.posting_date = today()
+    doc.account= account
+    doc.cost_center = cost_center
+    doc.debit =  0
+    doc.credit = amount
+    doc.account_currency = currency
+    doc.debit_in_account_currency = 0
+    doc.credit_in_account_currency = amount
+    doc.against = against
+    doc.voucher_type = "Payment Entry"
+    doc.voucher_no = voucher_no
+    doc.project = project
+    doc.remarks = remarks
+    doc.is_opening = "No"
+    doc.is_advanced = "No"
+    doc.fiscal_year = fiscal_year
+    doc.company = company
+    doc.docstatus = 1
+    doc.insert()
+    frappe.db.commit()
+
+@frappe.whitelist()
+def create_gl_entry_debit(account, cost_center, amount, currency,  against, voucher_no, project, remarks,  company):
+    doc = frappe.new_doc("GL Entry")
+    doc.posting_date = today()
+    doc.account= account
+    doc.cost_center = cost_center
+    doc.debit =  amount
+    doc.credit = 0
+    doc.account_currency = currency
+    doc.debit_in_account_currency = amount
+    doc.credit_in_account_currency = 0
+    doc.against = against
+    doc.voucher_type = "Payment Entry"
+    doc.voucher_no = voucher_no
+    doc.project = project
+    doc.remarks = remarks
+    doc.is_opening = "No"
+    doc.is_advanced = "No"
+    doc.fiscal_year = fiscal_year
+    doc.company = company
+    doc.docstatus = 1
+    doc.insert()
+    frappe.db.commit()
+    
 
 @frappe.whitelist()
 def get_nepali_date(date):
