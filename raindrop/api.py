@@ -7,7 +7,7 @@ import requests
 from frappe.utils import today
 
 def delete_gl():
-    frappe.db.delete("GL Entry", {"posting_date":"2024-02-03"})
+    frappe.db.delete("GL Entry", {"creation":"2024-02-03"})
     frappe.db.commit()
 
 @frappe.whitelist()
@@ -15,14 +15,14 @@ def create_gl_entries():
     payment_entries = frappe.db.get_list("Payment Entry", fields= ["*"])
     for pay in payment_entries:
         if not frappe.db.exists("GL Entry", {"voucher_no":pay.name}):
-            create_gl_entry_credit(pay.paid_from, pay.cost_center, pay.paid_amount, "NPR", pay.party_type, pay.party, pay.paid_to, pay.name, pay.project, pay.reference_no,  pay.company)
-            create_gl_entry_debit(pay.paid_to, pay.cost_center, pay.paid_amount, "NPR", pay.party, pay.name, pay.project, pay.reference_no, pay.company)
+            create_gl_entry_credit(pay.posting_date, pay.paid_from, pay.cost_center, pay.paid_amount,  pay.party_type, pay.party, pay.paid_to, pay.name, pay.project, pay.reference_no,  pay.company)
+            create_gl_entry_debit(pay.posting_date,pay.paid_to, pay.cost_center, pay.paid_amount, pay.party, pay.name, pay.project, pay.reference_no, pay.company)
 
 @frappe.whitelist()
-def create_gl_entry_credit(account, cost_center, amount, currency, party_type, party, against, voucher_no, project, remarks,  company):
+def create_gl_entry_credit(posting_date, account, cost_center, amount,  party_type, party, against, voucher_no, project, remarks,  company):
     try:
         doc = frappe.new_doc("GL Entry")
-        doc.posting_date = today()
+        doc.posting_date = posting_date
         doc.account= account
         doc.cost_center = cost_center
         doc.debit =  0
@@ -48,10 +48,10 @@ def create_gl_entry_credit(account, cost_center, amount, currency, party_type, p
      
 
 @frappe.whitelist()
-def create_gl_entry_debit(account, cost_center, amount, currency,  against, voucher_no, project, remarks,  company):
+def create_gl_entry_debit(posting_date, account, cost_center, amount, currency,  against, voucher_no, project, remarks,  company):
     try:
         doc = frappe.new_doc("GL Entry")
-        doc.posting_date = today()
+        doc.posting_date = posting_date
         doc.account= account
         doc.cost_center = cost_center
         doc.debit =  amount
