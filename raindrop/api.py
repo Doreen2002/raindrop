@@ -7,10 +7,8 @@ import requests
 from frappe.utils import today
 
 def delete_gl():
-    po = frappe.db.get_list('GL Entry', filters=[[ 'posting_date', 'between', ['2024-02-03', '2024-02-03']]]) 
-    for item in po:
-        frappe.db.delete("GL Entry", {"voucher_no":item["name"]})
-        frappe.db.commit()
+    frappe.db.delete("GL Entry", {"posting_date":"2024-02-03"})
+    frappe.db.commit()
 
 @frappe.whitelist()
 def create_gl_entries():
@@ -21,7 +19,7 @@ def create_gl_entries():
             create_gl_entry_debit(pay.paid_to, pay.cost_center, pay.paid_amount, "NPR", pay.party, pay.name, pay.project, pay.reference_no, pay.company)
 
 @frappe.whitelist()
-def create_gl_entry_credit(account, cost_center, amount, currency, party_type,  against, voucher_no, project, remarks,  company):
+def create_gl_entry_credit(account, cost_center, amount, currency, party_type, party, against, voucher_no, project, remarks,  company):
     try:
         doc = frappe.new_doc("GL Entry")
         doc.posting_date = today()
