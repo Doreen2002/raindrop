@@ -47,6 +47,7 @@ def on_save(doc, method):
 				    'server_action': 'dotted.path.to.method',
 				    # 'args': args
 				    }
+				}
 				    )
 
 
