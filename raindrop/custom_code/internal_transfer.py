@@ -51,7 +51,13 @@ def on_save(doc, method):
                              d.precision('actual_qty'))),
                              frappe.bold(d.qty)),
                              NegativeStockError,
-                             title=_('Insufficient Stock'))
+                             title=_('Insufficient Stock'),
+			     primary_action: {
+			    'label': 'Create Purchase Order',
+			    'server_action': 'dotted.path.to.method',
+			    'args': args
+			    }
+			    )
 
 
 
