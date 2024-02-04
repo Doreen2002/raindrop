@@ -2,10 +2,7 @@ frappe.ui.form.on("Purchase Order", {
 
 onload_post_render: function(frm){
 
-	var df= frappe.meta.get_docfield("Purchase Order Item", "description", frm.doc.name);
-	df.reqd = 0;
-	frm.refresh_fields();
-
+	
 
 	if(cur_frm.doc.workflow_state == "Approved" )
 	       {
@@ -232,6 +229,11 @@ frappe.ui.form.on("Purchase Taxes and Charges", "account_head", function(frm, cd
 
     
 });
+
+frappe.ui.form.on("Purchase Order Item", "km", function(frm, cdt, cdn){
+    frappe.utils.filter_dict(cur_frm.fields_dict["items"].grid.grid_rows_by_docname[cdn].docfields, {"fieldname": "description"})[0].reqd = false;
+    cur_frm.fields_dict["items"].grid.grid_rows_by_docname[cdn].fields_dict["description"].refresh();
+})
 
 
 function convertToNepaliDate(gregorianDate) {
