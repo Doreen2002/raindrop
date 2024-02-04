@@ -7,7 +7,7 @@ import requests
 from frappe.utils import today
 
 def delete_gl():
-    po = frappe.db.get_list('GL Entry', filters=[[ 'creation', 'between', ['2024-02-03', '2024-02-03']]], fields=['*']) 
+    po = frappe.db.get_list('GL Entry', filters=[[ 'creation', 'between', ['2024-02-04', '2024-02-04']]], fields=['*']) 
     for item in po:
         frappe.db.delete("GL Entry", {"voucher_no":item["voucher_no"]})
         frappe.db.commit()
@@ -18,7 +18,7 @@ def create_gl_entries():
     for pay in payment_entries:
         if not frappe.db.exists("GL Entry", {"voucher_no":pay.name}):
             create_gl_entry_credit(pay.posting_date, pay.paid_to, pay.cost_center, pay.paid_amount, pay.paid_to_account_cureency,  pay.party_type, pay.party, pay.paid_from, pay.name, pay.project, pay.reference_no,  pay.company)
-            create_gl_entry_debit(pay.posting_date,pay.paid_from, pay.cost_center, pay.paid_amount, pay.paid_from_account_cureency,pay.party_type, pay.party,pay.paid_from, pay.name, pay.project, pay.reference_no, pay.company)
+            create_gl_entry_debit(pay.posting_date,pay.paid_from, pay.cost_center, pay.paid_amount, pay.paid_from_account_cureency,pay.party_type, pay.party,pay.paid_to, pay.name, pay.project, pay.reference_no, pay.company)
 
 @frappe.whitelist()
 def create_gl_entry_credit(posting_date, account, cost_center, amount, currency, party_type, party, against, voucher_no, project, remarks,  company):
