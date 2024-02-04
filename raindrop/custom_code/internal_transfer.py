@@ -42,7 +42,7 @@ def on_save(doc, method):
                 < flt(d.qty, d.precision('actual_qty')):
                 frappe.msgprint(
 			title=_('Insufficient Stock'),
-			message= _( 'Row {d.idx}: Quantity not available for {frappe.bold(d.item_code))} in warehouse {d.from_warehouse} at posting time of the entry ({formatdate(doc.transaction_date)} {format_time(now())}'),
+			#message= _( 'Row {d.idx}: Quantity not available for {frappe.bold(d.item_code))} in warehouse {d.from_warehouse} at posting time of the entry ({formatdate(doc.transaction_date)} {format_time(now())}'),
 			primary_action = {
 				    'label': 'Create Purchase Order',
 				    'server_action': 'dotted.path.to.method',
