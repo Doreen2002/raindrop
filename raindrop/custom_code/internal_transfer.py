@@ -41,7 +41,7 @@ def on_save(doc, method):
                 and flt(d.custom_actual_qty, d.precision('actual_qty')) \
                 < flt(d.qty, d.precision('actual_qty')):
                 frappe.throw(
-			_( f 'Row {d.idx}: Quantity not available for {frappe.bold(d.item_code))} in warehouse {d.from_warehouse} at posting time of the entry ({formatdate(doc.transaction_date)} {format_time(now())}'),
+			_( 'Row {d.idx}: Quantity not available for {frappe.bold(d.item_code))} in warehouse {d.from_warehouse} at posting time of the entry ({formatdate(doc.transaction_date)} {format_time(now())}'),
 			title = _('Insufficient Stock'),
 			primary_action = {
 				    'label': 'Create Purchase Order',
