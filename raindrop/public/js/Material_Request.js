@@ -60,6 +60,7 @@ if (frm.doc.workflow_state == "Pending" && frm.doc.custom_purchase_approver__id 
         },
     refresh(frm)
     {
+	    
 
 	if(frm.is_new)
 	{
@@ -150,7 +151,7 @@ if (frm.doc.workflow_state == "Pending" && frm.doc.custom_purchase_approver__id 
             cur_frm.set_df_property('custom_inventory_person', 'hidden', 0)
             cur_frm.refresh_fields() 
         }
-        if (cur_frm.doc.material_request_type == "Purchase" && frappe.user.has_role('HPL Purchasing (Lite)') && cur_frm.doc.workflow_state == "Approved")
+        if (frappe.user.has_role('HPL Purchasing (Lite)') && cur_frm.doc.workflow_state == "Approved" || cur_frm.doc.docstatus == 0)
         {
             frm.add_custom_button(__("Create Purchase Order"), function() {
             frappe.model.with_doctype('Purchase Order', function() {
