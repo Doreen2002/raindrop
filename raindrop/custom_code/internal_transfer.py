@@ -64,8 +64,8 @@ def on_save(doc, method):
 
 @frappe.whitelist()
 def create_purchase_order():
-    frappe.response['route'] = f"/desk#Form/Purchase Order"
-    return frappe.response['route']
+    document = frappe.new_doc(“Payment Entry”);
+    frappe.set_route(“Form”, “Payment Entry”, document .name);
     
 
 def on_update(doc, method):
