@@ -45,7 +45,7 @@ def on_save(doc, method):
 				primary_action={
 				        'label': _('Create Purchase Order'),
 				        #'server_action': 'raindrop.custom_code.internal_transfer.create_purchase_order',
-				        'client_action': 'raindrop_public.Material_Request.create_purchase_order',
+				        'client_action': 'raindrop_public_Material_Request.create_purchase_order',
 				        'hide_on_success': True,
 				        # 'args': json.dumps(doc)
 				    }
