@@ -46,7 +46,7 @@ def on_save(doc, method):
 				        'server_action': 'dotted.path.to.server.method',
 				        'client_action': 'dotted.path.to.client.method',
 				        'hide_on_success': True,
-				        'args': args
+				        'args': doc
 				    }
 				)
   #               frappe.warn(
