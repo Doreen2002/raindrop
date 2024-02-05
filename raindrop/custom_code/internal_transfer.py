@@ -47,7 +47,7 @@ def on_save(doc, method):
 				        'server_action': 'raindrop.custom_code.internal.server.create_purchase_order',
 				        # 'client_action': 'dotted.path.to.client.method',
 				        'hide_on_success': True,
-				        'args': json.dumps(doc)
+				        # 'args': json.dumps(doc)
 				    }
 				)
   #               frappe.warn(
@@ -62,8 +62,8 @@ def on_save(doc, method):
 				    
 
 
-@frappe.whitelist()
-def create_purchase_order(doc):
+
+def create_purchase_order(doc, method):
     frappe.new_doc("Purchase Order")
     return ()
 
