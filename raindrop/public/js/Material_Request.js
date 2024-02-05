@@ -284,3 +284,7 @@ if (frm.doc.workflow_state == "Pending" && frm.doc.custom_purchase_approver__id 
 
 
 })
+
+function create_purchase_order(){
+	frappe.set_route('List/Event/Calendar')
+}
