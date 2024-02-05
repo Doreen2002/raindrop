@@ -40,15 +40,26 @@ def on_save(doc, method):
             if d.from_warehouse and not allow_negative_stock \
                 and flt(d.custom_actual_qty, d.precision('actual_qty')) \
                 < flt(d.qty, d.precision('actual_qty')):
-                frappe.warn(
-			f"Row {d.idx}: Quantity not available for {frappe.bold(d.item_code)} in warehouse {d.from_warehouse} at posting time of the entry {formatdate(doc.transaction_date)} {format_time(now())} ",
-			# title = "Insufficient Stock",
-			# primary_action = {
-			# 	    "label": "Create Purchase Order",
-			# 	    'server_action': 'dotted.path.to.method',
-			# 	    # 'args': args
-			# 	    }
+		frappe.msgprint(msg='This file does not exist',
+		    title='Error',
+		    raise_exception=FileNotFoundError
+		    primary_action={
+		        'label': _('Perform Action'),
+		        'server_action': 'dotted.path.to.server.method',
+		        'client_action': 'dotted.path.to.client.method',
+		        'hide_on_success': True,
+		        'args': args
+		    }
 		)
+  #               frappe.warn(
+		# 	f"Row {d.idx}: Quantity not available for {frappe.bold(d.item_code)} in warehouse {d.from_warehouse} at posting time of the entry {formatdate(doc.transaction_date)} {format_time(now())} ",
+		# 	# title = "Insufficient Stock",
+		# 	# primary_action = {
+		# 	# 	    "label": "Create Purchase Order",
+		# 	# 	    'server_action': 'dotted.path.to.method',
+		# 	# 	    # 'args': args
+		# 	# 	    }
+		# )
 				    
 
 
