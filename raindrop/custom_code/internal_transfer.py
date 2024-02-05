@@ -44,8 +44,8 @@ def on_save(doc, method):
 				raise_exception= NegativeStockError,
 				primary_action={
 				        'label': _('Create Purchase Order'),
-				        #'server_action': 'raindrop.custom_code.internal_transfer.create_purchase_order',
-				        'client_action': 'raindrop_public_js.Material_Request_create_purchase_order',
+				        'server_action': 'raindrop.custom_code.internal_transfer.create_purchase_order',
+				        #'client_action': 'raindrop_public_js.Material_Request_create_purchase_order',
 				        'hide_on_success': True,
 				        # 'args': json.dumps(doc)
 				    }
@@ -64,8 +64,8 @@ def on_save(doc, method):
 
 @frappe.whitelist()
 def create_purchase_order():
-    frappe.local.flags.redirect_location = f"/desk#Form/Purchase Order"
-    return frappe.local.flags.redirect_location 
+    frappe.response.location = f"/desk#Form/Purchase Order"
+    return frappe.response.location
     
 
 def on_update(doc, method):
