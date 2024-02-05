@@ -63,7 +63,7 @@ def on_save(doc, method):
 
 
 @frappe.whitelist()
-def create_purchase_order(doc, method):
+def create_purchase_order():
     frappe.new_doc("Purchase Order")
     return ()
 
