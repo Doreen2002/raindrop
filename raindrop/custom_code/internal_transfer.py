@@ -44,8 +44,8 @@ def on_save(doc, method):
 				raise_exception= NegativeStockError,
 				primary_action={
 				        'label': _('Create Purchase Order'),
-				        'server_action': 'raindrop.custom_code.internal_transfer.create_purchase_order',
-				        # 'client_action': 'dotted.path.to.client.method',
+				        #'server_action': 'raindrop.custom_code.internal_transfer.create_purchase_order',
+				        'client_action': 'raindrop.public.Material_Request.create_purchase_order
 				        'hide_on_success': True,
 				        # 'args': json.dumps(doc)
 				    }
