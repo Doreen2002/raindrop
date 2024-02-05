@@ -3,6 +3,7 @@ from frappe.utils import today
 from frappe.utils import cint, cstr, flt, get_link_to_form, getdate, new_line_sep, nowdate
 from frappe import _, msgprint
 from frappe.utils import now
+import json
 from erpnext.stock.stock_ledger import NegativeStockError, get_previous_sle, get_valuation_rate
 from erpnext.stock.stock_ledger import NegativeStockError, get_previous_sle, get_valuation_rate
 from frappe.utils import (
@@ -46,7 +47,7 @@ def on_save(doc, method):
 				        'server_action': 'raindrop.custom_code.internal.server.create_purchase_order',
 				        # 'client_action': 'dotted.path.to.client.method',
 				        'hide_on_success': True,
-				        'args': doc
+				        'args': json.dumps(doc0
 				    }
 				)
   #               frappe.warn(
