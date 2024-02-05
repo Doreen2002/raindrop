@@ -38,15 +38,15 @@ def on_save(doc, method):
         # validate qty during submit
 			
             if d.from_warehouse and not allow_negative_stock  and flt(d.custom_actual_qty, d.precision('actual_qty')) < flt(d.qty, d.precision('actual_qty')):
-                frappe.msgprint(msg='This file does not exist',
-				title='Error',
-				raise_exception=FileNotFoundError,
+                frappe.msgprint(msg=f"Row {d.idx}: Quantity not available for {frappe.bold(d.item_code)} in warehouse {d.from_warehouse} at posting time of the entry {formatdate(doc.transaction_date)} {format_time(now())} ",
+				title='Insuffiecient Stock',
+				raise_exception= NegativeStockError,
 				primary_action={
-				        'label': _('Perform Action'),
-				        # 'server_action': 'dotted.path.to.server.method',
+				        'label': _('Create Purchase Order'),
+				        'server_action': 'raindrop.custom_code.internal.server.create_purchase_order',
 				        # 'client_action': 'dotted.path.to.client.method',
-				        # 'hide_on_success': True,
-				        #'args': doc
+				        'hide_on_success': True,
+				        'args': doc
 				    }
 				)
   #               frappe.warn(
@@ -61,6 +61,10 @@ def on_save(doc, method):
 				    
 
 
+@frappe.whitelist()
+def create_purchase_order(doc):
+	frappe.new_doc("Purchase Order")
+    return ()
 
 def on_update(doc, method):
     #get logged emloyee ID
