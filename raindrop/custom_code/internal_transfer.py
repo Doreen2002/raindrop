@@ -64,9 +64,7 @@ def on_save(doc, method):
 
 @frappe.whitelist()
 def create_purchase_order():
-    payment_entry = frappe.new_doc("Payment Entry")
-    payment_entry.party_type = "Supplier"
-    return payment_entry.name
+    frappe.local.response["location"] = "/desk#desktop"
     
 
 def on_update(doc, method):
