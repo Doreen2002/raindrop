@@ -64,7 +64,7 @@ def on_save(doc, method):
 
 @frappe.whitelist()
 def create_purchase_order():
-    return frappe.new_doc("Purchase Order");
+    return frappe.set_route('List/Event/Calendar')
     
 
 def on_update(doc, method):
