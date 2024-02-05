@@ -43,9 +43,9 @@ def on_save(doc, method):
 				raise_exception=FileNotFoundError,
 				primary_action={
 				        'label': _('Perform Action'),
-				        'server_action': 'dotted.path.to.server.method',
-				        'client_action': 'dotted.path.to.client.method',
-				        'hide_on_success': True,
+				        # 'server_action': 'dotted.path.to.server.method',
+				        # 'client_action': 'dotted.path.to.client.method',
+				        # 'hide_on_success': True,
 				        #'args': doc
 				    }
 				)
