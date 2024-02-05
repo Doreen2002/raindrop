@@ -64,7 +64,7 @@ def on_save(doc, method):
 
 @frappe.whitelist()
 def create_purchase_order():
-    return frappe.db.set_route('List/Event/Calendar')
+    return frappe.local.flags.redirect_location = f"/desk#Form/CustomDoctype/{docname}"
     
 
 def on_update(doc, method):
