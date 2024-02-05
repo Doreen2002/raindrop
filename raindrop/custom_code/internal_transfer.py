@@ -38,7 +38,7 @@ def on_save(doc, method):
         # validate qty during submit
 			
             if d.from_warehouse and not allow_negative_stock  and flt(d.custom_actual_qty, d.precision('actual_qty')) < flt(d.qty, d.precision('actual_qty')):
-				frappe.msgprint(msg='This file does not exist',
+                frappe.msgprint(msg='This file does not exist',
 				title='Error',
 				raise_exception=FileNotFoundError
 				primary_action={
