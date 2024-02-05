@@ -64,7 +64,8 @@ def on_save(doc, method):
 
 @frappe.whitelist()
 def create_purchase_order():
-    return frappe.local.flags.redirect_location = f"/desk#Form/CustomDoctype/{docname}"
+    frappe.local.flags.redirect_location = f"/desk#Form/CustomDoctype/{docname}"
+    return frappe.local.flags.redirect_location 
     
 
 def on_update(doc, method):
