@@ -41,14 +41,14 @@ def on_save(doc, method):
             if d.from_warehouse and not allow_negative_stock  and flt(d.custom_actual_qty, d.precision('actual_qty')) < flt(d.qty, d.precision('actual_qty')):
                 frappe.msgprint(msg=f"Row {d.idx}: Quantity not available for {frappe.bold(d.item_code)} in warehouse {d.from_warehouse} at posting time of the entry {formatdate(doc.transaction_date)} {format_time(now())} ",
 				title='Insuffiecient Stock',
-				raise_exception= NegativeStockError,
-				primary_action={
-				        'label': _('Create Purchase Order'),
-				        'server_action': 'raindrop.custom_code.internal_transfer.create_purchase_order',
-				        #'client_action': 'raindrop_public_js.Material_Request_create_purchase_order',
-				        'hide_on_success': True,
-				        # 'args': json.dumps(doc)
-				    }
+				raise_exception= NegativeStockError
+				# primary_action={
+				#         'label': _('Create Purchase Order'),
+				#         'server_action': 'raindrop.custom_code.internal_transfer.create_purchase_order',
+				#         #'client_action': 'raindrop_public_js.Material_Request_create_purchase_order',
+				#         'hide_on_success': True,
+				#         # 'args': json.dumps(doc)
+				#     }
 				)
   #               frappe.warn(
 		# 	f"Row {d.idx}: Quantity not available for {frappe.bold(d.item_code)} in warehouse {d.from_warehouse} at posting time of the entry {formatdate(doc.transaction_date)} {format_time(now())} ",
