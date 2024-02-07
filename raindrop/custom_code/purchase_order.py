@@ -6,11 +6,11 @@ def before_insert(doc, method):
     doc.custom_purchase_approver__id = add_approver(doc.modified_by, doc.cost_center)
     doc.custom_initiator_manager = add_approver(doc.owner, doc.cost_center)
     doc.custom_purchase_request_manager = add_approver(doc.owner, doc.cost_center)
-    if doc.workflow_state != "Draft":
-         doc.custom_purchase_approver__id = get_single_approver(doc.modified_by)[0].supervisor
 
     
 def on_update(doc, method):
+    if doc.workflow_state != "Draft":
+         doc.custom_purchase_approver__id = get_single_approver(doc.modified_by)[0].supervisor
     #get logged emloyee ID
     employee = frappe.db.get_value("Employee", {"user_id":doc.owner}, "name")
     #get logged supervisor at particular cost center
