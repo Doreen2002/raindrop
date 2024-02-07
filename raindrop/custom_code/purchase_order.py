@@ -9,7 +9,7 @@ def before_insert(doc, method):
 
     
 def on_update(doc, method):
-    if doc.workflow_state != "Draft":
+    if doc.workflow_state != "Pending":
          doc.custom_purchase_approver__id = get_single_approver(doc.modified_by)[0].supervisor
     #get logged emloyee ID
     employee = frappe.db.get_value("Employee", {"user_id":doc.owner}, "name")
