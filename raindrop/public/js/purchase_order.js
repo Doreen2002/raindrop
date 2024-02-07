@@ -116,6 +116,38 @@ frappe.call({
  //        })
 			
 	// 	},
+    custom_initiator(frm)
+    {
+	    frappe.call({
+            method: 'raindrop.custom_code.purchase_order.get_approver',
+            args: {
+                owner: frm.doc.custom_initiator,
+		
+            },
+	            freeze: true,
+	            callback: (r) => {
+			console.log(r.message)
+	                if(r.message.length > 1)
+			{
+			frm.set_query('cost_center', () => {
+	                return {
+	                    filters: {
+	                        name: ['in', r.message]
+	                    }
+	                }
+	            })
+			}
+			 if(r.message.length == 1)   
+			 {
+				frm.doc.cost_center = r.message[0]
+				 frm.refresh_fields()
+			 }
+	            },
+	            error: (r) => {
+	                console.log(r)
+	            }
+        })
+    },
     refresh(frm)
     {
 	    if(cur_frm.doc.workflow_state == "Approved" )
