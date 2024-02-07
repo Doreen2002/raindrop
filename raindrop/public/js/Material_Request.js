@@ -302,6 +302,7 @@ frappe.ui.form.on('Material Request Item', {
 	            freeze: true,
 	            callback: (r) => {
 			frappe.model.set_value(cdt, cdn, "custom_actual_qty", r.message);
+			console.log(r.message)
 	                frm.refresh_fields()
 	            },
 	            error: (r) => {
