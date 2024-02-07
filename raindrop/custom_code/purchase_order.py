@@ -6,6 +6,8 @@ def before_insert(doc, method):
     doc.custom_purchase_approver__id = add_approver(doc.modified_by, doc.cost_center)
     doc.custom_initiator_manager = add_approver(doc.owner, doc.cost_center)
     doc.custom_purchase_request_manager = add_approver(doc.owner, doc.cost_center)
+    if doc.workflow_state != "Pending":
+         doc.custom_purchase_approver__id = get_approver(doc.modified_by)[0]
 
     
 def on_update(doc, method):
