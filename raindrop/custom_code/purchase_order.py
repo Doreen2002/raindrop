@@ -6,8 +6,8 @@ def before_insert(doc, method):
     doc.custom_purchase_approver__id = add_approver(doc.modified_by, doc.cost_center)
     doc.custom_initiator_manager = add_approver(doc.owner, doc.cost_center)
     doc.custom_purchase_request_manager = add_approver(doc.owner, doc.cost_center)
-    if doc.workflow_state != "Pending":
-         doc.custom_purchase_approver__id = get_approver(doc.modified_by)[0]
+    if doc.workflow_state != "Draft":
+         doc.custom_purchase_approver__id = get_single_approver(doc.modified_by)[0].supervisor
 
     
 def on_update(doc, method):
@@ -49,6 +49,13 @@ def get_approver(owner):
     for appr in approvers:
         approver_list.append(appr.cost_center)
     return approver_list
+    
+@frappe.whitelist()
+def get_single_approver(owner):
+    approver_list = []
+    employee = frappe.db.get_value("Employee", {"user_id":owner}, "name")
+    approvers = frappe.db.get_all("Employee Cost Center Manager", filters={"parent":employee}, fields=['*'])
+    return approvers
 
 
 
