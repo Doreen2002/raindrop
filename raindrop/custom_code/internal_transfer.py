@@ -38,7 +38,7 @@ def on_save(doc, method):
 
         # validate qty during submit
 			
-            if d.qty > q.actual_qty:
+            if d.qty > d.actual_qty:
                 frappe.msgprint(msg=f"Row {d.idx}: Quantity not available for {frappe.bold(d.item_code)} in warehouse {d.from_warehouse} at posting time of the entry {formatdate(doc.transaction_date)} {format_time(now())} ",
 				title='Insuffiecient Stock',
 				raise_exception= NegativeStockError
