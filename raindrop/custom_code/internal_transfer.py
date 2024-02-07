@@ -96,7 +96,7 @@ def get_approver(owner):
     return approver_list
 
 @frappe.whitelist()
-def get_available_qty(item_code, from_warehouse, to_warehouse, date, ):
+def get_available_qty(item_code, from_warehouse, to_warehouse, date):
     from erpnext.stock.stock_ledger import is_negative_stock_allowed
     previous_sle = get_previous_sle({
 			'item_code': item_code,
