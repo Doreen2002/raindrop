@@ -6,7 +6,7 @@ def before_insert(doc, method):
     doc.custom_purchase_approver__id = add_approver(doc.modified_by, doc.cost_center)
     doc.custom_initiator_manager = add_approver(doc.owner, doc.cost_center)
     doc.custom_purchase_request_manager = add_approver(doc.owner, doc.cost_center)
-    if doc.workflow_state != "Draft" and  doc.workflow_state == "Approved":
+    if doc.workflow_state != "Draft" and  "General Manager" not  in frappe.get_roles() :
          doc.custom_purchase_approver__id = get_single_approver(doc.modified_by)[0].supervisor
 
     
