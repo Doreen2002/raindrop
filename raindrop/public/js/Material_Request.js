@@ -290,27 +290,8 @@ frappe.ui.form.on('Material Request Item', {
 		
 		let item = frappe.get_doc(cdt, cdn);
 		if (item.from_warehouse && item.item_code) {
-			frappe.call({
-	            method: 'raindrop.custom_code.internal_transfer.get_available_qty',
-	            args: {
-	                item_code: item.item_code,
-			from_warehouse: item.from_warehouse,
-			to_warehouse: item.warehouse,
-			date: frm.doc.transaction_date
-			    
-	            },
-	            freeze: true,
-	            callback: (r) => {
-			frappe.model.set_value(cdt, cdn, "custom_actual_qty", r.message);
-			console.log(r.message)
-	                frm.refresh_fields()
-	            },
-	            error: (r) => {
-	                console.log(r)
-	            }
-	            
-	        })
-			
+		frappe.model.set_value(cdt, cdn, "custom_actual_qty", item.actual_qty);
+		frm.refresh_fields()
 		}
 	},
     
