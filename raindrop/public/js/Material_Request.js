@@ -289,7 +289,7 @@ frappe.ui.form.on('Material Request Item', {
 	from_warehouse: function(frm, cdt, cdn) {
 		
 		let item = frappe.get_doc(cdt, cdn);
-		if (item.from_warehouse and item.item_code) {
+		if (item.from_warehouse && item.item_code) {
 			frappe.call({
 	            method: 'raindrop.custom_code.internal_transfer.get_available_qty',
 	            args: {
