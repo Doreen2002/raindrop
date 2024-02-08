@@ -4,7 +4,7 @@
   "doctype": "Workflow",
   "document_type": "Expense Claim",
   "is_active": 1,
-  "modified": "2024-01-08 01:00:51.162719",
+  "modified": "2024-02-07 20:35:31.289677",
   "name": "Expense Claim",
   "override_status": 0,
   "send_email_alert": 0,
@@ -48,8 +48,8 @@
     "parentfield": "states",
     "parenttype": "Workflow",
     "state": "Approved",
-    "update_field": null,
-    "update_value": null
+    "update_field": "approval_status",
+    "update_value": "Approved"
    },
    {
     "allow_edit": "Other Approvals",
@@ -62,8 +62,8 @@
     "parentfield": "states",
     "parenttype": "Workflow",
     "state": "Rejected",
-    "update_field": null,
-    "update_value": null
+    "update_field": "approval_status",
+    "update_value": "Rejected"
    }
   ],
   "transitions": [
@@ -557,13 +557,13 @@
   "doctype": "Workflow",
   "document_type": "Purchase Order",
   "is_active": 1,
-  "modified": "2023-12-29 17:32:13.765085",
+  "modified": "2024-02-08 06:11:30.180202",
   "name": "Purchase Order",
   "override_status": 0,
   "send_email_alert": 0,
   "states": [
    {
-    "allow_edit": "HPL Purchasing (Lite)",
+    "allow_edit": "Employee",
     "avoid_status_override": 0,
     "doc_status": "0",
     "is_optional_state": 0,
@@ -707,7 +707,7 @@
    {
     "action": "Send For Approval",
     "allow_self_approval": 1,
-    "allowed": "HPL Purchasing (Lite)",
+    "allowed": "Employee",
     "condition": null,
     "next_state": "Pending",
     "parent": "Purchase Order",
