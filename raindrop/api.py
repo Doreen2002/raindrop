@@ -13,15 +13,14 @@ def delete_gl():
         frappe.db.commit()
 
 def update_wrong_supplier():
-    with open('/home/frappe/frappe-bench/apps/raindrop/HPL Final PO Correct Supplier - Sheet1.csv') as design_file:
+    with open('/home/frappe/frappe-bench/apps/raindrop/Correct Supplier - Sheet1.csv') as design_file:
         reader_po = csv.reader(design_file, delimiter=',')
         for row in reader_po:
             po_list = frappe.db.get_list("Purchase Order", fields=['*'])
             for po in po_list:
                 if  row[0] == po["custom_internal_id"]:
-                    print(f"{row[1]}")
-                    # frappe.db.set_value('Purchase Order', po["name"], {'supplier': row[1], 'supplier_name': row[1] })
-                    # frappe.db.commit()
+                    frappe.db.set_value('Purchase Order', po["name"], {'supplier': row[1], 'supplier_name': row[1] })
+                    frappe.db.commit()
     
 
 @frappe.whitelist()
