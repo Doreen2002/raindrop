@@ -18,6 +18,22 @@ before_save(frm)
             
         })
 	},
+	stock_entry_type(frm)
+		{ 
+			if (frm.doc.stock_entry_type == "Material Issue")
+			{
+			var df=frappe.meta.get_docfield("Stock Entry Item", "t_warehouse",frm.doc.name);
+			df.hidden=1;
+			frm.refresh_fields();
+			}
+			if (frm.doc.stock_entry_type == "Material Receipt")
+			{
+			var df=frappe.meta.get_docfield("Stock Entry Item", "s_warehouse",frm.doc.name);
+			df.hidden=1;
+			frm.refresh_fields();
+			}
+			
+		},
     refresh(frm)
     {
 	    if(frm.is_new)
