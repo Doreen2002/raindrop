@@ -34,7 +34,7 @@ before_save(frm)
 			}
 			
 		},
-onload(frm)
+setup(frm)
 	{
 		$('div[data-fieldname="t_warehouse"]').remove()},
     refresh(frm)
