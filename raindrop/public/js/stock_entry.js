@@ -22,13 +22,13 @@ before_save(frm)
 		{ 
 			if (frm.doc.stock_entry_type == "Material Issue")
 			{
-			$('div:contains("Target Warehouse")').hide()
+			$('.static-area:contains("Target Warehouse")').hide()
 			$('div[data-fieldname="t_warehouse"]').hide()
 			$('div[data-fieldname="s_warehouse"]').show()
 			}
 			if (frm.doc.stock_entry_type == "Material Receipt")
 			{
-			$('div:contains("Source Warehouse")').hide()
+			$('.static-area ellipsis:contains("Source Warehouse")').hide()
 			$('div[data-fieldname="s_warehouse"]').hide()
 			$('div[data-fieldname="t_warehouse"]').show()
 			}
