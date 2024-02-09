@@ -15,7 +15,7 @@ def delete_gl():
 def update_wrong_supplier():
     with open('/home/frappe/frappe-bench/apps/raindrop/HPL PO Correct Supplier - Sheet1.csv') as design_file:
         reader_po = csv.reader(design_file, delimiter=',')
-        for value in reader_po:
+        for row in reader_po:
             po_list = frappe.db.get_list("Purchase Order", fields=['*'])
             for po in po_list:
                 if  row[0] == po["custom_internal_id"]:
