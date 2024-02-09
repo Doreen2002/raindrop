@@ -36,8 +36,6 @@ before_save(frm)
 		},
     refresh(frm)
     {
-	     $('.static-area:contains("Target Warehouse")').hide()
-	    $('div[data-fieldname="t_warehouse"]').hide()
 	    if(frm.is_new)
 	{
 		frappe.call({
