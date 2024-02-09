@@ -34,9 +34,12 @@ before_save(frm)
 			}
 			
 		},
+onload(frm)
+	{
+		$('div[data-fieldname="t_warehouse"]').remove()},
     refresh(frm)
     {
-	    $('div[data-fieldname="t_warehouse"]').remove()
+	    
 	    if(frm.is_new)
 	{
 		frappe.call({
