@@ -12,6 +12,17 @@ def delete_gl():
         frappe.db.delete("GL Entry", {"voucher_no":item["voucher_no"]})
         frappe.db.commit()
 
+def update_wrong_supplier():
+    with open('/home/frappe/frappe-bench/apps/raindrop/HPL PO Correct Supplier - Sheet1.csv') as design_file:
+        reader_po = csv.reader(design_file, delimiter=',')
+        for value in reader_po:
+            po_list = frappe.db.get_list("Purchase Order", fields=['*'])
+            for po in po_list:
+                if  row[0] == po["custom_internal_id"]:
+                    frappe.db.set_value('Purchase Order', po["name"], {'supplier': row[1], 'supplier_name': frappe.db.get_value("Supplier", row[1], "supplier_name") })
+                    frappe.db.commit()
+    
+
 @frappe.whitelist()
 def create_gl_entries():
     payment_entries = frappe.db.get_list("Payment Entry", fields= ["*"])
