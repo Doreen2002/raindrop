@@ -22,15 +22,13 @@ before_save(frm)
 		{ 
 			if (frm.doc.stock_entry_type == "Material Issue")
 			{
-			var df=frappe.meta.get_docfield("Stock Entry Detail", "t_warehouse",frm.doc.name);
-			df.hidden=1;
-			frm.refresh_fields();
+			$('div[data-fieldname="t_warehouse"]').show()
+			$('div[data-fieldname="s_warehouse"]').show()
 			}
 			if (frm.doc.stock_entry_type == "Material Receipt")
 			{
-			var df=frappe.meta.get_docfield("Stock Entry Detail", "s_warehouse",frm.doc.name);
-			df.hidden=1;
-			frm.refresh_fields();
+			$('div[data-fieldname="s_warehouse"]').show()
+			$('div[data-fieldname="t_warehouse"]').show()
 			}
 			
 		},
