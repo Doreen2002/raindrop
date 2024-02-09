@@ -19,7 +19,7 @@ before_save(frm)
         })
 	},
 	stock_entry_type(frm)
-		{ 
+		{ $('div[data-fieldname="t_warehouse"]').hide()
 			if (frm.doc.stock_entry_type == "Material Issue")
 			{
 			$('div[data-fieldname="t_warehouse"]').hide()
