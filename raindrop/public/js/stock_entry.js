@@ -34,12 +34,14 @@ before_save(frm)
 			}
 			
 		},
-setup(frm)
-	{
-		$('div[data-fieldname="t_warehouse"]').remove()},
     refresh(frm)
     {
-	    
+	  if (frm.doc.stock_entry_type == "Material Issue")
+			{
+			
+			$('div[data-fieldname="t_warehouse"]').remove()
+			$('div[data-fieldname="s_warehouse"]').show()
+			}  
 	    if(frm.is_new)
 	{
 		frappe.call({
