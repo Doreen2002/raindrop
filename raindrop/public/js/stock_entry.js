@@ -22,11 +22,13 @@ before_save(frm)
 		{ 
 			if (frm.doc.stock_entry_type == "Material Issue")
 			{
+			$('div:contains("Target Warehouse")').hide()
 			$('div[data-fieldname="t_warehouse"]').hide()
 			$('div[data-fieldname="s_warehouse"]').show()
 			}
 			if (frm.doc.stock_entry_type == "Material Receipt")
 			{
+			$('div:contains("Source Warehouse")').hide()
 			$('div[data-fieldname="s_warehouse"]').hide()
 			$('div[data-fieldname="t_warehouse"]').show()
 			}
@@ -34,6 +36,7 @@ before_save(frm)
 		},
     refresh(frm)
     {
+	    $('div:contains("Target Warehouse")').hide()
 	    $('div[data-fieldname="t_warehouse"]').hide()
 	    if(frm.is_new)
 	{
