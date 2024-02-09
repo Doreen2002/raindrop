@@ -151,7 +151,60 @@ if (frm.doc.workflow_state == "Pending" && frm.doc.custom_purchase_approver__id 
             cur_frm.set_df_property('custom_inventory_person', 'hidden', 0)
             cur_frm.refresh_fields() 
         }
-        if (frappe.user.has_role('HPL Purchasing (Lite)') && cur_frm.doc.workflow_state == "Approved" || cur_frm.doc.docstatus == 0)
+	 if ( cur_frm.doc.docstatus == 0)
+        {
+            frm.add_custom_button(__("Create Purchase Order"), function() {
+            frappe.model.with_doctype('Purchase Order', function() {
+                var mr = frappe.model.get_new_doc('Purchase Order');
+                var items = frm.get_field('items').grid.get_selected_children();
+                if(!items.length) {
+                    items = frm.doc.items;
+                }
+
+                mr.work_order = frm.doc.work_order;
+                mr.custom_email_initiator = frm.doc.custom_email_initiator_;
+		mr.custom_purpose = frm.doc.custom_purpose
+		mr.cost_center = frm.doc.custom_cost_center;
+		frappe.call({
+	            method: 'raindrop.custom_code.internal_transfer.add_approver',
+	            args: {
+	                owner: frm.doc.owner,
+			custom_cost_center: frm.doc.custom_cost_center
+	            },
+	            freeze: true,
+	            callback: (r) => {
+	                mr.custom_purchase_request_manager = r.message
+	                frm.refresh_fields()
+	            },
+	            error: (r) => {
+	                console.log(r)
+	            }
+	            
+	        })
+		
+                items.forEach(function(item) {
+                    var mr_item = frappe.model.add_child(mr, 'items');
+                    mr_item.item_code = item.item_code;
+                    mr_item.item_name = item.item_name;
+                    mr_item.uom = item.uom;
+                    mr_item.stock_uom = item.stock_uom;
+                    mr_item.conversion_factor = item.conversion_factor;
+                    mr_item.item_group = item.item_group;
+                    mr_item.description = item.description;
+                    mr_item.image = item.image;
+                    mr_item.qty = item.qty;
+                    mr_item.warehouse = item.s_warehouse;
+                    mr_item.schedule_date = frappe.datetime.nowdate();
+                });
+                frappe.set_route('Form', 'Purchase Order', mr.name);
+               
+            });
+
+            
+               
+        });
+        }
+        if (frappe.user.has_role('HPL Purchasing (Lite)') && cur_frm.doc.workflow_state == "Approved" )
         {
             frm.add_custom_button(__("Create Purchase Order"), function() {
             frappe.model.with_doctype('Purchase Order', function() {
