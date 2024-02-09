@@ -19,8 +19,9 @@ def update_wrong_supplier():
             po_list = frappe.db.get_list("Purchase Order", fields=['*'])
             for po in po_list:
                 if  row[0] == po["custom_internal_id"]:
-                    frappe.db.set_value('Purchase Order', po["name"], {'supplier': row[1], 'supplier_name': row[1] })
-                    frappe.db.commit()
+                    print(f"{row[1]}")
+                    # frappe.db.set_value('Purchase Order', po["name"], {'supplier': row[1], 'supplier_name': row[1] })
+                    # frappe.db.commit()
     
 
 @frappe.whitelist()
