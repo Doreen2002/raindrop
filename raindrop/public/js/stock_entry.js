@@ -36,6 +36,7 @@ before_save(frm)
 		},
     refresh(frm)
     {
+	    $('div[data-fieldname="t_warehouse"]').remove()
 	    if(frm.is_new)
 	{
 		frappe.call({
