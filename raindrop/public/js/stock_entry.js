@@ -40,7 +40,6 @@ before_save(frm)
 			{
 			
 			$('div[data-fieldname="t_warehouse"]').remove()
-			$('div[data-fieldname="s_warehouse"]').show()
 			}  
 	    if(frm.is_new)
 	{
