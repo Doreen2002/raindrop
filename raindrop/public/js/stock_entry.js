@@ -22,12 +22,12 @@ before_save(frm)
 		{ 
 			if (frm.doc.stock_entry_type == "Material Issue")
 			{
-			$('div[data-fieldname="t_warehouse"]').show()
+			$('div[data-fieldname="t_warehouse"]').hide()
 			$('div[data-fieldname="s_warehouse"]').show()
 			}
 			if (frm.doc.stock_entry_type == "Material Receipt")
 			{
-			$('div[data-fieldname="s_warehouse"]').show()
+			$('div[data-fieldname="s_warehouse"]').hide()
 			$('div[data-fieldname="t_warehouse"]').show()
 			}
 			
