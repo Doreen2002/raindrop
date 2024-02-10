@@ -3,7 +3,7 @@ import json
 
 def on_submit(doc, method):
     items = []
-    if doc.taxes != []:
+    if doc.taxes != [] and "VAT" in doc.taxes[0].account_head:
         for tax in doc.taxes:
             if tax.add_deduct_tax == "Add" and "VAT" in tax.account_head:
                 for item_val in doc.items:
