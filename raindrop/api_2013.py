@@ -2090,7 +2090,7 @@ def delete_pur_re():
      with open('/home/frappe/frappe-bench/apps/raindrop/Correct Purchase Receipt 2024 Number - Sheet1.csv') as design_file:
         reader_po = csv.reader(design_file, delimiter=',')
         for value in  reader_po:
-            frappe.db.delete("Purchase Receipt", {"custom_document_number":value[]})
+            frappe.db.delete("Purchase Receipt", {"custom_document_number":value[2]})
             frappe.db.commit()
   
         
