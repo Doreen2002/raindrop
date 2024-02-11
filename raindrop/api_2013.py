@@ -2099,8 +2099,8 @@ def delete_pur_inv():
     with open( '/home/frappe/frappe-bench/apps/raindrop/Correct purchase invoice 2024 Number - Sheet1.csv') as design_file:
         reader_po = csv.reader(design_file, delimiter=',')
         for value in  reader_po:
-            frappe.db.delete("Purchase Invoice", {"custom_document_number":value[1]})
-            frappe.db.delete("GL Entry", {"voucher_no":frappe.db.get_value("Purchase Invoice", {"custom_document_number":value[1]}, "name")})
+            frappe.db.delete("Purchase Invoice", {"custom_bill_number":value[1]})
+            frappe.db.delete("GL Entry", {"voucher_no":frappe.db.get_value("Purchase Invoice", {"custom_bill_number":value[1]}, "name")})
             frappe.db.commit()
    
     
