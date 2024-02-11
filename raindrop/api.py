@@ -751,7 +751,7 @@ def create_purchase_order_2023():
 
 
 def create_goods_received_2023():
-    with open('/home/frappe/frappe-bench/apps/raindrop/Purchase received Number  - Sheet1.csv' ) as design_file:
+    with open('/home/frappe/frappe-bench/apps/raindrop/Correct Purchase Receipt 2024 Number - Sheet1.csv') as design_file:
         reader_po = csv.reader(design_file, delimiter=',')
         for value in  reader_po:
             try:
