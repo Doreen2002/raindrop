@@ -2087,10 +2087,13 @@ def delete_pur():
             frappe.db.commit()
         
 def delete_pur_re():
-    po = frappe.db.get_list('Purchase Receipt', filters=[[ 'creation', 'between', ['2023-12-29', '2023-12-31']]]) 
-    for item in po:
-        frappe.db.delete("Purchase Receipt", {"name":item["name"]})
-        frappe.db.commit()
+     with open('/home/frappe/frappe-bench/apps/raindrop/Correct Purchase Receipt 2024 Number - Sheet1.csv') as design_file:
+        reader_po = csv.reader(design_file, delimiter=',')
+        for value in  reader_po:
+            frappe.db.delete("Purchase Receipt", {"custom_document_number":value[]})
+            frappe.db.commit()
+  
+        
         
 def delete_pur_inv():
     po = frappe.db.get_list('Purchase Invoice', filters=[[ 'creation', 'between', ['2023-12-29', '2023-12-31']]]) 
