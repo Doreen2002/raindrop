@@ -982,8 +982,13 @@ def create_purchase_invoice_2020():
                 doc.custom_vendor = value[18]
                 doc.custom_line_id = value[33]
                 doc.disable_rounded_total = 1
-                doc.submit() or doc.save()
-                frappe.db.commit()
+                if frappe.db.get_value("Purchase Order", {"custom_document_number":value[52]}, 'docstatus') == 1:
+                    doc.submit()
+                    frappe.db.commit()
+                if frappe.db.get_value("Purchase Order", {"custom_document_number":value[52]}, 'docstatus') == 0:
+                    doc.docstatus = 0
+                    doc.insert()
+                    frappe.db.commit()
             
             except Exception as e:
                 print(f' {e}  {value[0]}')
