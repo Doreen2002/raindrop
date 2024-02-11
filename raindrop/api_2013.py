@@ -2080,10 +2080,11 @@ def stock_out_2013():
 
 
 def delete_pur():
-    po = frappe.db.get_list('Purchase Order', filters=[[ 'creation', 'between', ['2024-01-25', '2024-01-25']]]) 
-    for item in po:
-        frappe.db.delete("Purchase Order", {"name":item["name"]})
-        frappe.db.commit()
+    with open('/home/frappe/frappe-bench/apps/raindrop/HPL PO Final Transaction 2024 Number  - Sheet1.csv') as design_file:
+        reader_po = csv.reader(design_file, delimiter=',')
+        for value in reader_po:
+            frappe.db.delete("Purchase Order", {"custom_document_number":value[2]})
+            frappe.db.commit()
         
 def delete_pur_re():
     po = frappe.db.get_list('Purchase Receipt', filters=[[ 'creation', 'between', ['2023-12-29', '2023-12-31']]]) 
