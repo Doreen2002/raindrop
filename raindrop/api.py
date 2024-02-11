@@ -592,7 +592,7 @@ def create_purchase_order():
 
 
 def create_purchase_order_2023():
-    with open('/home/frappe/frappe-bench/apps/raindrop/HPL PO Final Transaction  Number  - Sheet1_F.csv') as design_file:
+    with open('/home/frappe/frappe-bench/apps/raindrop/Correct PO 2024 Number - Sheet1.csv') as design_file:
         reader_po = csv.reader(design_file, delimiter=',')
         for value in reader_po:
             try:
@@ -610,12 +610,12 @@ def create_purchase_order_2023():
                                 item = "Virtual Item"
                             elif row[43] != '':
                                 item = frappe.db.get_value('Item', {'custom_name':row[43]}, 'name')
-                            if row[43] != '' and float(row[43]) >= 1:
+                            if row[43] != '' and float(row[43]) >= 0:
                                 qty = row[43]
                             else:
                                 qty = 1
                                 rate = 0
-                            if row[40] != '' and (row[40] != '' and float(row[40]) >= 1):
+                            if row[40] != '' and (row[40] != '' and float(row[40]) >= 0):
                                 rate = row[40]
                             elif row[40] == '':
                                 rate = 0
