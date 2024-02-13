@@ -595,12 +595,12 @@ def create_purchase_order():
 
 
 def create_purchase_order_2023():
-    with open('/home/frappe/frappe-bench/apps/raindrop/Correct PO 2024 Number - Sheet1.csv') as design_file:
+    with open('/home/frappe/frappe-bench/apps/raindrop/Corrected PO 2024 Number - Sheet1.csv') as design_file:
         reader_po = csv.reader(design_file, delimiter=',')
         for value in reader_po:
             try:
                 items = []
-                with open('/home/frappe/frappe-bench/apps/raindrop/HPL PO Final Transaction  (1) - Sheet1_S.csv') as templates:
+                with open('/home/frappe/frappe-bench/apps/raindrop/Corrected PO 2024 - Sheet1.csv') as templates:
                     reader = csv.reader(templates, delimiter=',')
                     items.clear()
                     for row in reader:
@@ -675,6 +675,7 @@ def create_purchase_order_2023():
                 if len(items) > 0:
                     doc = frappe.new_doc('Purchase Order')
                     doc.supplier = value[31]
+                    doc.custom_vendor_name = value[7]
                     if value[5] == "Nepalese Rupee":
                         doc.currency = "NPR"
                     elif value[5] == "Euro":
