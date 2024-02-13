@@ -2092,6 +2092,11 @@ def delete_pur_re():
         for value in  reader_po:
             frappe.db.delete("Purchase Receipt", {"custom_document_number":value[2]})
             frappe.db.commit()
+            frappe.db.delete("GL Entry", {"voucher_no":frappe.db.get_value("Purchase Invoice", {"custom_bill_number":value[2]}, "name")})
+            frappe.db.commit()
+            frappe.db.delete("Stock Ledger Entry", {"voucher_no":frappe.db.get_value("Purchase Invoice", {"custom_bill_number":value[2]}, "name")})
+            frappe.db.commit()
+            
   
         
         
@@ -2100,7 +2105,10 @@ def delete_pur_inv():
         reader_po = csv.reader(design_file, delimiter=',')
         for value in  reader_po:
             frappe.db.delete("Purchase Invoice", {"custom_bill_number":value[1]})
+            frappe.db.commit()
             frappe.db.delete("GL Entry", {"voucher_no":frappe.db.get_value("Purchase Invoice", {"custom_bill_number":value[1]}, "name")})
+            frappe.db.commit()
+            frappe.db.delete("Stock Ledger Entry", {"voucher_no":frappe.db.get_value("Purchase Invoice", {"custom_bill_number":value[1]}, "name")})
             frappe.db.commit()
    
     
