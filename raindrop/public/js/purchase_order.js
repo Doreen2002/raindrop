@@ -77,10 +77,10 @@ frappe.call({
 		$('.actions-btn-group').hide()
 	}
 	 }
-	// if (frm.doc.workflow_state == "Pending" || frm.doc.workflow_state == "Draft" )
-	// {
-	// 	$('.actions-btn-group').show()
-	// }
+	if ( frm.doc.workflow_state == "Draft" )
+	{
+		$('.actions-btn-group').show()
+	}
         $("button:contains('Get Items From')").hide();
         $("button:contains('Tools')").hide();
         $("button:contains('Status')").hide();
