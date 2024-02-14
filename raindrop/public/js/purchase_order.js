@@ -4,7 +4,7 @@ onload_post_render: function(frm){
 
 	
 	cur_frm.doc.custom_initiator = frappe.session.logged_in_user;
-	cur_frm.refresh_feilds();
+	cur_frm.refresh_fields();
 	
 	if(cur_frm.doc.workflow_state == "Approved" )
 	       {
@@ -30,6 +30,8 @@ frappe.call({
 			console.log(r.message)
 	                if(r.message.length > 1)
 			{
+			frm.doc.cost_center = " "
+			frm.refresh_fields()
 			frm.set_query('cost_center', () => {
 	                return {
 	                    filters: {
