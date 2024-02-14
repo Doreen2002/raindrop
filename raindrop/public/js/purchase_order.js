@@ -197,6 +197,8 @@ frappe.call({
 	            }
         })  
 	    }
+	     if(!cur_frm.doc.custom_initiator)
+	     {
 		frappe.call({
             method: 'raindrop.custom_code.purchase_order.get_approver',
             args: {
@@ -226,6 +228,7 @@ frappe.call({
 	                console.log(r)
 	            }
         })
+	     }
 	
 	  
         $("button:contains('Get Items From')").hide();
