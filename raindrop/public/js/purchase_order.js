@@ -1,4 +1,4 @@
-beffrappe.ui.form.on("Purchase Order", {
+frappe.ui.form.on("Purchase Order", {
 
 onload_post_render: function(frm){
 
