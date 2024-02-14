@@ -138,6 +138,8 @@ frappe.call({
 	                    }
 	                }
 	            })
+			frm.doc.cost_center = " "
+			frm.refresh_fields()
 			}
 			 if(r.message.length == 1)   
 			 {
@@ -185,6 +187,8 @@ frappe.call({
 	                    }
 	                }
 	            })
+			frm.doc.cost_center = " "
+			frm.refresh_fields()
 			}
 			 if(r.message.length == 1)   
 			 {
@@ -217,6 +221,8 @@ frappe.call({
 	                    }
 	                }
 	            })
+			frm.doc.cost_center = " "
+			frm.refresh_fields()
 			}
 			 if(r.message.length == 1)   
 			 {
