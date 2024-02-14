@@ -77,7 +77,7 @@ frappe.call({
 		$('.actions-btn-group').hide()
 	}
 	 }
-	if ( frm.doc.workflow_state == "Draft" )
+	if ( frm.doc.workflow_state == "Draft"  || frm.doc.workflow_state == "Pending")
 	{
 		$('.actions-btn-group').show()
 	}
