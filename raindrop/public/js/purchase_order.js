@@ -2,7 +2,7 @@ frappe.ui.form.on("Purchase Order", {
 
 onload_post_render: function(frm){
 
-	if (cur_frm.is_new)
+	if (cur_frm.doc.custom_initiator == "")
 	{
 		
 	cur_frm.doc.custom_initiator = frappe.session.logged_in_user;
