@@ -165,7 +165,38 @@ frappe.call({
 		    })
 	    	}
 	    //cost center code
-	 
+	    if(cur_frm.doc.custom_initiator)
+	    {
+		  		frappe.call({
+            method: 'raindrop.custom_code.purchase_order.get_approver',
+            args: {
+                owner: frm.doc.custom_initiator,
+		
+            },
+	            freeze: true,
+	            callback: (r) => {
+			console.log(r.message)
+	                if(r.message.length > 1)
+			{
+			frm.set_query('cost_center', () => {
+	                return {
+	                    filters: {
+	                        name: ['in', r.message]
+	                    }
+	                }
+	            })
+			}
+			 if(r.message.length == 1)   
+			 {
+				frm.doc.cost_center = r.message[0]
+				 frm.refresh_fields()
+			 }
+	            },
+	            error: (r) => {
+	                console.log(r)
+	            }
+        })  
+	    }
 		frappe.call({
             method: 'raindrop.custom_code.purchase_order.get_approver',
             args: {
