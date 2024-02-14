@@ -30,8 +30,7 @@ frappe.call({
 			console.log(r.message)
 	                if(r.message.length > 1)
 			{
-			frm.doc.cost_center = " "
-			frm.refresh_field("cost_center")
+			cur_frm.set_value('cost_center', "")
 			frm.set_query('cost_center', () => {
 	                return {
 	                    filters: {
@@ -133,8 +132,7 @@ frappe.call({
 			console.log(r.message)
 	                if(r.message.length > 1)
 			{
-			frm.doc.cost_center = " "
-			frm.refresh_field("cost_center")
+			cur_frm.set_value('cost_center', "")
 			frm.set_query('cost_center', () => {
 	                return {
 	                    filters: {
@@ -183,8 +181,7 @@ frappe.call({
 			console.log(r.message)
 	                if(r.message.length > 1)
 			{
-			frm.doc.cost_center = " "
-			frm.refresh_field("cost_center")
+			cur_frm.set_value('cost_center', "")
 			frm.set_query('cost_center', () => {
 	                return {
 	                    filters: {
@@ -218,8 +215,7 @@ frappe.call({
 			console.log(r.message)
 	                if(r.message.length > 1)
 			{
-			frm.doc.cost_center = " "
-			frm.refresh_field("cost_center")
+			cur_frm.set_value('cost_center', "")
 			frm.set_query('cost_center', () => {
 	                return {
 	                    filters: {
