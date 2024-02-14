@@ -131,6 +131,8 @@ frappe.call({
 			console.log(r.message)
 	                if(r.message.length > 1)
 			{
+			frm.doc.cost_center = " "
+			frm.refresh_fields()
 			frm.set_query('cost_center', () => {
 	                return {
 	                    filters: {
@@ -138,8 +140,7 @@ frappe.call({
 	                    }
 	                }
 	            })
-			frm.doc.cost_center = " "
-			frm.refresh_fields()
+			
 			}
 			 if(r.message.length == 1)   
 			 {
@@ -180,6 +181,8 @@ frappe.call({
 			console.log(r.message)
 	                if(r.message.length > 1)
 			{
+			frm.doc.cost_center = " "
+			frm.refresh_fields()
 			frm.set_query('cost_center', () => {
 	                return {
 	                    filters: {
@@ -187,8 +190,7 @@ frappe.call({
 	                    }
 	                }
 	            })
-			frm.doc.cost_center = " "
-			frm.refresh_fields()
+			
 			}
 			 if(r.message.length == 1)   
 			 {
@@ -214,6 +216,8 @@ frappe.call({
 			console.log(r.message)
 	                if(r.message.length > 1)
 			{
+			frm.doc.cost_center = " "
+			frm.refresh_fields()
 			frm.set_query('cost_center', () => {
 	                return {
 	                    filters: {
@@ -221,8 +225,7 @@ frappe.call({
 	                    }
 	                }
 	            })
-			frm.doc.cost_center = " "
-			frm.refresh_fields()
+			
 			}
 			 if(r.message.length == 1)   
 			 {
