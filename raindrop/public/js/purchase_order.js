@@ -1,4 +1,4 @@
-frappe.ui.form.on("Purchase Order", {
+beffrappe.ui.form.on("Purchase Order", {
 
 onload_post_render: function(frm){
 
@@ -181,7 +181,7 @@ frappe.call({
 			console.log(r.message)
 	                if(r.message.length > 1)
 			{
-			cur_frm.set_value('cost_center', "")
+			
 			frm.set_query('cost_center', () => {
 	                return {
 	                    filters: {
@@ -215,7 +215,6 @@ frappe.call({
 			console.log(r.message)
 	                if(r.message.length > 1)
 			{
-			cur_frm.set_value('cost_center', "")
 			frm.set_query('cost_center', () => {
 	                return {
 	                    filters: {
