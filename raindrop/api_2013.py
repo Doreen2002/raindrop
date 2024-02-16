@@ -2085,6 +2085,13 @@ def delete_pur():
         for value in reader_po:
             frappe.db.delete("Purchase Order", {"custom_document_number":value[2]})
             frappe.db.commit()
+def submit_pur():
+    with open('/home/frappe/frappe-bench/apps/raindrop/HPL PO Final Transaction 2024 Number  - Sheet1.csv') as design_file:
+        reader_po = csv.reader(design_file, delimiter=',')
+        for value in reader_po:
+            name = frappe.db.get_value("Purchase Order", {"custom_document_number":value[2], "workflow_state":"Approved"}, "name")
+            frappe.db.set_value('Purchase Order', name, 'docstatus', 1)
+            frappe.db.commit()
         
 def delete_pur_re():
      with open('/home/frappe/frappe-bench/apps/raindrop/Correct Purchase Receipt 2024 Number - Sheet1.csv') as design_file:
