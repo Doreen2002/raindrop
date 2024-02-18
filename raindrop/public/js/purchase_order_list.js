@@ -5,7 +5,7 @@ frappe.listview_settings['Purchase Order'] = {
      get_indicator(doc) {
         // customize indicator color
         if (doc.docstatus == 2) {
-            return [__("Cancelled"), "red", "workflow_state,=,Cancelled"];
+            return [__("Cancelled"), "red", "status,=,Cancelled"];
         }
     },
   
