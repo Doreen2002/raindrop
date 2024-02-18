@@ -17,6 +17,12 @@ onload_post_render: function(frm){
 					 $("button:contains('Create')").hide(); 
 				  	console.log("Keshav")
 			  }
+			    if  (  frappe.session.logged_in_user == "Administrator")
+
+			  {
+					 $("button:contains('Create')").show(); 
+				  	
+			  }
 
 		    })
 	    	}
