@@ -17,7 +17,7 @@ onload_post_render: function(frm){
 					 $("button:contains('Create')").hide(); 
 				  	console.log("Keshav")
 			  }
-			    if  (  frappe.session.logged_in_user == "Administrator")
+			    if  (  frappe.session.logged_in_user == "Administrator" || frappe.session.logged_in_user == "keshav.kc@hpl.com.np")
 
 			  {
 					 $("button:contains('Create')").show(); 
