@@ -11,7 +11,7 @@ onload_post_render: function(frm){
 	if(cur_frm.doc.workflow_state == "Approved" )
 	       {
 		    frappe.db.get_value("Item", cur_frm.doc.items[0].item_code, 'is_stock_item').then( r => { 
-			  if  ( r.message.is_stock_item == 1 && frappe.session.logged_in_user != "keshav.kc@hpl.com.np")
+			  if  ( r.message.is_stock_item == 1 && frappe.session.logged_in_user != "keshav.kc@hpl.com.np" || frappe.session.logged_in_user != "Administrator")
 
 			  {
 					 $("button:contains('Create')").hide(); 
