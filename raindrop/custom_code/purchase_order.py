@@ -1,8 +1,9 @@
 import frappe 
 
 def on_cancel(doc, method):
-    frappe.db.set_value("Purchase Order", doc.name , "workflow_state", "Cancelled")
-    frappe.db.commit()
+    doc.workflow_state = "Cancelled"
+    # frappe.db.set_value("Purchase Order", doc.name , "workflow_state", "Cancelled")
+    # frappe.db.commit()
 
 def before_insert(doc, method):
     if doc.custom_initiator != None:
