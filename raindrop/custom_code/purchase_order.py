@@ -28,15 +28,16 @@ def on_update(doc, method):
         if frappe.db.get_value("Supplier", doc.supplier, "email") != None:
             email_args = {
 				"recipients": frappe.db.get_value("Supplier", doc.supplier, "email"),
-				"message": _("Purchase Order Approved"),
+				"message": ("Purchase Order Approved"),
 				"subject": 'Purchase Order Approved From  {0} '.format(doc.company),
 				"attachments": [frappe.attach_print(doc.doctype, doc.name, file_name=doc.name)],
 				"reference_doctype": doc.doctype,
 				"reference_name": doc.name
 				}
-            enqueue(method=frappe.sendmail, queue='short', timeout=300, async=True, **email_args)
-       else:
-           msgprint(_("{0}: Supplier email not found, hence email not sent").format(doc.supplier))
+            enqueue(method=frappe.sendmail, queue="short", timeout=300, async=True, **email_args)
+        else:
+           msgprint("{0}: Supplier email not found, hence email not sent").format(doc.supplier)
+           
         total = 0
         limit_amount = 0
         for item in doc.items:
