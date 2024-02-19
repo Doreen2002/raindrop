@@ -23,16 +23,6 @@ def on_update(doc, method):
     if purchase_approver == '' or purchase_approver == None and "Administrator" not in frappe.get_roles():
         frappe.throw("Please ask Administrator to set Purchase Approver For you")
     if doc.workflow_state == "Approved":
-        total = 0
-        limit_amount = 0
-        for item in doc.items:
-            total += item.amount
-        
-        limit_amount += frappe.db.get_value("Employee", {"user_id": frappe.session.user}, "custom_purchase_limit") 
-        if "General Manager" not  in frappe.get_roles() :
-            if total > limit_amount :
-                    frappe.throw(f"The Material Purchase Is Above Limit, Send to General Manager or Immediate Manger. Limit is {limit_amount } and total amount on PO is {total} ")
-	
 		if frappe.db.get_value("Supplier", doc.supplier, "email") != None:
 			email_args = {
 				"recipients": frappe.db.get_value("Supplier", doc.supplier, "email"),
@@ -45,6 +35,17 @@ def on_update(doc, method):
 			enqueue(method=frappe.sendmail, queue='short', timeout=300, async=True, **email_args)
 		else:
 			msgprint(_("{0}: Supplier email not found, hence email not sent").format(doc.supplier))
+        total = 0
+        limit_amount = 0
+        for item in doc.items:
+            total += item.amount
+        
+        limit_amount += frappe.db.get_value("Employee", {"user_id": frappe.session.user}, "custom_purchase_limit") 
+        if "General Manager" not  in frappe.get_roles() :
+            if total > limit_amount :
+                    frappe.throw(f"The Material Purchase Is Above Limit, Send to General Manager or Immediate Manger. Limit is {limit_amount } and total amount on PO is {total} ")
+	
+		
     
 
 @frappe.whitelist()
