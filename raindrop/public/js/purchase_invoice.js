@@ -5,7 +5,9 @@ onload_post_render: function(frm){
         $('button:contains("Create")').hide();
         $('button:contains("Get Items From")').hide();
 	// frm.page.remove_inner_button('Purchase Receipt', 'Create');
-	frm.remove_custom_button('Purchase Receipt', 'Create');
+	// frm.remove_custom_button('Purchase Receipt', 'Create');
+	$('button:contains("Create")').find('li:contains("Purchase Receipt")').hide();
+
     }     
     },
 before_save(frm)
