@@ -4,7 +4,8 @@ onload_post_render: function(frm){
     if(!frappe.user.has_role('Administrator') && !frappe.user.has_role('HPL Accountant')){
         $('button:contains("Create")').hide();
         $('button:contains("Get Items From")').hide();
-	frm.page.remove_inner_button('Purchase Receipt');
+	// frm.page.remove_inner_button('Purchase Receipt', 'Create');
+	// frm.remove_custom_button('Close', 'Status');
     }     
     },
 before_save(frm)
