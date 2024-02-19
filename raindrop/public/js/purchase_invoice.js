@@ -3,11 +3,8 @@ frappe.ui.form.on("Purchase Invoice", {
 onload_post_render: function(frm){
     if(!frappe.user.has_role('Administrator') && !frappe.user.has_role('HPL Accountant')){
         $('button:contains("Create")').hide();
-        $('button:contains("Get Items From")').hide();  
-	var bt = ['Purchase Receipt', 'Block Invoice', 'Payment', 'Return / Debit Note', 'Subscription', 'Payment Request']
-        bt.forEach(function(bt){
-            frm.page.remove_inner_button(bt, 'Create')
-            });
+        $('button:contains("Get Items From")').hide();
+	frm.page.remove_inner_button('Purchase Receipt');
     }     
     },
 before_save(frm)
