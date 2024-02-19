@@ -155,7 +155,7 @@ doc_events = {
     "Purchase Order": {
 		"on_update": "raindrop.custom_code.purchase_order.on_update",
 	        "validate": "raindrop.custom_code.purchase_order.before_insert"
-		# "on_cancel": "method",
+		"on_cancel": "raindrop.custom_code.purchase_order.on_cancel",
 		# "on_trash": "method"
 	},
     "Purchase Receipt": {
