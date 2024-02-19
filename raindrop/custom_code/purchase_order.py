@@ -23,6 +23,8 @@ def on_update(doc, method):
     if purchase_approver == '' or purchase_approver == None and "Administrator" not in frappe.get_roles():
         frappe.throw("Please ask Administrator to set Purchase Approver For you")
     if doc.workflow_state == "Approved":
+		if doc.items[0].is_stock_item == 1:
+			create_notification("keshav.kc@hpl.com.np", doc.name, f"Create Purchase Receipt: {doc.name} {doc.workflow_sate}")
         if frappe.db.get_value("Supplier", doc.supplier, "email") != None:
             email_args = {
 				"recipients": frappe.db.get_value("Supplier", doc.supplier, "email"),
@@ -76,7 +78,13 @@ def get_single_approver(owner):
     return approvers
 
 
-
+def create_notification(for_user, doc_name, subject):
+	doc = frappe.new_doc("Notification Log")
+	doc.for_user = for_user
+	doc.document_name = doc_name
+	doc.subject = subject 
+	doc.type = "Alert"
+	doc.insert()
 
 
 
