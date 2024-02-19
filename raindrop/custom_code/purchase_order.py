@@ -25,18 +25,18 @@ def on_update(doc, method):
     if doc.workflow_state == "Approved":
         if doc.items[0].is_stock_item == 1:
             create_notification("keshav.kc@hpl.com.np", doc.name, f"Create Purchase Receipt: {doc.name} {doc.workflow_sate}")
-        if frappe.db.get_value("Supplier", doc.supplier, "email") != None:
-            email_args = {
-				"recipients": frappe.db.get_value("Supplier", doc.supplier, "email"),
-				"message": ("Purchase Order Approved"),
-				"subject": 'Purchase Order Approved From  {0} '.format(doc.company),
-				"attachments": [frappe.attach_print(doc.doctype, doc.name, file_name=doc.name)],
-				"reference_doctype": doc.doctype,
-				"reference_name": doc.name
-				}
-            enqueue(method=frappe.sendmail, queue="short", timeout=300, async=True, **email_args)
-        else:
-           msgprint("{0}: Supplier email not found, hence email not sent").format(doc.supplier)
+    #     if frappe.db.get_value("Supplier", doc.supplier, "custom_email") != None:
+    #         email_args = {
+				# "recipients": frappe.db.get_value("Supplier", doc.supplier, "custom_email"),
+				# "message": ("Purchase Order Approved"),
+				# "subject": 'Purchase Order Approved From  {0} '.format(doc.company),
+				# "attachments": [frappe.attach_print(doc.doctype, doc.name, file_name=doc.name)],
+				# "reference_doctype": doc.doctype,
+				# "reference_name": doc.name
+				# }
+    #     	enqueue(method=frappe.sendmail, queue="short", timeout=300, async=True, **email_args)
+    #     else:
+    #     	msgprint("{0}: Supplier email not found, hence email not sent").format(doc.supplier)
            
         total = 0
         limit_amount = 0
