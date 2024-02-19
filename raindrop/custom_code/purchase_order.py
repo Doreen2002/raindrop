@@ -34,7 +34,7 @@ def on_update(doc, method):
 				"reference_doctype": doc.doctype,
 				"reference_name": doc.name
 				}
-            enqueue(method=frappe.sendmail, queue='short', timeout=300, async=True, email_args)
+            enqueue(method=frappe.sendmail, queue='short', timeout=300, async=True, **email_args)
        else:
            msgprint(_("{0}: Supplier email not found, hence email not sent").format(doc.supplier))
         total = 0
