@@ -1,6 +1,6 @@
 import frappe 
 
-def on_cancel(doc. method):
+def on_cancel(doc, method):
     doc.workflow_state = "Cancelled"
 
 def before_insert(doc, method):
