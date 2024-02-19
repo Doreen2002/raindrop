@@ -1,5 +1,8 @@
 import frappe 
 
+def on_cancel(doc. method):
+    doc.workflow_state = "Cancelled"
+
 def before_insert(doc, method):
     if doc.custom_initiator != None:
         doc.owner = doc.custom_initiator
