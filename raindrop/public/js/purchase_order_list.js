@@ -8,5 +8,13 @@ frappe.listview_settings['Purchase Order'] = {
             return [__("Cancelled"), "red", "status,=,Cancelled"];
         }
     },
+    formatters: {
+        title(val) {
+            return val.bold();
+        },
+        docstatus(val) {
+            return val == 2 ? 'Cancelled' : 'No';
+        }
+    }
   
 }
