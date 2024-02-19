@@ -32,6 +32,7 @@ def on_update(doc, method):
         if "General Manager" not  in frappe.get_roles() :
             if total > limit_amount :
                     frappe.throw(f"The Material Purchase Is Above Limit, Send to General Manager or Immediate Manger. Limit is {limit_amount } and total amount on PO is {total} ")
+	
 		if frappe.db.get_value("Supplier", doc.supplier, "email") != None:
 			email_args = {
 				"recipients": frappe.db.get_value("Supplier", doc.supplier, "email"),
@@ -44,7 +45,6 @@ def on_update(doc, method):
 			enqueue(method=frappe.sendmail, queue='short', timeout=300, async=True, **email_args)
 		else:
 			msgprint(_("{0}: Supplier email not found, hence email not sent").format(doc.supplier))
-               
     
 
 @frappe.whitelist()
