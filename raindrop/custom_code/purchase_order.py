@@ -23,8 +23,8 @@ def on_update(doc, method):
     if purchase_approver == '' or purchase_approver == None and "Administrator" not in frappe.get_roles():
         frappe.throw("Please ask Administrator to set Purchase Approver For you")
     if doc.workflow_state == "Approved":
-		if frappe.db.get_value("Supplier", doc.supplier, "email") != None:
-			email_args = {
+        if frappe.db.get_value("Supplier", doc.supplier, "email") != None:
+            email_args = {
 				"recipients": frappe.db.get_value("Supplier", doc.supplier, "email"),
 				"message": _("Purchase Order Approved"),
 				"subject": 'Purchase Order Approved From  {0} '.format(doc.company),
@@ -32,9 +32,9 @@ def on_update(doc, method):
 				"reference_doctype": doc.doctype,
 				"reference_name": doc.name
 				}
-			enqueue(method=frappe.sendmail, queue='short', timeout=300, async=True, **email_args)
-		else:
-			msgprint(_("{0}: Supplier email not found, hence email not sent").format(doc.supplier))
+		    enqueue(method=frappe.sendmail, queue='short', timeout=300, async=True, **email_args)
+	    else:
+		    msgprint(_("{0}: Supplier email not found, hence email not sent").format(doc.supplier))
         total = 0
         limit_amount = 0
         for item in doc.items:
