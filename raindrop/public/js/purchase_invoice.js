@@ -1,7 +1,7 @@
 frappe.ui.form.on("Purchase Invoice", {
     
 onload_post_render: function(frm){
-    if(!frappe.user.has_role('Administrator')){
+    if(!frappe.user.has_role('Administrator') && !frappe.user.has_role('HPL Accountant'){
         $('button:contains("Create")').hide();
         $('button:contains("Get Items From")').hide();
     }     
