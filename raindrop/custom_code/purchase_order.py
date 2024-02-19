@@ -2,6 +2,7 @@ import frappe
 
 def on_cancel(doc, method):
     doc.workflow_state = "Cancelled"
+    doc.save()
 
 def before_insert(doc, method):
     if doc.custom_initiator != None:
