@@ -1,7 +1,7 @@
 frappe.ui.form.on("Journal Entry", {
 onload_post_render: function(frm){
 	
-if (frm.doc.workflow_state == "Pending" && frm.doc.custom_purchase_approver__id != frappe.session.logged_in_user && !frappe.user.has_role("Administrator") && !frappe.user.has_role("Accounts Manager"))
+if (frm.doc.workflow_state == "Pending" && frm.doc.custom_purchase_approver__id != frappe.session.logged_in_user && !frappe.user.has_role("Administrator") && !frappe.user.has_role("HPL Purchasing Manager"))
 	 {
 		$('.actions-btn-group').hide()
 	}
