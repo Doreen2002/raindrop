@@ -902,7 +902,7 @@ def create_purchase_invoice_2020():
                 if'TDS' in value[39] or 'TDS' in value[35]:
                     taxes.append(
                             {
-                                'charge_type':"Actual",
+                                'charge_type':"On Net Total",
                                 "add_deduct_tax":"Deduct",
                                 'rate':0,
                                 "tax_amount":value[58],
@@ -914,7 +914,7 @@ def create_purchase_invoice_2020():
                 if value[38] == '13%':
                     taxes.append(
                     {
-                        'charge_type':"Actual",
+                        'charge_type':"On Net Total",
                         "add_deduct_tax":"Add",
                         'rate':0,
                         "tax_amount":value[54],
