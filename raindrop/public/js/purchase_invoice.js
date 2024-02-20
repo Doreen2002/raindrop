@@ -1,6 +1,13 @@
 frappe.ui.form.on("Purchase Invoice", {
     
 onload_post_render: function(frm){
+    if(!frappe.user.has_role('Administrator'))
+    {
+        var bt = ['Purchase Receipt']
+        bt.forEach(function(bt){
+            frm.page.remove_inner_button(bt, 'Create')
+            });
+    }
     if(!frappe.user.has_role('Administrator') && !frappe.user.has_role('HPL Accountant')){
         $('button:contains("Create")').hide();
         $('button:contains("Get Items From")').hide();
