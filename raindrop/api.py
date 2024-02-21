@@ -1532,7 +1532,7 @@ def stock_out():
                         "item_code":  frappe.db.get_value('Item', {'custom_name':row[13]}, 'name') ,
                         "qty":row[15],
                         "expense_account":f"{row[3]} - HPL",
-                        "basic_rate": row[16],
+                        "basic_rate": row[16] * -1,
                         "uom": row[14],
                         "cost_center" : f"{row[9]} - HPL"
                     }
