@@ -1530,9 +1530,9 @@ def stock_out():
                             items.append(  {
                         "s_warehouse": f"{row[12]} - HPL",
                         "item_code":  frappe.db.get_value('Item', {'custom_name':row[13]}, 'name') ,
-                        "qty":row[15],
+                        "qty":row[15].replace('-', '').strip(),
                         "expense_account":f"{row[3]} - HPL",
-                        "basic_rate": row[16] * -1,
+                        "basic_rate": row[16],
                         "uom": row[14],
                         "cost_center" : f"{row[9]} - HPL"
                     }
