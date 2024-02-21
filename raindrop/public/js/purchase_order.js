@@ -87,6 +87,13 @@ frappe.call({
 	{
 		$('.actions-btn-group').show()
 	}
+	for (let x =0; x <= cur_frm.get_docinfo().assignments.length; x++)
+	{
+		if ( cur_frm.get_docinfo().assignments[x].owner == frappe.session.logged_in_user)
+		{
+			$('.actions-btn-group').show()
+		}
+	}		
         $("button:contains('Get Items From')").hide();
         $("button:contains('Tools')").hide();
         $("button:contains('Status')").hide();
