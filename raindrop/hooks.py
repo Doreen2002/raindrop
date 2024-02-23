@@ -170,7 +170,7 @@ doc_events = {
 		
 	},
 	"Travel Request":{
-		"validate":raindrop.custom_code.travel_request.before_insert"
+		"validate":"raindrop.custom_code.travel_request.before_insert"
 	}
 }
 
