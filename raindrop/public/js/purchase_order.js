@@ -23,7 +23,7 @@ onload_post_render: function(frm){
 					 $("button:contains('Create')").show(); 
 				  	
 			  }
-			    if (frappe.session.logged_in_user == "Administrator" || frappe.session.logged_in_user == "umesh.sharma@hpl.com.np")
+			    if (frappe.session.logged_in_user == "Administrator" || frappe.session.logged_in_user == "umesh.sharma@hpl.com.np" || frappe.session.logged_in_user == "surya.karki@hpl.com.np")
 			    {
 				    $("button:contains('Cancel')").show();
 			    }
