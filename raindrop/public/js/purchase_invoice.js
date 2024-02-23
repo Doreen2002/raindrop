@@ -1,10 +1,10 @@
 frappe.ui.form.on("Purchase Invoice", {
-	refresh: function(frm) {
-		frm.add_custom_button(__('Expense Claim'), function(){
-			console.log('Hai');
-			// frappe.msgprint(frm.doc.email);
-		}, __("Create"));
-	}
+	// refresh: function(frm) {
+	// 	frm.add_custom_button(__('Expense Claim'), function(){
+	// 		console.log('Hai');
+	// 		// frappe.msgprint(frm.doc.email);
+	// 	}, __("Create"));
+	// }
     
 onload_post_render: function(frm){
     if(!frappe.user.has_role('Administrator'))
