@@ -1,15 +1,14 @@
 frappe.ui.form.on("Travel Request", {
 
   onload_post_render: function(frm){
-	  	if (frm.doc.workflow_state == "Approved" && frm.doc.owner == frappe.session.logged_in_user || frappe.user.has_role("Administrator"))
-			
-		 {
-			 $("button:contains('Create')").show();
-		}
-	if (frm.doc.workflow_state == "Pending" && frm.doc.custom_travel_request_approver != frappe.session.logged_in_user && !frappe.user.has_role("Administrator"))
-		 {
-			$('.actions-btn-group').hide()
-		}
+	  if (frm.doc.workflow_state == "Approved" && frm.doc.owner == frappe.session.logged_in_user || frappe.user.has_role("Administrator"))
+	  {
+		  $("button:contains('Create')").show()
+	  }
+	  if (frm.doc.workflow_state == "Pending" && frm.doc.custom_travel_request_approver != frappe.session.logged_in_user && !frappe.user.has_role("Administrator"))
+	  {
+		  $('.actions-btn-group').hide()
+	  }
     frappe.call({
             method: 'raindrop.custom_code.travel_request.get_approver',
             args: {
