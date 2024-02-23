@@ -34,7 +34,8 @@ app_include_js = "/assets/raindrop/js/raindrop.js"
 doctype_js = {"Material Request" : "public/js/Material_Request.js","Stock Entry" : "public/js/stock_entry.js",
 	      "Journal Entry":"public/js/journal_entry.js", "Sales Invoice" : "public/js/sales_invoice.js",
 	      "Purchase Invoice" : "public/js/purchase_invoice.js", "Purchase Order" : "public/js/purchase_order.js",
-	      "Purchase Receipt" : "public/js/purchase_receipt.js", "Expense Claim" : "public/js/expense_claim.js"
+	      "Purchase Receipt" : "public/js/purchase_receipt.js", "Expense Claim" : "public/js/expense_claim.js",
+	      "Traver Request" : "public/js/travel_request.js",
 	     }
 # doctype_js = {}
 doctype_list_js = {"Purchase Order" : "public/js/purchase_order_list.js"}
@@ -167,6 +168,9 @@ doc_events = {
 		"on_update": "raindrop.custom_code.stock_entry.on_save",
 	       "validate": "raindrop.custom_code.stock_entry.validate"
 		
+	},
+	"Travel Request":{
+		"validate":raindrop.custom_code.travel_request.before_insert"
 	}
 }
 
