@@ -1,4 +1,8 @@
 frappe.ui.form.on("Travel Request", {
+	if (frm.doc.workflow_state == "Approved" && frm.doc.owner == frappe.session.logged_in_user || frappe.user.has_role("Administrator"))
+	 {
+		$('.actions-btn-group').show()
+	}
   onload_post_render: function(frm){
     frappe.call({
             method: 'raindrop.custom_code.travel_request.get_approver',
