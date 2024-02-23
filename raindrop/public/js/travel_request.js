@@ -1,7 +1,11 @@
 frappe.ui.form.on("Travel Request", {
 	if (frm.doc.workflow_state == "Approved" && frm.doc.owner == frappe.session.logged_in_user || frappe.user.has_role("Administrator"))
 	 {
-		$('.actions-btn-group').show()
+		 $("button:contains('Create')").show();
+	}
+	if (frm.doc.workflow_state == "Pending" && frm.doc.custom_travel_request_approver != frappe.session.logged_in_user && !frappe.user.has_role("Administrator"))
+	 {
+		$('.actions-btn-group').hide()
 	}
   onload_post_render: function(frm){
     frappe.call({
