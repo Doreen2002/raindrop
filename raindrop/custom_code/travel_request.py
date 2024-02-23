@@ -2,7 +2,7 @@ import frappe
 
 def before_insert(doc, method):
     if doc.travel_type == "Domestic":
-		doc.custom_travel_request_approver = add_approver(doc.owner, doc.cost_center)
+	    doc.custom_travel_request_approver = add_approver(doc.owner, doc.cost_center)
       
 @frappe.whitelist()
 def add_approver(owner, custom_cost_center):
