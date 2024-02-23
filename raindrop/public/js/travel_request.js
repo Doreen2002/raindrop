@@ -21,7 +21,7 @@ frappe.ui.form.on("Travel Request", {
 			}
 			 if(r.message.length == 1)   
 			 {
-				frm.doc.custom_cost_center = r.message[0]
+				frm.custom_cost_center = r.message[0]
 				 frm.refresh_fields()
 			 }
 	            },
