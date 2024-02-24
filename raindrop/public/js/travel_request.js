@@ -10,9 +10,9 @@ frappe.ui.form.on("Travel Request", {
 	  frm.add_custom_button(__('Expense Claim'), function(){
 		              frappe.model.with_doctype('Expense Claim', function() {
                 var mr = frappe.model.get_new_doc('Expense Claim');
-                var items = frm.get_field('items').grid.get_selected_children();
+                var items = frm.get_field('costings').grid.get_selected_children();
                 if(!items.length) {
-                    items = frm.doc.items;
+                    items = frm.doc.costings;
                 }
 
                 mr.employee = frm.doc.employee;
@@ -37,7 +37,7 @@ frappe.ui.form.on("Travel Request", {
 	 //        })
 		
                 items.forEach(function(item) {
-                    var mr_item = frappe.model.add_child(mr, 'items');
+                    var mr_item = frappe.model.add_child(mr, 'expenses');
                     mr_item.expense_type = item.expense_type;
                     mr_item.amount = item.total_amount;
                     // mr_item.uom = item.uom;
