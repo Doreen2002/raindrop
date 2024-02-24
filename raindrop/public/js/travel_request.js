@@ -51,7 +51,7 @@ frappe.ui.form.on("Travel Request", {
                     mr_item.expense_date = frappe.datetime.nowdate();
                 });
                 frappe.set_route('Form', 'Expense Claim', mr.name);
-	  }, __("Create"));
+	  }, __("Create")));
 	  if (frm.doc.workflow_state == "Pending" && frm.doc.owner != frappe.session.logged_in_user && !frappe.user.has_role("Administrator"))
 	  {
 		  $("button:contains('Create')").hide();
