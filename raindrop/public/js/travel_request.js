@@ -30,7 +30,7 @@ frappe.ui.form.on("Travel Request", {
 			console.log(r.message)
 	                if(r.message.length > 1)
 			{
-			frm.set_query('custom_cost_center', () => {
+			frm.set_query('cost_center', () => {
 	                return {
 	                    filters: {
 	                        name: ['in', r.message]
@@ -40,7 +40,7 @@ frappe.ui.form.on("Travel Request", {
 			}
 			 if(r.message.length == 1)   
 			 {
-				frm.custom_cost_center = r.message[0]
+				frm.cost_center = r.message[0]
 				 frm.refresh_fields()
 			 }
 	            },
