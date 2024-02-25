@@ -86,7 +86,7 @@ frappe.ui.form.on("Travel Request", {
 	                    }
 	                }
 	            })
-				frm.refresh_fields()
+				// frm.refresh_fields()
 			}
 			 if(r.message.length == 1)   
 			 {
