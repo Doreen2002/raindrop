@@ -57,6 +57,10 @@ frappe.ui.form.on("Travel Request", {
 	  {
 		  $("button:contains('Create')").hide();
 	  }
+	  if (frm.doc.workflow_state == "Rejected")
+	  {
+		  $("button:contains('Create')").hide();
+	  }
 	  // if (frm.doc.workflow_state == "Pending" && frm.doc.custom_travel_request_approver != frappe.session.logged_in_user && !frappe.user.has_role("Administrator"))
 	  // {
 		 //  $('.actions-btn-group').hide()
