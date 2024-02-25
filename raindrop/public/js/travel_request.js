@@ -54,7 +54,7 @@ frappe.ui.form.on("Travel Request", {
 					  })
 	  }, __("Create"));
 	  // cur_frm.get_docfield('travel_type').options += '\nOffice Vehicles'
-	  frm.fields_dict['mode_of_travel'].df.options += "\nOffice Vehicle";
+	  frm.fields_dict['mode_of_travel'].options += "\nOffice Vehicle";
 	  cur_frm.refresh_fields()
 	  if (frm.doc.workflow_state == "Pending" && frm.doc.owner != frappe.session.logged_in_user && !frappe.user.has_role("Administrator"))
 	  {
