@@ -455,6 +455,15 @@ def create_purchase_order():
                     reader = csv.reader(templates, delimiter=',')
                     items.clear()
                     for row in reader:
+                        try:
+                            if row[45] != '' and  not frappe.db.exists('UOM', row[45]):
+                                doc = frappe.new_doc('UOM')
+                                doc.uom_name = row[45].strip()
+                                doc.enabled = 1
+                                doc.insert(ignore_mandatory=True, ignore_links=True)
+                                frappe.db.commit()
+                        except Exception as e:
+                            print(f'{e}')
                         if  row[0].strip() == value[0].strip():
                             if row[38] == '0%':
                                 tax = ''
@@ -489,9 +498,10 @@ def create_purchase_order():
                                     "item_code":"Virtual Item",
                                     "qty": 1,
                                     "rate": row[58],
-                                    "schedule_date":date_converter(value[55]),
+                                    "schedule_date":date_converter(value[1]),
                                     "description":row[14],
                                     "custom_description":row[14],
+                                    "uom": row[45],
                                     "expense_account":f"{row[34].strip()} - HPL",
                                     "custom_expense_category":value[33],
                                     "cost_center":f'{row[12]} - HPL'
@@ -503,9 +513,10 @@ def create_purchase_order():
                                 "item_code":"Virtual Item",
                                 "qty": 1,
                                 "rate": row[58],
-                                "schedule_date":date_converter(value[55]),
+                                "schedule_date":date_converter(value[1]),
                                 "custom_description":row[14],
                                 "description":row[14],
+                                "uom": row[45],
                                  "expense_account":f"{row[34].strip()} - HPL",
                                  "custom_expense_category":value[33],
                                  "cost_center":f'{row[12]} - HPL'
@@ -517,7 +528,7 @@ def create_purchase_order():
                                 "item_code":frappe.db.get_value('Item', {'custom_name':row[43]}, 'name'),
                                 "qty": qty ,
                                 "rate": rate,
-                                "schedule_date":date_converter(value[55]),
+                                "schedule_date":date_converter(value[1]),
                                 "custom_description":row[14],
                                 "description":row[14],
                                 "uom": row[45],
