@@ -473,7 +473,7 @@ def create_purchase_order():
                                 rate = row[47]
                             elif row[70] == '':
                                 rate = 0
-                            if row[39] == '' and row[34] != '':
+                            if row[43] == '' and row[34] != '':
                                 if not frappe.db.exists('Account', f"{row[34].strip()} - HPL"):
                                     acc = frappe.new_doc('Account')
                                     acc.account_name = row[34].strip()
@@ -511,10 +511,10 @@ def create_purchase_order():
                                  "cost_center":f'{row[12]} - HPL'
                                     }
                                     )
-                            elif row[39] != '':
+                            elif row[43] != '':
                                 items.append(
                                 {
-                                "item_code":frappe.db.get_value('Item', {'custom_name':row[39]}, 'name'),
+                                "item_code":frappe.db.get_value('Item', {'custom_name':row[43]}, 'name'),
                                 "qty": qty ,
                                 "rate": rate,
                                 "schedule_date":date_converter(value[1]),
