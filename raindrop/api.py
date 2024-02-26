@@ -464,14 +464,14 @@ def create_purchase_order():
                                 item = "Virtual Item"
                             elif row[43] != '':
                                 item = frappe.db.get_value('Item', {'custom_name':row[43]}, 'name')
-                            if row[43] != '' and float(row[43]) >= 0:
-                                qty = row[43]
+                            if row[46] != '' and float(row[46]) >= 0:
+                                qty = row[46]
                             else:
                                 qty = 1
                                 rate = 0
-                            if row[40] != '' and (row[40] != '' and float(row[40]) >= 0):
-                                rate = row[40]
-                            elif row[40] == '':
+                            if row[47] != '' and (row[47] != '' and float(row[47]) >= 0):
+                                rate = row[47]
+                            elif row[70] == '':
                                 rate = 0
                             if row[39] == '' and row[34] != '':
                                 if not frappe.db.exists('Account', f"{row[34].strip()} - HPL"):
@@ -520,6 +520,7 @@ def create_purchase_order():
                                 "schedule_date":date_converter(value[1]),
                                 "custom_description":row[14],
                                 "description":row[14],
+                                "uom": row[45],
                                 "expense_account":"49000 - OtherCostGoodSold - HPL",
                                 "custom_expense_category":value[33],
                                 "cost_center":f'{row[12]} - HPL'
@@ -532,9 +533,9 @@ def create_purchase_order():
                     doc.custom_internal_id = value[0]
                     doc.custom_subsidiary_ =value[4]
                     doc.custom_document_number = value[2]
-                    if value[46] == '0':
+                    if value[48] == '0':
                         doc.taxes_and_charges =''
-                    if value[46] != '0':
+                    if value[48] != '0':
                         doc.taxes_and_charges = "Nepal Tax - HPL"
                         doc.append('taxes',
                                    {
