@@ -27,16 +27,14 @@ onload_post_render: function(frm){
 			    {
 				    $("button:contains('Cancel')").show();
 			    }
-			 //    if (frappe.session.logged_in_user == "narayan.devkota@hpl.com.np")
-				// {
-				// 	    frm.add_custom_button(__('Purchase Receipt'), function(){
-    //     					frappe.msgprint(frm.doc.email);	
-				// 		}, __("Create"));
-				// }
-				// if (frappe.session.logged_in_user == "narayan.devkota@hpl.com.np")
-				// {
-				// 	$("button:contains('Create')").show();
-				// }
+
+				if(frappe.session.logged_in_user == "narayan.devkota@hpl.com.np")
+				{
+					var bt = ['Purchase Invoice', 'Payment',  'Payment Request', 'Subscription']
+					bt.forEach(function(bt){
+						frm.page.remove_inner_button(bt, 'Create')
+					});
+				}
 			    
 
 		    })
