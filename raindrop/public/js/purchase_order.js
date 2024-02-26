@@ -27,6 +27,11 @@ onload_post_render: function(frm){
 			    {
 				    $("button:contains('Cancel')").show();
 			    }
+				if (frappe.session.logged_in_user == "narayan.devkota@hpl.com.np")
+				{
+					$("button:contains('Purchase Receipt','Create')").show();
+				}
+			    
 
 		    })
 	    	}
