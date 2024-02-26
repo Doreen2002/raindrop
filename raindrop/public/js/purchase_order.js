@@ -17,7 +17,7 @@ onload_post_render: function(frm){
 					 $("button:contains('Create')").hide(); 
 				  	console.log("Keshav")
 			  }
-			    if  (  frappe.session.logged_in_user == "Administrator" || frappe.session.logged_in_user == "keshav.kc@hpl.com.np" || frappe.session.logged_in_user == "umesh.sharma@hpl.com.np")
+			    if  (  frappe.session.logged_in_user == "Administrator" || frappe.session.logged_in_user == "keshav.kc@hpl.com.np" || frappe.session.logged_in_user == "umesh.sharma@hpl.com.np" || frappe.session.logged_in_user == "narayan.devkota@hpl.com.np")
 
 			  {
 					 $("button:contains('Create')").show(); 
@@ -27,10 +27,10 @@ onload_post_render: function(frm){
 			    {
 				    $("button:contains('Cancel')").show();
 			    }
-				if (frappe.session.logged_in_user == "narayan.devkota@hpl.com.np")
-				{
-					$("button:contains('Create')").show();
-				}
+				// if (frappe.session.logged_in_user == "narayan.devkota@hpl.com.np")
+				// {
+				// 	$("button:contains('Create')").show();
+				// }
 			    
 
 		    })
