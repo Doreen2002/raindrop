@@ -471,7 +471,7 @@ def create_purchase_order():
                                 rate = 0
                             if row[47] != '' and (row[47] != '' and float(row[47]) >= 0):
                                 rate = row[47]
-                            else
+                            else:
                                 rate = 0
                             if row[43] == '' and row[34] != '':
                                 if not frappe.db.exists('Account', f"{row[34].strip()} - HPL"):
