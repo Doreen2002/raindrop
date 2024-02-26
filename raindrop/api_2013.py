@@ -2080,7 +2080,7 @@ def stock_out_2013():
 
 
 def delete_pur():
-    with open('/home/frappe/frappe-bench/apps/raindrop/Purchase order 2020 to 2023 Updated Number - backuppurchaseorderResults.csv') as design_file:
+    with open('/home/frappe/frappe-bench/apps/raindrop/Purchase order 2020 to 2023 Updated  Number - backuppurchaseorderResults.csv') as design_file:
         reader_po = csv.reader(design_file, delimiter=',')
         for value in reader_po:
             frappe.db.delete("Purchase Order", {"custom_document_number":value[2]})
