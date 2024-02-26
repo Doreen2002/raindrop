@@ -446,12 +446,12 @@ def date_converter(date_str):
 
 
 def create_purchase_order():
-    with open('/home/frappe/frappe-bench/apps/raindrop/Purchase order 2020 to 2023 Updated Number - backuppurchaseorderResults.csv') as design_file:
+    with open('/home/frappe/frappe-bench/apps/raindrop/Purchase order 2020 to 2023 Updated  Number - backuppurchaseorderResults.csv') as design_file:
         reader_po = csv.reader(design_file, delimiter=',')
         for value in reader_po:
             try:
                 items = []
-                with open('/home/frappe/frappe-bench/apps/raindrop/Purchase order 2020 to 2023 Updated - backuppurchaseorderResults.csv') as templates:
+                with open('/home/frappe/frappe-bench/apps/raindrop/Purchase order 2020 to 2023 Updated  - backuppurchaseorderResults.csv') as templates:
                     reader = csv.reader(templates, delimiter=',')
                     items.clear()
                     for row in reader:
