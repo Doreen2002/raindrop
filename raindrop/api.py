@@ -493,33 +493,18 @@ def create_purchase_order():
                                     acc.is_group = 0
                                     acc.insert(ignore_mandatory=True)
                                     frappe.db.commit()
-                                    items.append(
-                                    {
-                                    "item_code":"Virtual Item",
-                                    "qty": 1,
-                                    "rate": row[58],
-                                    "schedule_date":date_converter(value[1]),
-                                    "description":row[14],
-                                    "custom_description":row[14],
-                                    "uom": row[45],
-                                    "expense_account":f"{row[34].strip()} - HPL",
-                                    "custom_expense_category":value[33],
-                                    "cost_center":f'{row[12]} - HPL'
-                                        }
-                                        )
-
                                 items.append(
                                 {
                                 "item_code":"Virtual Item",
                                 "qty": 1,
                                 "rate": row[58],
                                 "schedule_date":date_converter(value[1]),
-                                "custom_description":row[14],
                                 "description":row[14],
+                                "custom_description":row[14],
                                 "uom": row[45],
-                                 "expense_account":f"{row[34].strip()} - HPL",
-                                 "custom_expense_category":value[33],
-                                 "cost_center":f'{row[12]} - HPL'
+                                "expense_account":f"{row[34].strip()} - HPL",
+                                "custom_expense_category":value[33],
+                                "cost_center":f'{row[12]} - HPL'
                                     }
                                     )
                             elif row[43] != '':
