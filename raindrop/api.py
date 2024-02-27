@@ -456,7 +456,7 @@ def create_purchase_order():
                     items.clear()
                     for row in reader:
                         try:
-                            if row[45] != '' and  not frappe.db.exists('UOM', row[45]):
+                            if row[45] and  not frappe.db.exists('UOM', row[45]):
                                 doc = frappe.new_doc('UOM')
                                 doc.uom_name = row[45].strip()
                                 doc.enabled = 1
@@ -482,7 +482,7 @@ def create_purchase_order():
                                 rate = row[47]
                             else:
                                 rate = 0
-                            if row[43] == '':
+                            if not row[43]:
                                 if not frappe.db.exists('Account', f"{row[34].strip()} - HPL"):
                                     acc = frappe.new_doc('Account')
                                     acc.account_name = row[34].strip()
