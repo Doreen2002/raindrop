@@ -501,7 +501,6 @@ def create_purchase_order():
                                 "schedule_date":date_converter(value[1]),
                                 "description":row[14],
                                 "custom_description":row[14],
-                                "uom": row[45],
                                 "expense_account":f"{row[34].strip()} - HPL",
                                 "custom_expense_category":value[33],
                                 "cost_center":f'{row[12]} - HPL'
