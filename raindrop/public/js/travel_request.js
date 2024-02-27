@@ -90,7 +90,7 @@ frappe.ui.form.on("Travel Request", {
 			}
 			 if(r.message.length == 1)   
 			 {
-				frm.cost_center = r.message[0]
+				frm.doc.cost_center = r.message[0]
 				 frm.refresh_fields()
 			 }
 	            },
