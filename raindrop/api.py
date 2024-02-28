@@ -524,6 +524,19 @@ def create_purchase_order():
                
                 if len(items) > 0:
                     doc = frappe.new_doc('Purchase Order')
+                    if value[5] == "Nepalese Rupee":
+                        doc.currency = "NPR"
+                    elif value[5] == "Euro":
+                        doc.currency = "EUR"
+                    elif value[5] == "US Dollar":
+                        doc.currency = "USD"
+                    elif value[5] == "Indian Rupees":
+                        doc.currency = "INR"
+                    elif value[5] == "British Pound":
+                        doc.currency = "GBP"
+                    elif value[5] == "Norwegian Krone":
+                        doc.currency = "NOK"
+                    doc.conversion_rate = value[25]
                     doc.supplier = value[31]
                     doc.custom_internal_id = value[0]
                     doc.custom_subsidiary_ =value[4]
