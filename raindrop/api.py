@@ -541,9 +541,9 @@ def create_purchase_order():
                     doc.custom_internal_id = value[0]
                     doc.custom_subsidiary_ =value[4]
                     doc.custom_document_number = value[2]
-                    if value[48] == '0':
+                    if value[38] == '0%':
                         doc.taxes_and_charges =''
-                    if value[48] != '0':
+                    if value[38] == '13%':
                         doc.taxes_and_charges = "Nepal Tax - HPL"
                         doc.append('taxes',
                                    {
