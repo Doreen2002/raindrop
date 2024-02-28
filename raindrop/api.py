@@ -703,7 +703,7 @@ def create_purchase_order_2023():
                     doc.custom_document_number = value[2]
                     if value[38] == '0%':
                         doc.taxes_and_charges =''
-                    if value[38] != '0%':
+                    if value[38] != '13%':
                         doc.taxes_and_charges = "Nepal Tax - HPL"
                         doc.append('taxes',
                                    {
