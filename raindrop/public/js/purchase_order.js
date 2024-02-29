@@ -84,15 +84,21 @@ frappe.call({
 	
 	let amount = 0;
 	let limit = 0;
-	frappe.db.get_value("Employee",{"user_id": frappe.session.logged_in_user }, "custom_purchase_approval_limit").then((r)=>
-		{
-			limit=limit + r.message.custom_purchase_approval_limit
-		})
+	
 	for(let x =0; x < cur_frm.doc.items.length; x++)
 		{
 			amount  = amount + cur_frm.doc.items[x].amount
 
 		}
+	frappe.db.get_value("Employee",{"user_id": frappe.session.logged_in_user }, "custom_purchase_approval_limit").then((r)=>
+		{
+			if( amount <= r.message.custom_purchase_approval_limit)
+			{
+				cur_frm.page.actions.find('[data-label="Recommend"]').parent().parent().remove(); 
+				$('.actions-btn-group').hide()
+			}
+			
+		})
 
 	
 	if (frm.doc.workflow_state == "Pending" && frm.doc.custom_initiator_manager != frappe.session.logged_in_user && !frappe.user.has_role("Administrator") && amount <= limit)
@@ -100,6 +106,7 @@ frappe.call({
 		cur_frm.page.actions.find('[data-label="Recommend"]').parent().parent().remove(); 
 		$('.actions-btn-group').hide()
 	}
+	
 	
 	 if (frm.doc.workflow_state != "Pending" || frm.doc.workflow_state != "Draft" )
 	 {
