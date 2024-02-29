@@ -95,7 +95,7 @@ frappe.call({
 			if( amount <= r.message.custom_purchase_approval_limit)
 			{
 				cur_frm.page.actions.find('[data-label="Recommend"]').parent().parent().remove(); 
-				$('.actions-btn-group').hide()
+				
 			}
 			
 		})
