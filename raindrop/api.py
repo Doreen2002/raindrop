@@ -467,7 +467,7 @@ def create_purchase_order():
                         if  row[0].strip() == value[0].strip():
                             if row[38] == '0%':
                                 tax = ''
-                            elif row[38] != '0%':
+                            elif row[38] == '13%':
                                 tax = "Nepal Tax - HPL"
                             if row[43] == '':
                                 item = "Virtual Item"
