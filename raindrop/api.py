@@ -2281,8 +2281,8 @@ def salary_payment(file_url):
                         {
                             
                             'account': f'{row[3]} - HPL',
-                            'debit_in_account_currency':row[4].strip().replace('-', '0'),
-                            'credit_in_account_currency':row[5].strip().replace('-', '0'),
+                            'debit_in_account_currency':row[5].strip().replace('-', '0'),
+                            'credit_in_account_currency':row[4].strip().replace('-', '0'),
                             'cost_center':cost_center
                         })
                 items.append(
