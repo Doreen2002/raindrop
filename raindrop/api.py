@@ -2296,9 +2296,9 @@ def salary_payment(file_url):
                 doc = frappe.new_doc('Journal Entry')
                 for item in items:
                     doc.append('accounts', item)
-                doc.custom_posting = value[1]
-                doc.custom_period =  value[1]
-                doc.insert(ignore_mandatory)
+                doc.custom_posting = row[1]
+                doc.custom_period =  row[1]
+                doc.insert(ignore_mandatory=True)
                 frappe.db.commit()
         except Exception as e:
             frappe.throw(f'{e}')
