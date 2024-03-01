@@ -1,6 +1,6 @@
 frappe.ui.form.on("File", {
 
-      
+ onload_post_render: function(frm){
 frm.add_custom_button(__('Salary Payment Data'), function(){
 
   frappe.call({
@@ -15,5 +15,6 @@ frm.add_custom_button(__('Salary Payment Data'), function(){
   })
 
 }, __("Upload"));
+ }
     
 })
