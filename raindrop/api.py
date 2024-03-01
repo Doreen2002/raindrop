@@ -2269,7 +2269,7 @@ def salary_payment(file_url):
     response = requests.get(url)
     content = response.content.decode('utf-8')
     reader = csv.reader(content.splitlines(), delimiter=',')
-    next(reader, None)
+    next(reader)
     for row in reader:
         try:
             if row[3] != '' and  frappe.db.exists('Account', f"{row[3]} - HPL"):
