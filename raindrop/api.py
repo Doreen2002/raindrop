@@ -2262,21 +2262,26 @@ def create_service_purchase_return_2023():
             except Exception as e:
                 print(f' {e}  {value[0]} {value[16]}')
 
+import pandas as pd
 @frappe.whitelist()
 def salary_payment(file_url):
     url = file_url
     response = requests.get(f"https://test.raindropinc.com/{url}")
     content = response.content.decode('utf-8')
-    reader = csv.reader(content.splitlines(), delimiter=',')
-    for row in reader:
+    df = pd.read_csv(content)
+    for x in df.index:
         try:
-            if row["Account"] != '' and  frappe.db.exists('Account', f"{row['Account']} - HPL"):
-                frappe.throw(f"{ row['Account']}")
+            # if row["Account"] != '' and  frappe.db.exists('Account', f"{row['Account']} - HPL"):
+            frappe.throw(f"{ row['Account']}")
                 # doc = frappe.new_doc('Journal Entry')
                 # doc.submit()
                 # frappe.db.commit()
         except Exception as e:
             frappe.throw(f'{e}')
+      
+    # #reader = csv.reader(content.splitlines(), delimiter=',')
+    # for row in reader:
+        
     
                              
               
