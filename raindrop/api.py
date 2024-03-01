@@ -2262,6 +2262,26 @@ def create_service_purchase_return_2023():
             except Exception as e:
                 print(f' {e}  {value[0]} {value[16]}')
 
+@frappe.whitelist()
+def salary_payment(file_url):
+    url = file_url
+    response = requests.get(url)
+    content = response.content.decode('utf-8')
+    reader = csv.reader(content.splitlines(), delimiter=',')
+    for row in reader:
+        try:
+            if row["Account"] != '' and  not frappe.db.exists('Account', f"{row['Account'])} - HPL":
+                frappe.throw(f"{ row['Account']}"
+                # doc = frappe.new_doc('Journal Entry')
+                # doc.submit()
+                # frappe.db.commit()
+        except Exception as e:
+            frappe.throw(f'{e}')
+    
+                             
+              
+               
+
 # def update_employee_approver():
 #     with open('/home/doreenalita/frappe/frappe-bench/apps/raindrop/HPL_Employee_Master (1) - Sheet1.csv') as design_file:
 #         reader_po = csv.reader(design_file, delimiter=',')
