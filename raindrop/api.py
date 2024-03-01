@@ -2271,7 +2271,7 @@ def salary_payment(file_url):
     for row in reader:
         try:
             if row["Account"] != '' and  not frappe.db.exists('Account', f"{row['Account'])} - HPL":
-                frappe.throw(f"{ row['Account']}"
+                frappe.throw(f"{ row['Account']}")
                 # doc = frappe.new_doc('Journal Entry')
                 # doc.submit()
                 # frappe.db.commit()
