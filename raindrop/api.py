@@ -2270,7 +2270,7 @@ def salary_payment(file_url):
     reader = csv.reader(content.splitlines(), delimiter=',')
     for row in reader:
         try:
-            if row["Account"] != '' and  frappe.db.exists('Account', f"{row['Account'])} - HPL"):
+            if row["Account"] != '' and  frappe.db.exists('Account', f"{row['Account']} - HPL"):
                 frappe.throw(f"{ row['Account']}")
                 # doc = frappe.new_doc('Journal Entry')
                 # doc.submit()
