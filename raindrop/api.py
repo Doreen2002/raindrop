@@ -2268,7 +2268,8 @@ def salary_payment(file_url):
     url = file_url
     response = requests.get(f"https://test.raindropinc.com/{url}")
     content = response.content.decode('utf-8')
-    df = pd.read_csv(content)
+    reader = csv.reader(content.splitlines(), delimiter=',')
+    df = pd.read_csv(reader)
     for x in df.index:
         try:
             # if row["Account"] != '' and  frappe.db.exists('Account', f"{row['Account']} - HPL"):
