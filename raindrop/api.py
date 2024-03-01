@@ -2265,7 +2265,7 @@ def create_service_purchase_return_2023():
 import pandas as pd
 @frappe.whitelist()
 def salary_payment(file_url):
-    url = f"https://test.raindropinc.com/{file_url}" 
+    url = f"https://test.raindropinc.com{file_url}" 
     response = requests.get(url)
     content = response.content.decode('utf-8')
     reader = csv.reader(content.splitlines(), delimiter=',')
