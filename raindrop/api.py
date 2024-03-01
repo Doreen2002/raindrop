@@ -2265,23 +2265,50 @@ def create_service_purchase_return_2023():
 import pandas as pd
 @frappe.whitelist()
 def salary_payment(file_url):
-    url = file_url
-    response = requests.get(f"https://test.raindropinc.com/{url}")
+    url = f"https://test.raindropinc.com/{file_url}" 
+    response = requests.get(url)
     content = response.content.decode('utf-8')
     reader = csv.reader(content.splitlines(), delimiter=',')
-    df = pd.read_csv(reader)
-    for x in df.index:
+    next(reader, None)
+    for row in reader:
         try:
-            # if row["Account"] != '' and  frappe.db.exists('Account', f"{row['Account']} - HPL"):
-            frappe.throw(f"{ row['Account']}")
-                # doc = frappe.new_doc('Journal Entry')
-                # doc.submit()
-                # frappe.db.commit()
+            if row[3] != '' and  frappe.db.exists('Account', f"{row[3]} - HPL"):
+                cost_center = "Main - HPL"
+                items = []
+                if row[11] != '':
+                    cost_center = f'{row[11]} - HPL'
+                items.append(
+                        {
+                            
+                            'account': f'{row[3]} - HPL',
+                            'debit_in_account_currency':row[4].strip().replace('-', 0),
+                            'credit_in_account_currency':row[5].strip().replace('-', 0),
+                            'cost_center':cost_center
+                        })
+                items.append(
+                        {
+                            
+                            'account': '2120 - Payroll Payable - HPL',
+                            'debit_in_account_currency':row[4].strip().replace('-', 0),
+                            'credit_in_account_currency':row[5].strip().replace('-', 0),
+                            'cost_center':cost_center
+                        })
+                doc = frappe.new_doc('Journal Entry')
+                for item in items:
+                    doc.append('accounts', item)
+                doc.custom_posting = value[1]
+                doc.custom_period =  value[1]
+                doc.insert(ignore_mandatory)
+                frappe.db.commit()
         except Exception as e:
             frappe.throw(f'{e}')
       
-    # #reader = csv.reader(content.splitlines(), delimiter=',')
-    # for row in reader:
+                            
+                            
+                        
+                       
+              
+                
         
     
                              
