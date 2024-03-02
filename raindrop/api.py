@@ -2299,6 +2299,10 @@ def salary_payment(file_url):
                 for item in items:
                     doc.append('accounts', item)
                 doc.custom_posting = row[0]
+                doc.custom_memo = row[6]
+                doc.custom_party = row[7]
+                doc.custom_created_from = row[8]
+                doc.custom_location = row[10]
                 doc.custom_period =  row[0]
                 doc.insert(ignore_mandatory=True)
                 frappe.db.commit()
