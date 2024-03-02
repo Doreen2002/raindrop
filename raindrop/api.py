@@ -2262,6 +2262,11 @@ def create_service_purchase_return_2023():
             except Exception as e:
                 print(f' {e}  {value[0]} {value[16]}')
 
+def salary_date_converter(date_str):
+    date_obj = datetime.strptime(date_str, "%d/%m/%Y")
+    formatted_date = date_obj.strftime("%Y-%m-%d")
+    return formatted_date
+
 import pandas as pd
 @frappe.whitelist()
 def salary_payment(file_url):
@@ -2300,11 +2305,12 @@ def salary_payment(file_url):
                     doc.append('accounts', item)
                 doc.custom_posting = row[0]
                 doc.custom_memo = row[6]
+                doc.posting_date = salary_date_converter(row[1])
                 doc.custom_party = row[7]
                 doc.custom_created_from = row[8]
                 doc.custom_location = row[10]
                 doc.custom_period =  row[0]
-                doc.insert(ignore_mandatory=True)
+                doc.submit()
                 frappe.db.commit()
         except Exception as e:
             frappe.throw(f'{e}')
