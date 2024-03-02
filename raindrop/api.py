@@ -2283,6 +2283,7 @@ def salary_payment(file_url):
                             'account': f'{row[3]} - HPL',
                             'debit_in_account_currency':row[5].strip().replace('-', '0'),
                             'credit_in_account_currency':row[4].strip().replace('-', '0'),
+                            'user_remark':row[6],
                             'cost_center':cost_center
                         })
                 items.append(
@@ -2291,13 +2292,14 @@ def salary_payment(file_url):
                             'account': '2120 - Payroll Payable - HPL',
                             'debit_in_account_currency':row[4].strip().replace('-', '0'),
                             'credit_in_account_currency':row[5].strip().replace('-', '0'),
+                            'user_remark':row[6],
                             'cost_center':cost_center
                         })
                 doc = frappe.new_doc('Journal Entry')
                 for item in items:
                     doc.append('accounts', item)
-                doc.custom_posting = row[1]
-                doc.custom_period =  row[1]
+                doc.custom_posting = row[0]
+                doc.custom_period =  row[0]
                 doc.insert(ignore_mandatory=True)
                 frappe.db.commit()
         except Exception as e:
