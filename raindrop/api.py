@@ -2271,7 +2271,10 @@ import pandas as pd
 @frappe.whitelist()
 def salary_payment(file_url):
     url = f"https://test.raindropinc.com{file_url}" 
-    response = requests.get(url)
+    headers=  {
+        'Authorization': 'token 51a737926ae7a4e:ad87d7eef7fb79c3'
+    }
+    response = requests.get(url, headers=headers)
     content = response.content.decode('utf-8')
     reader = csv.reader(content.splitlines(), delimiter=',')
     next(reader)
