@@ -777,7 +777,7 @@ def create_goods_received_2023():
                         items = []
                         quantity = 1
                         for row in reader:
-                            if value[0] = row[0]:
+                            if value[0] == row[0]:
                                 if row[26] != 0 or row[26] != '':
                                     quantity = row[26] 
                                 items.append({
