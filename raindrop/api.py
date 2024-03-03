@@ -771,31 +771,31 @@ def create_goods_received_2023():
                     po_taxes = frappe.db.get_all('Purchase Taxes and Charges', filters={"parent":po_name}, fields=['*'])
                     items = []
                     taxes = []
-                if po_name == None:
-                    with open('/home/frappe/frappe-bench/apps/raindrop/item receipt 2020 to 2023 updated Data - backuppurchaseorderResults.csv') as templates:
-                        reader = csv.reader(templates, delimiter=',')
-                        items = []
-                        quantity = 1
-                        center = ''
-                        expense = ''
-                        for row in reader:
-                            if value[0] == row[0]:
-                                if row[26] != 0 or row[26] != '':
-                                    quantity = row[26] 
-                                if row[9] != '':
-                                    center = f"{row[9]} - HPL",
-                                if row[18] != '':
-                                    expense = f"{row[18]} - HPL",
-                                items.append({
-                                    "item_code": frappe.db.get_value("Item", {"custom_name":row[22]}, "name"),
-                                    "qty":  quantity,
-                                    "rate": row[31],
-                                    "cost_center": center,
-                                    "expense_account": expense,
-                                    "uom":row[25],
-                                    "warehouse": f"{row[6]} - HPL"
+                # if po_name == None:
+                #     with open('/home/frappe/frappe-bench/apps/raindrop/item receipt 2020 to 2023 updated Data - backuppurchaseorderResults.csv') as templates:
+                #         reader = csv.reader(templates, delimiter=',')
+                #         items = []
+                #         quantity = 1
+                #         center = ''
+                #         expense = ''
+                        # for row in reader:
+                        #     if value[0] == row[0]:
+                        #         if row[26] != 0 or row[26] != '':
+                        #             quantity = row[26] 
+                        #         if row[9] != '':
+                        #             center = f"{row[9]} - HPL",
+                        #         if row[18] != '':
+                        #             expense = f"{row[18]} - HPL",
+                        #         items.append({
+                        #             "item_code": frappe.db.get_value("Item", {"custom_name":row[22]}, "name"),
+                        #             "qty":  quantity,
+                        #             "rate": row[31],
+                        #             "cost_center": center,
+                        #             "expense_account": expense,
+                        #             "uom":row[25],
+                        #             "warehouse": f"{row[6]} - HPL"
 
-                                })
+                        #         })
                             
                         
                     
