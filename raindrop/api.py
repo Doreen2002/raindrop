@@ -803,6 +803,9 @@ def create_goods_received_2023():
                         cost_center = "Main - HPL"
                     if value[9] != '':
                         cost_center = f'{value[9]} - HPL',
+                    warehouse = ''
+                    if value[6] != '':
+                        warehouse = f'{value[6]} - HPL',
                     for item in po_items:
                         items.append(
                             {
@@ -814,7 +817,7 @@ def create_goods_received_2023():
                                 "expense_account":item.expense_account,
                                 "purchase_order": item.parent,
                                 "purchase_order_item": item.name,
-                                "warehouse": item.warehouse
+                                "warehouse": warehouse
 
                             }
                         )
