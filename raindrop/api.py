@@ -772,7 +772,7 @@ def create_goods_received_2023():
                     items = []
                     taxes = []
                 if po_name == None:
-                    with open('/home/frappe/frappe-bench/apps/raindrop/Corrected PO 2024  - Sheet1.csv') as templates:
+                    with open('/home/frappe/frappe-bench/apps/raindrop/item receipt 2020 to 2023 updated Data - backuppurchaseorderResults.csv') as templates:
                         reader = csv.reader(templates, delimiter=',')
                         items = []
                         quantity = 1
