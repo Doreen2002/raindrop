@@ -784,8 +784,8 @@ def create_goods_received_2023():
                                     "item_code": frappe.db.get_value("Item", {"custom_name":row[22]}, "name"),
                                     "qty":  quantity,
                                     "rate": row[31],
-                                    "cost_center": "{row[9]} - HPL",
-                                    "expense_account": f"{row[19]} - HPL",
+                                    "cost_center": f"{row[9]} - HPL",
+                                    "expense_account": f"{row[18]} - HPL",
                                     "uom":row[25],
                                     "warehouse": f"{row[6]} - HPL"
 
