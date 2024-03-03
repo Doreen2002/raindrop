@@ -771,12 +771,26 @@ def create_goods_received_2023():
                     po_taxes = frappe.db.get_all('Purchase Taxes and Charges', filters={"parent":po_name}, fields=['*'])
                     items = []
                     taxes = []
-                # if po_name == None:
-                #     with open('/home/frappe/frappe-bench/apps/raindrop/Corrected PO 2024  - Sheet1.csv') as templates:
-                #     reader = csv.reader(templates, delimiter=',')
-                #     items = []
-                #     for row in reader:
-                #         if value[0]  = row[0]:
+                if po_name == None:
+                    with open('/home/frappe/frappe-bench/apps/raindrop/Corrected PO 2024  - Sheet1.csv') as templates:
+                        reader = csv.reader(templates, delimiter=',')
+                        items = []
+                        quantity = 1
+                        for row in reader:
+                            if value[0] = row[0]:
+                                if row[26] != 0 or row[26] != '':
+                                    quantity = row[26] 
+                                items.append({
+                                    "item_code": frappe.db.get_value("Item", {"custom_name":row[22]}, "name"),
+                                    "qty":  quantity,
+                                    "rate": row[31],
+                                    "cost_center": "{row[9]} - HPL",
+                                    "expense_account": f"{row[19]} - HPL",
+                                    "uom":row[25],
+                                    "warehouse": f"{row[6]} - HPL"
+
+                                })
+                            
                         
                     
                     if value[9] == '':
@@ -794,6 +808,7 @@ def create_goods_received_2023():
                                 "expense_account":item.expense_account,
                                 "purchase_order": item.parent,
                                 "purchase_order_item": item.name
+                                "warehouse": item.warehouse
 
                             }
                         )
