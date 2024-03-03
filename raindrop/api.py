@@ -765,7 +765,7 @@ def create_goods_received_2023():
         reader_po = csv.reader(design_file, delimiter=',')
         for value in  reader_po:
             try:
-                po_name = frappe.db.get_value("Purchase Order", {"custom_document_number":value[32]}, 'name')
+                po_name = frappe.db.get_value("Purchase Order", {"custom_document_number":value[32]..replace("Purchase Order #", " ").strip()}, 'name')
                 if po_name != None:
                     po_items = frappe.db.get_all('Purchase Order Item', filters={"parent":po_name}, fields=['*'])
                     po_taxes = frappe.db.get_all('Purchase Taxes and Charges', filters={"parent":po_name}, fields=['*'])
