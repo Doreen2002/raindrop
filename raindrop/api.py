@@ -807,7 +807,7 @@ def create_goods_received_2023():
                                 "cost_center": item.cost_center,
                                 "expense_account":item.expense_account,
                                 "purchase_order": item.parent,
-                                "purchase_order_item": item.name
+                                "purchase_order_item": item.name,
                                 "warehouse": item.warehouse
 
                             }
