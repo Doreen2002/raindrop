@@ -9,6 +9,12 @@ onload_post_render: function(frm){
 	cur_frm.refresh_fields();
 	}
 	if(cur_frm.doc.workflow_state == "Approved" )
+		    if  (  frappe.session.logged_in_user == "Administrator" || frappe.session.logged_in_user == "keshav.kc@hpl.com.np" || frappe.session.logged_in_user == "umesh.sharma@hpl.com.np" || frappe.session.logged_in_user == "narayan.devkota@hpl.com.np")
+
+			  {
+					 $("button:contains('Create')").show(); 
+				  	
+			  }
 	       {
 		    frappe.db.get_value("Item", cur_frm.doc.items[0].item_code, 'is_stock_item').then( r => { 
 			  if  ( r.message.is_stock_item == 1 && frappe.session.logged_in_user != "keshav.kc@hpl.com.np" || frappe.session.logged_in_user != "Administrator")
