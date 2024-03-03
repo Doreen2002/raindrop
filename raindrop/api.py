@@ -782,6 +782,7 @@ def create_goods_received_2023():
                                 "item_code":item.item_code,
                                 "rate":item.rate,
                                 "quantity":item.quantity,
+                                "uom":item.uom,
                                 "cost_center": item.cost_center,
                                 "expense_account":item.expense_account,
                                 "purchase_order": item.parent,
