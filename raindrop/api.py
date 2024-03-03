@@ -771,12 +771,12 @@ def create_goods_received_2023():
                     po_taxes = frappe.db.get_all('Purchase Taxes and Charges', filters={"parent":po_name}, fields=['*'])
                     items = []
                     taxes = []
-                if po_name == None:
-                    with open('/home/frappe/frappe-bench/apps/raindrop/Corrected PO 2024  - Sheet1.csv') as templates:
-                    reader = csv.reader(templates, delimiter=',')
-                    items = []
-                    for row in reader:
-                        if value[0]  = row[0]:
+                # if po_name == None:
+                #     with open('/home/frappe/frappe-bench/apps/raindrop/Corrected PO 2024  - Sheet1.csv') as templates:
+                #     reader = csv.reader(templates, delimiter=',')
+                #     items = []
+                #     for row in reader:
+                #         if value[0]  = row[0]:
                         
                     
                     if value[9] == '':
