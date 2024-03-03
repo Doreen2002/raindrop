@@ -893,14 +893,14 @@ def create_goods_received_2023():
 
 
 def create_purchase_invoice_2020():
-    with open( '/home/frappe/frappe-bench/apps/raindrop/Correct purchase invoice 2024 Number - Sheet1.csv') as design_file:
+    with open( '/home/frappe/frappe-bench/apps/raindrop/Purchase Invoice 2020 to 2023 updated_Duplicate Removed.csv') as design_file:
         reader_po = csv.reader(design_file, delimiter=',')
         for value in  reader_po:
             try:
                 items = []
                 taxes = []
                 tax_template = []
-                with open('/home/frappe/frappe-bench/apps/raindrop/Correct purchase invoice 2024 - Sheet1.csv') as templates:
+                with open('/home/frappe/frappe-bench/apps/raindrop/Purchase Invoice 2020 to 2023 updated_Header Removed.csv') as templates:
                     reader = csv.reader(templates, delimiter=',')
                     for row in reader:
                         cost_center = "Main - HPL"
