@@ -2094,14 +2094,14 @@ def submit_pur():
             frappe.db.commit()
         
 def delete_pur_re():
-     with open('/home/frappe/frappe-bench/apps/raindrop/Correct Purchase Receipt 2024 Number - Sheet1.csv') as design_file:
+     with open('/home/frappe/frappe-bench/apps/raindrop/item receipt 2020 to 2023 updated Data Number - backuppurchaseorderResults.csv') as design_file:
         reader_po = csv.reader(design_file, delimiter=',')
         for value in  reader_po:
             frappe.db.delete("Purchase Receipt", {"custom_document_number":value[2]})
             frappe.db.commit()
-            frappe.db.delete("GL Entry", {"voucher_no":frappe.db.get_value("Purchase Invoice", {"custom_bill_number":value[2]}, "name")})
+            frappe.db.delete("GL Entry", {"voucher_no":frappe.db.get_value("Purchase Receipt", {"custom_document_number":value[2]}, "name")})
             frappe.db.commit()
-            frappe.db.delete("Stock Ledger Entry", {"voucher_no":frappe.db.get_value("Purchase Invoice", {"custom_bill_number":value[2]}, "name")})
+            frappe.db.delete("Stock Ledger Entry", {"voucher_no":frappe.db.get_value("Purchase Receipt", {"custom_document_number":value[2]}, "name")})
             frappe.db.commit()
             
   
