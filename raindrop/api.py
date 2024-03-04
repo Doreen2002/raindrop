@@ -1031,7 +1031,7 @@ def create_purchase_invoice_2020():
                 
             
             except Exception as e:
-                print(f' {e}  {value[0]} }')
+                print(f' {e}  {value[0]} ')
 
 
 
