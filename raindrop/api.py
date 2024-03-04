@@ -912,7 +912,7 @@ def create_purchase_invoice_2020():
                                 {
                                 "item_code": frappe.db.get_value("Item", {"custom_name":row[39]}, 'name'),
                                 "rate":row[40],
-                                "qty":row[43],
+                                "qty":row[43].replace('-','').strip(),
                                 "cost_center": cost_center,
                                 "expense_account":"49000 - OtherCostGoodSold - HPL",
                                 "description":row[15],
