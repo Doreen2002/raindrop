@@ -962,6 +962,7 @@ def create_purchase_invoice_2020():
                         "account_head":"VAT - HPL",
                         "description":value[15]
                             })
+                
                 doc = frappe.new_doc("Purchase Invoice")
                 doc.custom_bill_number = value[1]
                 doc.custom_internal_id = value[0]
@@ -1029,7 +1030,7 @@ def create_purchase_invoice_2020():
                 
             
             except Exception as e:
-                print(f' {e}  {value[0]}')
+                print(f' {e}  {value[0]} {items}')
 
 
 
