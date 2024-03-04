@@ -129,7 +129,7 @@ doctype_list_js = {"Purchase Order" : "public/js/purchase_order_list.js"}
 
 doc_events = {
 	 "Purchase Invoice": {
-		"on_submit": "raindrop.custom_code.purchase_invoice.on_submit"
+		# "on_submit": "raindrop.custom_code.purchase_invoice.on_submit"
 	 	# "on_cancel": "method",
 	 	# "on_trash": "method"
 	 },
