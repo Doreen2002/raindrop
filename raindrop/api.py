@@ -6,6 +6,12 @@ import pandas as pd
 import requests
 from frappe.utils import today
 
+def update_po():
+    po = frappe.db.get_list('Purchase Order', filters={"workflow_state":"Approved"}, fields=['*']) 
+    for p in po:
+        frappe.db.set_value('Purchase Order', p.name, 'docstatus', 1)
+        frappe.db.commit()
+
 def delete_gl():
     po = frappe.db.get_list('GL Entry', filters=[[ 'creation', 'between', ['2024-02-04', '2024-02-04']]], fields=['*']) 
     for item in po:
