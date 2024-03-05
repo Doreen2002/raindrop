@@ -917,7 +917,7 @@ def create_purchase_invoice_2020():
                             items.append(
                                 {
                                 "item_code": frappe.db.get_value("Item", {"custom_name":row[39]}, 'name'),
-                                "rate":row[42],
+                                "price_list_rate":row[42],
                                 "qty":row[43].replace('-','').strip(),
                                 "uom": frappe.db.get_value("Purchase Order Item", {"parent":name, "item_code":frappe.db.get_value("Item", {"custom_name":row[39]}, 'name')}, 'uom'),
                                 "cost_center": cost_center,
