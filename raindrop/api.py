@@ -1061,7 +1061,7 @@ def create_purchase_invoice_2020_from_po():
                 items = []
                 taxes = []
                 tax_template = []
-                po_name = frappe.db.get_value("Purchase Order", {"custom_document_number":value[52]}, 'name'),
+                po_name = frappe.db.get_value("Purchase Order", {"custom_document_number":value[52]}, 'name')
                 po_items = frappe.db.get_all("Purchase Order Item", filters={"parent": po_name}, fields=["*"])
                 if po_items != []:
                     for po in po_items:
