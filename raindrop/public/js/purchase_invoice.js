@@ -125,3 +125,20 @@ function convertToNepaliDate(gregorianDate) {
     const nepaliDate = NepaliDateConverter.convertToNepali(gregorianDate);
     return `${nepaliDate.year}-${nepaliDate.month}-${nepaliDate.day}`;
   }
+
+frappe.ui.form.on('Purchase Taxes and Charges', {
+
+
+	add_deduct_tax: function(frm, cdt, cdn) {
+		
+		let item = frappe.get_doc(cdt, cdn);
+		if (item.add_dedut_tax == "Advance") {
+			frappe.model.set_value(cdt, cdn, "account_head", "16000 PrepaidSupplier - HPL");
+		}
+		if (item.add_dedut_tax == "Retention") {
+			frappe.model.set_value(cdt, cdn, "account_head", "29900 OtherShortTermLiab - HPL");
+			frappe.model.set_value(cdt, cdn, "rate", 5);
+		}
+	},
+    
+})
