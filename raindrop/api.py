@@ -1161,7 +1161,7 @@ def create_purchase_invoice_2020_from_po():
                 
             
             except Exception as e:
-                print(f' {e}  {value[0]} ')
+                print(f' {e}  {value} ')
 
 def create_customer():
     url = "http://34.138.131.178/files/HPL NPR Customer Master.csv" 
