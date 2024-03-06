@@ -1054,30 +1054,31 @@ def create_purchase_invoice_2020():
                 print(f' {e}  {value[0]} ')
 
 def create_purchase_invoice_2020_from_po():
-    with open( '/home/frappe/frappe-bench/apps/raindrop/Purchase Invoice 2020 to 2023 updated infor number - backup bill 2.0 final.csv') as design_file:
+    with open( '/home/frappe/frappe-bench/apps/raindrop/Correct purchase invoice 2024 Number 06_03_24 - Sheet1.csv') as design_file:
         reader_po = csv.reader(design_file, delimiter=',')
         for value in  reader_po:
             try:
                 items = []
                 taxes = []
                 tax_template = []
-                po_items = frappe.db.get_all("Purchase Order Item", {"parent": value[52]}, fields=["*"])
+                po_name = frappe.db.get_value("Purchase Order", {"custom_document_number":value[53]}, 'name'),
+                po_items = frappe.db.get_all("Purchase Order Item", {"parent": po_name}, fields=["*"])
                 for po in po_items:
                     items.append(
                                 {
-                                "item_code": frappe.db.get_value("Item", {"custom_name":row[39]}, 'name'),
+                                "item_code": po.item,
                                 "price_list_rate":po.rate,
                                 "qty":po.qty,
-                                "uom": frappe.db.get_value("Purchase Order Item", {"parent":name, "item_code":frappe.db.get_value("Item", {"custom_name":row[39]}, 'name')}, 'uom'),
+                                "uom": po.uom,
                                 "cost_center": po.cost_center,
                                 "expense_account":po.expense_account,
                                 "description":po.description,
-                                "purchase_order": frappe.db.get_value("Purchase Order", {"custom_document_number":value[52]}, 'name'),
-                                "po_detail": frappe.db.get_value("Purchase Order Item", {"parent":name, "item_code":frappe.db.get_value("Item", {"custom_name":row[39]}, 'name')}, 'name'),
-                                "project":create_project(value[31])
+                                "purchase_order": po_name,
+                                "po_detail": po.name,
+                                "project":po.project
                                 }
                             )
-                po_taxes = frappe.db.get_all("Purchase Taxes and Charges", filters={"parent":value[52]}, fields=["*"])
+                po_taxes = frappe.db.get_all("Purchase Taxes and Charges", filters={"parent":po_name}, fields=["*"])
                 for po in po_taxes:
                     taxes.append(
                     {
