@@ -1063,32 +1063,34 @@ def create_purchase_invoice_2020_from_po():
                 tax_template = []
                 po_name = frappe.db.get_value("Purchase Order", {"custom_document_number":value[53]}, 'name'),
                 po_items = frappe.db.get_all("Purchase Order Item", filters={"parent": po_name}, fields=["*"])
-                for po in po_items:
-                    items.append(
-                                {
-                                "item_code": po.item,
-                                "price_list_rate":po.rate,
-                                "qty":po.qty,
-                                "uom": po.uom,
-                                "cost_center": po.cost_center,
-                                "expense_account":po.expense_account,
-                                "description":po.description,
-                                "purchase_order": po_name,
-                                "po_detail": po.name,
-                                "project":po.project
-                                }
-                            )
+                if po_items != []:
+                    for po in po_items:
+                        items.append(
+                                    {
+                                    "item_code": po.item,
+                                    "price_list_rate":po.rate,
+                                    "qty":po.qty,
+                                    "uom": po.uom,
+                                    "cost_center": po.cost_center,
+                                    "expense_account":po.expense_account,
+                                    "description":po.description,
+                                    "purchase_order": po_name,
+                                    "po_detail": po.name,
+                                    "project":po.project
+                                    }
+                                )
                 po_taxes = frappe.db.get_all("Purchase Taxes and Charges", filters={"parent":po_name}, fields=["*"])
-                for po in po_taxes:
-                    taxes.append(
-                    {
-                        'charge_type':"On Net Total",
-                        "add_deduct_tax":po.add_deduct_tax,
-                        'rate':po.rate,
-                        "tax_amount":po.tax_amount,
-                        "account_head":po.account_head,
-                        "description":po.description
-                            })
+                if po_taxes != []:
+                    for po in po_taxes:
+                        taxes.append(
+                        {
+                            'charge_type':"On Net Total",
+                            "add_deduct_tax":po.add_deduct_tax,
+                            'rate':po.rate,
+                            "tax_amount":po.tax_amount,
+                            "account_head":po.account_head,
+                            "description":po.description
+                                })
                     
                 doc = frappe.new_doc("Purchase Invoice")
                 doc.custom_bill_number = value[1]
