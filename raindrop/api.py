@@ -970,7 +970,7 @@ def create_purchase_invoice_2020():
                 #         "account_head":"VAT - HPL",
                 #         "description":value[15]
                 #             })
-                po_taxes = frappe.db.get_all("Purchase Taxes and Charges", filters={"parent":}, fields=["*"])
+                po_taxes = frappe.db.get_all("Purchase Taxes and Charges",  fields=["*"])
                 for po in po_taxes:
                     taxes.append(
                     {
