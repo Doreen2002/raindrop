@@ -948,29 +948,40 @@ def create_purchase_invoice_2020():
                                         )
                             
                         
-                if'TDS' in value[39] or 'TDS' in value[35]:
-                    taxes.append(
-                            {
-                                'charge_type':"On Net Total",
-                                "add_deduct_tax":"Deduct",
-                                'rate':1.5,
-                                "tax_amount":0,
-                                "account_head":f"{row[35]} - HPL",
-                                "description":value[15]
-                                    })
+                # if'TDS' in value[39] or 'TDS' in value[35]:
+                #     taxes.append(
+                #             {
+                #                 'charge_type':"On Net Total",
+                #                 "add_deduct_tax":"Deduct",
+                #                 'rate':1.5,
+                #                 "tax_amount":0,
+                #                 "account_head":f"{row[35]} - HPL",
+                #                 "description":value[15]
+                #                     })
                    
                                     
-                if value[38] == '13%':
+                # if value[38] == '13%':
+                #     taxes.append(
+                #     {
+                #         'charge_type':"On Net Total",
+                #         "add_deduct_tax":"Add",
+                #         'rate':13,
+                #         "tax_amount":0,
+                #         "account_head":"VAT - HPL",
+                #         "description":value[15]
+                #             })
+                po_taxes = frappe.db.get_all("Purchase Taxes and Charges", filters={"parent":}, fields=["*"])
+                for po in po_taxes:
                     taxes.append(
                     {
                         'charge_type':"On Net Total",
-                        "add_deduct_tax":"Add",
-                        'rate':13,
-                        "tax_amount":0,
-                        "account_head":"VAT - HPL",
-                        "description":value[15]
+                        "add_deduct_tax":po.add_deduct_tax,
+                        'rate':po.rate,
+                        "tax_amount":po.tax_amount,
+                        "account_head":po.account_head,
+                        "description":po.description
                             })
-                
+                    
                 doc = frappe.new_doc("Purchase Invoice")
                 doc.custom_bill_number = value[1]
                 doc.custom_internal_id = value[0]
@@ -1042,7 +1053,112 @@ def create_purchase_invoice_2020():
             except Exception as e:
                 print(f' {e}  {value[0]} ')
 
-
+def create_purchase_invoice_2020_from_po():
+    with open( '/home/frappe/frappe-bench/apps/raindrop/Purchase Invoice 2020 to 2023 updated infor number - backup bill 2.0 final.csv') as design_file:
+        reader_po = csv.reader(design_file, delimiter=',')
+        for value in  reader_po:
+            try:
+                items = []
+                taxes = []
+                tax_template = []
+                po_items = frappe.db.get_all("Purchase Order Item", {"parent": value[52]}, fields=["*"])
+                for po in po_items:
+                    items.append(
+                                {
+                                "item_code": frappe.db.get_value("Item", {"custom_name":row[39]}, 'name'),
+                                "price_list_rate":po.rate,
+                                "qty":po.qty,
+                                "uom": frappe.db.get_value("Purchase Order Item", {"parent":name, "item_code":frappe.db.get_value("Item", {"custom_name":row[39]}, 'name')}, 'uom'),
+                                "cost_center": po.cost_center,
+                                "expense_account":po.expense_account,
+                                "description":po.description,
+                                "purchase_order": frappe.db.get_value("Purchase Order", {"custom_document_number":value[52]}, 'name'),
+                                "po_detail": frappe.db.get_value("Purchase Order Item", {"parent":name, "item_code":frappe.db.get_value("Item", {"custom_name":row[39]}, 'name')}, 'name'),
+                                "project":create_project(value[31])
+                                }
+                            )
+                po_taxes = frappe.db.get_all("Purchase Taxes and Charges", filters={"parent":value[52]}, fields=["*"])
+                for po in po_taxes:
+                    taxes.append(
+                    {
+                        'charge_type':"On Net Total",
+                        "add_deduct_tax":po.add_deduct_tax,
+                        'rate':po.rate,
+                        "tax_amount":po.tax_amount,
+                        "account_head":po.account_head,
+                        "description":po.description
+                            })
+                    
+                doc = frappe.new_doc("Purchase Invoice")
+                doc.custom_bill_number = value[1]
+                doc.custom_internal_id = value[0]
+                doc.set_posting_time = 1
+                doc.posting_date = date_converter_month(value[2])
+                doc.bill_no = value[1]
+                doc.bill_date = date_converter_month(value[2])
+                doc.custom_document_number = value[3]
+                doc.custom_created_by = value[4]
+                doc.custom_subsidiary = value[5]
+                doc.supplier = frappe.db.get_value("Purchase Order", {"custom_document_number":value[52]}, 'supplier') or value[32]
+                if items != []:
+                    for item in items:
+                        doc.append('items', item)
+                if taxes != []:
+                    for tax in taxes:
+                        doc.append("taxes", tax)
+                if value[6] == "Nepalese Rupee":
+                    doc.currency = "NPR"
+                    doc.conversion_rate = value[26]
+                elif value[6] == "Euro":
+                    doc.currency = "EUR"
+                    doc.conversion_rate = value[26]
+                elif value[6] == "US Dollar":
+                    doc.currency = "USD"
+                    doc.conversion_rate = value[26]
+                elif value[6] == "Indian Rupees":
+                    doc.currency = "INR"
+                    doc.conversion_rate = value[26]
+                elif value[6] == "British Pound":
+                    doc.currency = "GBP"
+                    doc.conversion_rate = value[26]
+                elif value[6] == "Norwegian Krone":
+                    doc.currency = "NOK"
+                    doc.conversion_rate = value[26]
+                if value[7] == "KIRNE (N)":
+                    doc.update_stock = 1
+                    doc.set_warehouse = "KIRNE (N) - HPL"
+                if value[7] == "KATHMANDU (N)":
+                    doc.update_stock = 1
+                    doc.set_warehouse="KATHMANDU (N) - HPL"
+                if value[7] == "PALATI (N)":
+                    doc.update_stock = 1
+                    doc.set_warehouse="PALATI (N) - HPL"
+                if value[7] == "KATHMANDU":
+                    doc.update_stock = 1
+                    doc.set_warehouse="KATHMANDU - HPL"
+                if value[7] == "KIRNE":
+                    doc.update_stock = 1
+                    doc.set_warehouse="KIRNE - HPL"
+                doc.custom_procurement_person = value[16]
+                doc.terms = value[10]
+                doc.rounding_adjustment = 0
+                doc.custom_billing_address = value[27]
+                doc.project = value[31]
+                doc.custom_shipping_address = value[28]
+                doc.custom_accounting_approval  = value[25]
+                doc.custom_resubmit = value[24]
+                doc.custom_match_bill_to_receipt = value[49]
+                doc.custom_vendor_price_ref_date = value[19] 
+                doc.custom_current_approval = value[23]
+                doc.custom_vendor = value[18]
+                doc.custom_line_id = value[33]
+                doc.disable_rounded_total = 1
+                doc.submit() or doc.insert()
+                frappe.db.commit()
+                
+            
+            except Exception as e:
+                print(f' {e}  {value[0]} ')
 
 def create_customer():
     url = "http://34.138.131.178/files/HPL NPR Customer Master.csv" 
