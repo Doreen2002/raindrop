@@ -1100,7 +1100,7 @@ def create_purchase_invoice_2020_from_po():
                                     "add_deduct_tax":"Deduct",
                                     'rate':1.5,
                                     "tax_amount":0,
-                                    "account_head":f"{row[35]} - HPL",
+                                    "account_head":f"{value[35]} - HPL",
                                     "description":value[15]
                                 })
                  
