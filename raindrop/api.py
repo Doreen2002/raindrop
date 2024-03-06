@@ -1092,6 +1092,18 @@ def create_purchase_invoice_2020_from_po():
                                 "account_head":po.account_head,
                                 "description":po.description
                                     })
+                   
+                    if'TDS' in value[39] or 'TDS' in value[35]:
+                        taxes.append(
+                                {
+                                    'charge_type':"On Net Total",
+                                    "add_deduct_tax":"Deduct",
+                                    'rate':1.5,
+                                    "tax_amount":0,
+                                    "account_head":f"{row[35]} - HPL",
+                                    "description":value[15]
+                                })
+                 
                         
                     doc = frappe.new_doc("Purchase Invoice")
                     doc.custom_bill_number = value[1]
