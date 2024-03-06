@@ -1068,7 +1068,7 @@ def create_purchase_invoice_2020_from_po():
                         items.append(
                                     {
                                     "item_code": po.item_code,
-                                    "price_list_rate":po.price_list_rate,
+                                    "price_list_rate":po.rate,
                                     "qty":po.qty,
                                     "uom": po.uom,
                                     "cost_center": po.cost_center,
