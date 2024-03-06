@@ -2108,7 +2108,7 @@ def delete_pur_re():
         
         
 def delete_pur_inv():
-    with open( '/home/frappe/frappe-bench/apps/raindrop/Purchase Invoice 2020 to 2023 updated infor number - backup bill 2.0 final.csv') as design_file:
+    with open( '/home/frappe/frappe-bench/apps/raindrop/Correct purchase invoice 2024 Number 06_03_24 - Sheet1.csv') as design_file:
         reader_po = csv.reader(design_file, delimiter=',')
         for value in  reader_po:
             frappe.db.delete("Purchase Invoice", {"custom_bill_number":value[1]})
