@@ -1068,7 +1068,7 @@ def create_purchase_invoice_2020_from_po():
                         items.append(
                                     {
                                     "item_code": po.item_code,
-                                    "price_list_rate":po.rate,
+                                    "price_list_rate":po.price_list_rate,
                                     "qty":po.qty,
                                     "uom": po.uom,
                                     "cost_center": po.cost_center,
@@ -1102,7 +1102,7 @@ def create_purchase_invoice_2020_from_po():
                 doc.custom_document_number = value[3]
                 doc.custom_created_by = value[4]
                 doc.custom_subsidiary = value[5]
-                doc.supplier = frappe.db.get_value("Purchase Order", {"custom_document_number":value[52]}, 'supplier') or value[32]
+                doc.supplier = frappe.db.get_value("Purchase Order", {"custom_document_number":value[52]}, 'supplier') or value[52]
                 if items != []:
                     for item in items:
                         doc.append('items', item)
@@ -1142,24 +1142,22 @@ def create_purchase_invoice_2020_from_po():
                 if value[7] == "KIRNE":
                     doc.update_stock = 1
                     doc.set_warehouse="KIRNE - HPL"
-                doc.custom_procurement_person = value[16]
-                doc.terms = value[10]
-                doc.rounding_adjustment = 0
-                doc.custom_billing_address = value[27]
-                doc.project = value[31]
-                doc.custom_shipping_address = value[28]
-                doc.custom_accounting_approval  = value[25]
-                doc.custom_resubmit = value[24]
-                doc.custom_match_bill_to_receipt = value[49]
-                doc.custom_vendor_price_ref_date = value[19] 
-                doc.custom_current_approval = value[23]
-                doc.custom_vendor = value[18]
-                doc.custom_line_id = value[33]
-                doc.disable_rounded_total = 1
+                # doc.custom_procurement_person = value[16]
+                # doc.terms = value[10]
+                # doc.rounding_adjustment = 0
+                # doc.custom_billing_address = value[27]
+                # doc.project = value[31]
+                # doc.custom_shipping_address = value[28]
+                # doc.custom_accounting_approval  = value[25]
+                # doc.custom_resubmit = value[24]
+                # doc.custom_match_bill_to_receipt = value[49]
+                # doc.custom_vendor_price_ref_date = value[19] 
+                # doc.custom_current_approval = value[23]
+                # doc.custom_vendor = value[18]
+                # doc.custom_line_id = value[33]
+                # doc.disable_rounded_total = 1
                 doc.submit() or doc.insert()
                 frappe.db.commit()
-                
-            
             except Exception as e:
                 print(f' {e}  { value[1] } ')
 
