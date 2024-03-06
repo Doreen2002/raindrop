@@ -1067,7 +1067,7 @@ def create_purchase_invoice_2020_from_po():
                     for po in po_items:
                         items.append(
                                     {
-                                    "item_code": po.item,
+                                    "item_code": po.item_code,
                                     "price_list_rate":po.rate,
                                     "qty":po.qty,
                                     "uom": po.uom,
@@ -1161,7 +1161,7 @@ def create_purchase_invoice_2020_from_po():
                 
             
             except Exception as e:
-                print(f' {e}  { frappe.db.get_all("Purchase Taxes and Charges") } ')
+                print(f' {e}  { value[1] } ')
 
 def create_customer():
     url = "http://34.138.131.178/files/HPL NPR Customer Master.csv" 
