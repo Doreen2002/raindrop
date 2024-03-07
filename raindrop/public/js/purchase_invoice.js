@@ -134,10 +134,11 @@ frappe.ui.form.on('Purchase Taxes and Charges', {
 		let item = frappe.get_doc(cdt, cdn);
 		if (item.custom_deduct_type == "Advance") {
 			frappe.model.set_value(cdt, cdn, "account_head", "16000 PrepaidSupplier - HPL");
+			frappe.model.set_value(cdt, cdn, "add_deduct_tax", "Deduct");
 		}
 		if (item.custom_deduct_type == "Retention"){
 			frappe.model.set_value(cdt, cdn, "account_head", "29900 OtherShortTermLiab - HPL");
-			setTimeout(frappe.model.set_value(cdt, cdn, "rate", "5.0"), 1500);
+			setTimeout(frappe.model.set_value(cdt, cdn, "rate", "5.0"), 50);
 			frappe.model.set_value(cdt, cdn, "add_deduct_tax", "Deduct");
 		}
 	},
