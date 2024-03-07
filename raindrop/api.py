@@ -1093,19 +1093,19 @@ def create_purchase_invoice_2020_from_po():
                                 "description":po.description
                                     })
                     with open('/home/frappe/frappe-bench/apps/raindrop/Correct purchase invoice 2024 06_03_24 - Sheet1 (1).csv') as templates:
-                    reader = csv.reader(templates, delimiter=',')
-                    for row in reader:
-                        if row[0] == value[0]:
-                            if'TDS' in row[39] or 'TDS' in row[35]:
-                                taxes.append(
-                                        {
-                                            'charge_type':"On Net Total",
-                                            "add_deduct_tax":"Deduct",
-                                            'rate':1.5,
-                                            "tax_amount":0,
-                                            "account_head":"2310 - TDS Payable - HPL",
-                                            "description":row[15]
-                                        })
+                        reader = csv.reader(templates, delimiter=',')
+                        for row in reader:
+                            if row[0] == value[0]:
+                                if'TDS' in row[39] or 'TDS' in row[35]:
+                                    taxes.append(
+                                            {
+                                                'charge_type':"On Net Total",
+                                                "add_deduct_tax":"Deduct",
+                                                'rate':1.5,
+                                                "tax_amount":0,
+                                                "account_head":"2310 - TDS Payable - HPL",
+                                                "description":row[15]
+                                            })
                  
                         
                     doc = frappe.new_doc("Purchase Invoice")
