@@ -8,6 +8,11 @@ onload_post_render: function(frm){
 	cur_frm.doc.custom_initiator = frappe.session.logged_in_user;
 	cur_frm.refresh_fields();
 	}
+	if(cur_frm.doc.workflow_state == "Pending Approval" ){
+		 if (frappe.session.logged_in_user == "Administrator" || frappe.session.logged_in_user == "umesh.sharma@hpl.com.np"){
+			  $("button:contains('Cancel')").show();
+		 }
+	}
 	if(cur_frm.doc.workflow_state == "Approved" )
 	       {
 		    frappe.db.get_value("Item", cur_frm.doc.items[0].item_code, 'is_stock_item').then( r => { 
