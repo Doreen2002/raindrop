@@ -20,7 +20,7 @@ def on_update(doc, method):
     employee = frappe.db.get_value("Employee", {"user_id":doc.owner}, "name")
     #get logged supervisor at particular cost center
     purchase_approver = frappe.db.get_value("Employee Cost Center Manager", {"parent":employee, "cost_center":doc.cost_center}, "supervisor")
-    if purchase_approver == '' or purchase_approver == None and "Administrator" not in frappe.get_roles():
+    if purchase_approver == '' or purchase_approver == None or  "Administrator" not in frappe.get_roles()  or frappe.session.user != "om.pokharel@hpl.com.np":
         frappe.throw("Please ask Administrator to set Purchase Approver For you")
     if doc.workflow_state == "Approved":
         if frappe.db.get_value("Item",  doc.items[0].item_code, "is_stock_item")  == 1:
@@ -44,7 +44,7 @@ def on_update(doc, method):
             total += item.amount
         
         limit_amount += frappe.db.get_value("Employee", {"user_id": frappe.session.user}, "custom_purchase_limit") 
-        if "General Manager" not  in frappe.get_roles() :
+        if "General Manager" not  in frappe.get_roles():
             if total > limit_amount :
                     frappe.throw(f"The Material Purchase Is Above Limit, Send to General Manager or Immediate Manger. Limit is {limit_amount } and total amount on PO is {total} ")
 	
