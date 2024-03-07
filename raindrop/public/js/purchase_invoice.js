@@ -129,16 +129,16 @@ function convertToNepaliDate(gregorianDate) {
 frappe.ui.form.on('Purchase Taxes and Charges', {
 
 
-	add_deduct_tax: function(frm, cdt, cdn) {
+	custom_deduct_type: function(frm, cdt, cdn) {
 		
 		let item = frappe.get_doc(cdt, cdn);
-		if (item.add_deduct_tax == "Advance") {
+		if (item.custom_deduct_type == "Advance") {
 			frappe.model.set_value(cdt, cdn, "account_head", "16000 PrepaidSupplier - HPL");
 		}
-		if (item.add_deduct_tax == "Retention"){
+		if (item.custom_deduct_type == "Retention"){
 			frappe.model.set_value(cdt, cdn, "account_head", "29900 OtherShortTermLiab - HPL");
 			setTimeout(frappe.model.set_value(cdt, cdn, "rate", "5.0"), 1500);
-			// frappe.model.set_value(cdt, cdn, "rate", "5.0");
+			frappe.model.set_value(cdt, cdn, "add_deduct_tax", "Deduct");
 		}
 	},
     
