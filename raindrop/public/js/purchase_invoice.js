@@ -138,7 +138,7 @@ frappe.ui.form.on('Purchase Taxes and Charges', {
 		}
 		if (item.custom_deduct_type == "Retention"){
 			frappe.model.set_value(cdt, cdn, "account_head", "29900 OtherShortTermLiab - HPL");
-			setTimeout(frappe.model.set_value(cdt, cdn, "rate", "5.0"), 3000);
+			setTimeout(frappe.model.set_value(cdt, cdn, "rate", "5.0"), 6000);
 			frappe.model.set_value(cdt, cdn, "add_deduct_tax", "Deduct");
 		}
 	},
