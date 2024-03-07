@@ -65,7 +65,7 @@ def get_approver(owner):
     approver_list = []
     employee = frappe.db.get_value("Employee", {"user_id":owner}, "name")
     approvers = frappe.db.get_all("Employee Cost Center Manager", filters={"parent":employee}, fields=['*'])
-    if approvers == []:
+    if approvers == [] or frappe.session.user != "om.pokharel@hpl.com.np":
         frappe.throw("Please ask Administrator to set Purchase Approver For you")
     for appr in approvers:
         approver_list.append(appr.cost_center)
