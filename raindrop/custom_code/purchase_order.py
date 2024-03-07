@@ -20,8 +20,8 @@ def on_update(doc, method):
     employee = frappe.db.get_value("Employee", {"user_id":doc.owner}, "name")
     #get logged supervisor at particular cost center
     purchase_approver = frappe.db.get_value("Employee Cost Center Manager", {"parent":employee, "cost_center":doc.cost_center}, "supervisor")
-    if purchase_approver == '' or purchase_approver == None or  "Administrator" not in frappe.get_roles()  or frappe.session.user != "om.pokharel@hpl.com.np":
-        frappe.throw("Please ask Administrator to set Purchase Approver For you")
+    # if purchase_approver == '' or purchase_approver == None or  "Administrator" not in frappe.get_roles()  or frappe.session.user != "om.pokharel@hpl.com.np":
+    #     frappe.throw("Please ask Administrator to set Purchase Approver For you")
     if doc.workflow_state == "Approved":
         if frappe.db.get_value("Item",  doc.items[0].item_code, "is_stock_item")  == 1:
             create_notification("keshav.kc@hpl.com.np", doc.name, f"Create Purchase Receipt: {doc.name} {doc.workflow_sate}")
@@ -65,8 +65,8 @@ def get_approver(owner):
     approver_list = []
     employee = frappe.db.get_value("Employee", {"user_id":owner}, "name")
     approvers = frappe.db.get_all("Employee Cost Center Manager", filters={"parent":employee}, fields=['*'])
-    if approvers == []:
-        frappe.throw("Please ask Administrator to set Purchase Approver For you")
+    # if approvers == []:
+    #     frappe.throw("Please ask Administrator to set Purchase Approver For you")
     for appr in approvers:
         approver_list.append(appr.cost_center)
     return approver_list
