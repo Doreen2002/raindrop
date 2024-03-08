@@ -1,3 +1,5 @@
+import frappe
+
 def purchase_order_query(user):
     if frappe.session.user != "Administrator"  or frappe.session.user != "umesh.sharma@hpl.com.np"  or frappe.session.user != "bimala.khadka@hpl.com.np" or frappe.session.user != "surya.karki@hpl.com.np":
         user = frappe.session.user
