@@ -107,9 +107,11 @@ doctype_list_js = {"Purchase Order" : "public/js/purchase_order_list.js"}
 # -----------
 # Permissions evaluated in scripted ways
 
-# permission_query_conditions = {
-#	"Event": "frappe.desk.doctype.event.event.get_permission_query_conditions",
-# }
+permission_query_conditions = {
+	"Purchase Order": "raindrop.permissions.purchase_order_query",
+}
+
+
 #
 # has_permission = {
 #	"Event": "frappe.desk.doctype.event.event.has_permission",
