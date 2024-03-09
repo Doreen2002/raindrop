@@ -11,7 +11,7 @@ def purchase_order_query(user):
         from  `tabTodo` td
         left join `tabPurchase Order` po
         ON td.reference_type = 'Purchase Order'
-        where po.owner = {user} or td.allocated_to = {user} 
+        where po.owner = {frappe.db.escape(user)} or td.allocated_to = {frappe.db.escape(user)} 
         
         """)
 
