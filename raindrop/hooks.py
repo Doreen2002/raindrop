@@ -12,7 +12,7 @@ app_license = "MIT"
 # ------------------
 
 # include js, css files in header of desk.html
-# app_include_css = "/assets/raindrop/css/raindrop.css"
+app_include_css = "/assets/raindrop/css/raindrop.css"
 # app_include_js = "/assets/raindrop/js/raindrop.js"
 
 # include js, css files in header of web template
