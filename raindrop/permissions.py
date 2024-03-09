@@ -2,7 +2,7 @@ import frappe
 
 def purchase_order_query(user):
     user = frappe.session.user
-    assigned=(user)
+    assigned=tuple([f'{frappe.session.user}', f'{frappe.session.user}'])
     if frappe.session.user != "Administrator"  or frappe.session.user != "umesh.sharma@hpl.com.np"  or frappe.session.user != "bimala.khadka@hpl.com.np" or frappe.session.user != "surya.karki@hpl.com.np":
         
         if frappe.db.get_list("ToDo", pluck='allocated_to') != []:
