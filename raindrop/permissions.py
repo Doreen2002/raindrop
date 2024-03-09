@@ -4,13 +4,12 @@ def purchase_order_query(user):
     if not user:
         user = frappe.session.user
     if frappe.session.user != "Administrator"  or frappe.session.user != "umesh.sharma@hpl.com.np"  or frappe.session.user != "bimala.khadka@hpl.com.np" or frappe.session.user != "surya.karki@hpl.com.np":
-        todos = frappe.db.get_list("ToDo", debug=1)
-        return frappe.db.sql("""
+        return frappe.db.sql( f"""
         select `tabPurchase Order`.`name`
         from  `tabTodo` td
         left join `tabPurchase Order` po
         ON td.reference_name = po.name
-        where ((po.owner = %(user)s or td.allocated_to = '%(user)s))
+        where ((po.owner = {user} or td.allocated_to = {user} ))
         
         """, values={"user": user})
 
