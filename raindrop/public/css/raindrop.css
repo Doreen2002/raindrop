@@ -1,4 +1,4 @@
-if (!frappe.user.has_role('Administrator')){
+/* if (!frappe.user.has_role('Administrator')){
     button[data-label="Create%20Workspace"]
     {
         display: none !important;
@@ -8,7 +8,7 @@ if (!frappe.user.has_role('Administrator')){
         display: none !important;
     }
     
-}
+} */
 /* button[data-label="Create%20Workspace"]
 {
    display: none !important;
@@ -17,6 +17,13 @@ if (!frappe.user.has_role('Administrator')){
 {
   display: none !important;
 }  */
+frappe.ready(function() {
+    
+    if (!frappe.user.has_role('Administrator')) {
+        $('button[data-label="Create%20Workspace"]').hide();
+        $('button[data-label="Edit"]').hide();
+    }
+});
 
 /* onload_post_render: function(frm) {
     if (!frappe.user.has_role('Administrator')) {
