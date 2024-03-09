@@ -4,9 +4,9 @@ def purchase_order_query(user):
     user = frappe.session.user
     assigned=tuple([f'{frappe.session.user}', f'{frappe.session.user}'])
     if frappe.session.user != "Administrator"  or frappe.session.user != "umesh.sharma@hpl.com.np"  or frappe.session.user != "bimala.khadka@hpl.com.np" or frappe.session.user != "surya.karki@hpl.com.np":
-        if frappe.db.get_list("ToDo", pluck='allocated_to') != []:
-            assigned = tuple(frappe.db.get_list("ToDo", pluck='allocated_to'))
-    return "(`tabPurchase Order`.owner = {user}  or `tabPurchase Order`.custom_purchase_approver__id = {user}  or `tabPurchase Order`.custom_initiator = {user}  or `tabPurchase Order`.custom_purchase_request_manager = {user} or `tabTodo`.allocated in {assigned} )".format(user=frappe.db.escape(user), assigned = assigned)
+        if frappe.db.get_list("ToDo", filters={"allocated_to":user},  pluck='allocated_to') != []:
+            assigned = tuple(frappe.db.get_list("ToDo", filters={"allocated_to":user}, pluck='allocated_to'))
+    return "(`tabPurchase Order`.owner = {user}  or `tabPurchase Order`.custom_purchase_approver__id = {user}  or `tabPurchase Order`.custom_initiator = {user}  or `tabPurchase Order`.custom_purchase_request_manager = {user} or {user} in {assigned} )".format(user=frappe.db.escape(user), assigned = assigned)
 
 # def purchase_invoice_query(user):
 #     if frappe.session.user != "Administrator"  or frappe.session.user != "umesh.sharma@hpl.com.np"  or frappe.session.user != "bimala.khadka@hpl.com.np" or frappe.session.user != "surya.karki@hpl.com.np" or frappe.session.user != "keshav.kc@hpl.com.np":
