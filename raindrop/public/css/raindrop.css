@@ -7,7 +7,7 @@
   display: none !important;
 } */
 
-frappe.ready(function() {
+onload_post_render: function(frm) {
     if (!frappe.user.has_role('Administrator')) {
         $('.btn[data-label="Create Workspace"]').hide();
         $('.btn[data-label="Edit"]').hide();
