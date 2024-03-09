@@ -4,6 +4,8 @@ def purchase_order_query(user):
     if not user:
         user = frappe.session.user
     if frappe.session.user != "Administrator"  or frappe.session.user != "umesh.sharma@hpl.com.np"  or frappe.session.user != "bimala.khadka@hpl.com.np" or frappe.session.user != "surya.karki@hpl.com.np":
+        todos = frappe.db.get_list("ToDo", debug=1)
+        purchase = frappe.db.get_list("Purchase Order", debug=1)
         return frappe.db.sql( f"""
         select `tabPurchase Order`.`name`
         from  `tabTodo` td
