@@ -7,11 +7,11 @@ def purchase_order_query(user):
         todos = frappe.db.get_list("ToDo", debug=1)
         purchase = frappe.db.get_list("Purchase Order", debug=1)
         return frappe.db.sql("""
-        SELECT po.name
+        SELECT po.name po.owner td.reference_name td.allocated_to
         FROM `tabToDo` td
         LEFT JOIN `tabPurchase Order` po ON td.reference_name = po.name
         WHERE po.owner = {user} OR td.allocated_to = {user}
-    """.format(user=frappe.db.escape(user)))
+        """.format(user=frappe.db.escape(user)))
 
 
 
