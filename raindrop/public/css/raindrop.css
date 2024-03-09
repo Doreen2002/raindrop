@@ -1,10 +1,16 @@
-if (!frappe.user.has_role('Administrator')){
-button[data-label="Create%20Workspace"]
+/* button[data-label="Create%20Workspace"]
 {
    display: none !important;
 }
  button[data-label="Edit"]
 {
   display: none !important;
-}
-}
+} */
+
+frappe.ready(function() {
+    if (!frappe.user.has_role('Administrator')) {
+        $('.btn[data-label="Create Workspace"]').hide();
+        $('.btn[data-label="Edit"]').hide();
+    }
+});
+
