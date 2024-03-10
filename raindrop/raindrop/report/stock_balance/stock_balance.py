@@ -172,8 +172,7 @@ class StockBalanceReport(object):
 		qty_dict = item_warehouse_map[group_by_key]
 		for field in self.inventory_dimensions:
 			qty_dict[field] = entry.get(field)
-		# Extract number code from item code
-    		code_item = get_number_code(entry.item_code)
+			
 
 		if entry.voucher_type == "Stock Reconciliation" and (not entry.batch_no or entry.serial_no):
 			qty_diff = flt(entry.qty_after_transaction) - flt(qty_dict.bal_qty)
@@ -207,7 +206,7 @@ class StockBalanceReport(object):
 		item_warehouse_map[group_by_key] = frappe._dict(
 			{
 				"item_code": entry.item_code,
-				"code_item": get_number_code(entry.item_code),
+				"code_item": entry.item_code,
 				"warehouse": entry.warehouse,
 				"item_group": entry.item_group,
 				"company": entry.company,
@@ -279,7 +278,6 @@ class StockBalanceReport(object):
 				sle.qty_after_transaction,
 				sle.stock_value_difference,
 				sle.item_code.as_("name"),
-				sle.item_code.as_("code_item"),
 				sle.voucher_no,
 				sle.stock_value,
 				sle.batch_no,
