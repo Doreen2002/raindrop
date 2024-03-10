@@ -90,7 +90,8 @@ class StockBalanceReport(object):
 				self.opening_data.setdefault(group_by_key, entry)
 
 	def prepare_new_data(self):
-		self.item_warehouse_map = self.get_item_warehouse_map()
+		if not self.sle_entries:
+			return
 
 		if self.filters.get("show_stock_ageing_data"):
 			self.filters["show_warehouse_wise_stock"] = True
@@ -98,7 +99,7 @@ class StockBalanceReport(object):
 
 		_func = itemgetter(1)
 
-		del self.sle_entries
+		self.item_warehouse_map = self.get_item_warehouse_map()
 
 		variant_values = {}
 		if self.filters.get("show_variant_attributes"):
@@ -138,22 +139,15 @@ class StockBalanceReport(object):
 		item_warehouse_map = {}
 		self.opening_vouchers = self.get_opening_vouchers()
 
-		if self.filters.get("show_stock_ageing_data"):
-			self.sle_entries = self.sle_query.run(as_dict=True)
+		for entry in self.sle_entries:
+			group_by_key = self.get_group_by_key(entry)
+			if group_by_key not in item_warehouse_map:
+				self.initialize_data(item_warehouse_map, group_by_key, entry)
 
-		with frappe.db.unbuffered_cursor():
-			if not self.filters.get("show_stock_ageing_data"):
-				self.sle_entries = self.sle_query.run(as_dict=True, as_iterator=True)
+			self.prepare_item_warehouse_map(item_warehouse_map, entry, group_by_key)
 
-			for entry in self.sle_entries:
-				group_by_key = self.get_group_by_key(entry)
-				if group_by_key not in item_warehouse_map:
-					self.initialize_data(item_warehouse_map, group_by_key, entry)
-
-				self.prepare_item_warehouse_map(item_warehouse_map, entry, group_by_key)
-
-				if self.opening_data.get(group_by_key):
-					del self.opening_data[group_by_key]
+			if self.opening_data.get(group_by_key):
+				del self.opening_data[group_by_key]
 
 		for group_by_key, entry in self.opening_data.items():
 			if group_by_key not in item_warehouse_map:
@@ -242,8 +236,7 @@ class StockBalanceReport(object):
 			.where(
 				(table.docstatus == 1)
 				& (table.company == self.filters.company)
-				& (table.to_date <= self.from_date)
-				& (table.status == "Completed")
+				& ((table.to_date <= self.from_date))
 			)
 			.orderby(table.to_date, order=Order.desc)
 			.limit(1)
@@ -296,7 +289,7 @@ class StockBalanceReport(object):
 		if self.filters.get("company"):
 			query = query.where(sle.company == self.filters.get("company"))
 
-		self.sle_query = query
+		self.sle_entries = query.run(as_dict=True)
 
 	def apply_inventory_dimensions_filters(self, query, sle) -> str:
 		inventory_dimension_fields = self.get_inventory_dimension_fields()
@@ -404,7 +397,7 @@ class StockBalanceReport(object):
 					"fieldname": "bal_val",
 					"fieldtype": "Currency",
 					"width": 100,
-					"options": "Company:company:default_currency",
+					"options": "currency",
 				},
 				{
 					"label": _("Opening Qty"),
@@ -418,7 +411,7 @@ class StockBalanceReport(object):
 					"fieldname": "opening_val",
 					"fieldtype": "Currency",
 					"width": 110,
-					"options": "Company:company:default_currency",
+					"options": "currency",
 				},
 				{
 					"label": _("In Qty"),
