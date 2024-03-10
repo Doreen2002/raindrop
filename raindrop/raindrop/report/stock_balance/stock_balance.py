@@ -202,6 +202,7 @@ class StockBalanceReport(object):
 		item_warehouse_map[group_by_key] = frappe._dict(
 			{
 				"item_code": entry.item_code,
+				"code_item": entry.item_code,
 				"warehouse": entry.warehouse,
 				"item_group": entry.item_group,
 				"company": entry.company,
@@ -351,6 +352,13 @@ class StockBalanceReport(object):
 			{
 				"label": _("Item"),
 				"fieldname": "item_code",
+				"fieldtype": "Link",
+				"options": "Item",
+				"width": 100,
+			},
+			{
+				"label": _("Item Code"),
+				"fieldname": "code_item",
 				"fieldtype": "Link",
 				"options": "Item",
 				"width": 100,
