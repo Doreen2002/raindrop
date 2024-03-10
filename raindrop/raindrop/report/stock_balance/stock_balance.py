@@ -361,7 +361,6 @@ class StockBalanceReport(object):
 			{
 				"label": _("Item Code"),
 				"fieldname": "code_item",
-				"fieldtype": "Data",
 				"width": 100,
 			},
 			{"label": _("Item Name"), "fieldname": "item_name", "width": 150},
