@@ -18,6 +18,14 @@ from erpnext.stock.doctype.warehouse.warehouse import apply_warehouse_filter
 from erpnext.stock.report.stock_ageing.stock_ageing import FIFOSlots, get_average_age
 from erpnext.stock.utils import add_additional_uom_columns
 
+import re
+
+def get_string_from_number(input_string):
+    match = re.search(r'\d.*', input_string)
+    if match:
+        return match.group(0)
+    else:
+        return None
 
 class StockBalanceFilter(TypedDict):
 	company: Optional[str]
@@ -196,7 +204,7 @@ class StockBalanceReport(object):
 		item_warehouse_map[group_by_key] = frappe._dict(
 			{
 				"item_code": entry.item_code,
-				"code_item": entry.item_code,
+				"code_item": get_string_from_number(entry.item_code),
 				"warehouse": entry.warehouse,
 				"item_group": entry.item_group,
 				"company": entry.company,
