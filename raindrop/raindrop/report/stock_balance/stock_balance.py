@@ -13,10 +13,10 @@ from frappe.utils import add_days, cint, date_diff, flt, getdate
 from frappe.utils.nestedset import get_descendants_of
 
 import erpnext
-from erpnext.stock.doctype.inventory_dimension.inventory_dimension import get_inventory_dimensions
-from erpnext.stock.doctype.warehouse.warehouse import apply_warehouse_filter
-from erpnext.stock.report.stock_ageing.stock_ageing import FIFOSlots, get_average_age
-from erpnext.stock.utils import add_additional_uom_columns
+from erpnext.erpnext.stock.doctype.inventory_dimension.inventory_dimension import get_inventory_dimensions
+from erpnext.erpnext.stock.doctype.warehouse.warehouse import apply_warehouse_filter
+from erpnext.erpnext.stock.report.stock_ageing.stock_ageing import FIFOSlots, get_average_age
+from erpnext.erpnext.stock.utils import add_additional_uom_columns
 
 
 class StockBalanceFilter(TypedDict):
