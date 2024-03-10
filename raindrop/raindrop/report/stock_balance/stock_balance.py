@@ -20,12 +20,13 @@ from erpnext.stock.utils import add_additional_uom_columns
 
 import re
 
-def get_string_from_number(input_string):
-    match = re.search(r'\d.*', input_string)
-    if match:
-        return match.group(0)
-    else:
-        return None
+def get_number_code(input_string):
+    matches = re.findall(r'\b\d+\.\d+\.\d+\b', input_string.strip())
+    for match in matches:
+        parts = match.split('.')
+        if len(parts) == 3 and all(part.isdigit() for part in parts):
+            return match
+    return ''
 
 class StockBalanceFilter(TypedDict):
 	company: Optional[str]
@@ -204,7 +205,7 @@ class StockBalanceReport(object):
 		item_warehouse_map[group_by_key] = frappe._dict(
 			{
 				"item_code": entry.item_code,
-				"code_item": get_string_from_number(entry.item_code),
+				"code_item": get_number_code(entry.item_code),
 				"warehouse": entry.warehouse,
 				"item_group": entry.item_group,
 				"company": entry.company,
