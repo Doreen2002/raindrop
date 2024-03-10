@@ -8,7 +8,7 @@ from typing import Any, Dict, List, Optional, TypedDict
 import frappe
 from frappe import _
 from frappe.query_builder import Order
-from frappe.query_builder.functions import Coalesce
+from frappe.query_builder.functions import Coalesce, CombineDatetime
 from frappe.utils import add_days, cint, date_diff, flt, getdate
 from frappe.utils.nestedset import get_descendants_of
 
@@ -100,8 +100,6 @@ class StockBalanceReport(object):
 
 		del self.sle_entries
 
-		sre_details = self.get_sre_reserved_qty_details()
-
 		variant_values = {}
 		if self.filters.get("show_variant_attributes"):
 			variant_values = self.get_variant_values_for()
@@ -134,9 +132,6 @@ class StockBalanceReport(object):
 
 				report_data.update(stock_ageing_data)
 
-			report_data.update(
-				{"reserved_stock": sre_details.get((report_data.item_code, report_data.warehouse), 0.0)}
-			)
 			self.data.append(report_data)
 
 	def get_item_warehouse_map(self):
@@ -169,18 +164,6 @@ class StockBalanceReport(object):
 		)
 
 		return item_warehouse_map
-
-	def get_sre_reserved_qty_details(self) -> dict:
-		from erpnext.stock.doctype.stock_reservation_entry.stock_reservation_entry import (
-			get_sre_reserved_qty_for_items_and_warehouses as get_reserved_qty_details,
-		)
-
-		item_code_list, warehouse_list = [], []
-		for d in self.item_warehouse_map:
-			item_code_list.append(d[1])
-			warehouse_list.append(d[2])
-
-		return get_reserved_qty_details(item_code_list, warehouse_list)
 
 	def prepare_item_warehouse_map(self, item_warehouse_map, entry, group_by_key):
 		qty_dict = item_warehouse_map[group_by_key]
@@ -300,7 +283,7 @@ class StockBalanceReport(object):
 				item_table.item_name,
 			)
 			.where((sle.docstatus < 2) & (sle.is_cancelled == 0))
-			.orderby(sle.posting_datetime)
+			.orderby(CombineDatetime(sle.posting_date, sle.posting_time))
 			.orderby(sle.creation)
 			.orderby(sle.actual_qty)
 		)
@@ -462,13 +445,6 @@ class StockBalanceReport(object):
 					"options": "Company:company:default_currency"
 					if self.filters.valuation_field_type == "Currency"
 					else None,
-				},
-				{
-					"label": _("Reserved Stock"),
-					"fieldname": "reserved_stock",
-					"fieldtype": "Float",
-					"width": 80,
-					"convertible": "qty",
 				},
 				{
 					"label": _("Company"),
