@@ -13,10 +13,10 @@ from frappe.utils import add_days, cint, date_diff, flt, getdate
 from frappe.utils.nestedset import get_descendants_of
 
 import erpnext
-from erpnext.erpnext.stock.doctype.inventory_dimension.inventory_dimension import get_inventory_dimensions
-from erpnext.erpnext.stock.doctype.warehouse.warehouse import apply_warehouse_filter
-from erpnext.erpnext.stock.report.stock_ageing.stock_ageing import FIFOSlots, get_average_age
-from erpnext.erpnext.stock.utils import add_additional_uom_columns
+from erpnext.stock.doctype.inventory_dimension.inventory_dimension import get_inventory_dimensions
+from erpnext.stock.doctype.warehouse.warehouse import apply_warehouse_filter
+from erpnext.stock.report.stock_ageing.stock_ageing import FIFOSlots, get_average_age
+from erpnext.stock.utils import add_additional_uom_columns
 
 
 class StockBalanceFilter(TypedDict):
@@ -202,7 +202,6 @@ class StockBalanceReport(object):
 		item_warehouse_map[group_by_key] = frappe._dict(
 			{
 				"item_code": entry.item_code,
-				"code_item": entry.item_code,
 				"warehouse": entry.warehouse,
 				"item_group": entry.item_group,
 				"company": entry.company,
@@ -352,13 +351,6 @@ class StockBalanceReport(object):
 			{
 				"label": _("Item"),
 				"fieldname": "item_code",
-				"fieldtype": "Link",
-				"options": "Item",
-				"width": 100,
-			},
-			{
-				"label": _("Item Code"),
-				"fieldname": "code_item",
 				"fieldtype": "Link",
 				"options": "Item",
 				"width": 100,
