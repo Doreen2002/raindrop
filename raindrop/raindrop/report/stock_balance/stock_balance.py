@@ -591,6 +591,7 @@ def filter_items_with_no_transactions(
 
 			if key in [
 				"item_code",
+				"code_item",
 				"warehouse",
 				"item_name",
 				"item_group",
