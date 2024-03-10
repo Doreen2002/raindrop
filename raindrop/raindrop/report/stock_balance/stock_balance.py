@@ -205,7 +205,7 @@ class StockBalanceReport(object):
 		item_warehouse_map[group_by_key] = frappe._dict(
 			{
 				"item_code": entry.item_code,
-				"code_item": get_number_code("deder44444ddsd"),
+				"code_item": get_number_code(entry.item_code),
 				"warehouse": entry.warehouse,
 				"item_group": entry.item_group,
 				"company": entry.company,
@@ -277,6 +277,7 @@ class StockBalanceReport(object):
 				sle.qty_after_transaction,
 				sle.stock_value_difference,
 				sle.item_code.as_("name"),
+				sle.item_code.as_("code_item"),
 				sle.voucher_no,
 				sle.stock_value,
 				sle.batch_no,
@@ -284,6 +285,7 @@ class StockBalanceReport(object):
 				item_table.item_group,
 				item_table.stock_uom,
 				item_table.item_name,
+			
 			)
 			.where((sle.docstatus < 2) & (sle.is_cancelled == 0))
 			.orderby(CombineDatetime(sle.posting_date, sle.posting_time))
