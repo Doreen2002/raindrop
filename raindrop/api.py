@@ -1315,7 +1315,7 @@ def create_missing_purchase_invoice_2020_from_po():
                         if value[7] == "KIRNE":
                             doc.update_stock = 1
                             doc.set_warehouse="KIRNE - HPL"
-                        doc.currency = "NPR
+                        doc.currency = "NPR"
                         doc.custom_procurement_person = value[16]
                         doc.terms = value[10]
                         doc.rounding_adjustment = 0
