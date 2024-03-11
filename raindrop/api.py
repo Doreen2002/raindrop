@@ -1206,7 +1206,7 @@ def create_missing_purchase_invoice_2020_from_po():
                                             }
                                         )
     
-                        if po_name == None:
+                        if value[52] == "":
                             with open('/home/frappe/frappe-bench/apps/raindrop/Correct purchase invoice 2024 06_03_24 - Sheet1 (1).csv') as templates:
                                 reader = csv.reader(templates, delimiter=',')
                                 for row in reader:
