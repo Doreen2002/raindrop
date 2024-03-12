@@ -33,8 +33,8 @@ def on_update(doc, method):
 			"reference_name": doc.name
 			}
             enqueue(method=frappe.sendmail, queue="short", timeout=300, async=True, **email_args)	
-		if frappe.db.get_value("Supplier", doc.supplier, "custom_supplier_email_address") == None:
-			frappe.throw("Please Set Email Address for this Supplier")
+        if frappe.db.get_value("Supplier", doc.supplier, "custom_supplier_email_address") == None:
+            frappe.throw("Please Set Email Address for this Supplier")
 			
         if frappe.db.get_value("Item",  doc.items[0].item_code, "is_stock_item")  == 1:
             create_notification("keshav.kc@hpl.com.np", doc.name, f"Create Purchase Receipt: {doc.name} {doc.workflow_sate}")
