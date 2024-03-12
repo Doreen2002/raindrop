@@ -34,7 +34,7 @@ def on_update(doc, method):
                             attachments = [frappe.attach_print(doc.doctype, doc.name, file_name=doc.name)],
                 			reference_doctype = doc.doctype,
                 			reference_name = doc.name
-                            now=False,
+                            now=True,
                         )
           
             # enqueue(method=frappe.sendmail, queue="short", timeout=300, async=True, email_args)
