@@ -24,14 +24,19 @@ def on_update(doc, method):
     #     frappe.throw("Please ask Administrator to set Purchase Approver For you")
     if doc.workflow_state == "Approved":
         if frappe.db.get_value("Supplier", doc.supplier, "custom_supplier_email_address") != None:
-            frappe.sendmail(
-			recipients = frappe.db.get_value("Supplier", doc.supplier, "custom_supplier_email_address"),
-			message = "Purchase Order Approved",
-			subject = 'Purchase Order Approved From  {0} '.format(doc.company),
-			attachments = [frappe.attach_print(doc.doctype, doc.name, file_name=doc.name)],
-			reference_doctype = doc.doctype,
-			reference_name = doc.name
-		)
+            frappe.enqueue(
+                            queue="short",
+                            method=frappe.sendmail,
+                            recipients= frappe.db.get_value("Supplier", doc.supplier, "custom_supplier_email_address"),
+                            sender="doreenmwapekatebe8@gmail.com",
+                            subject= "Purchase Order Approved From  {0} ".format(doc.company),
+                            message = "Purchase Order Approved",
+                            attachments = [frappe.attach_print(doc.doctype, doc.name, file_name=doc.name)],
+                			reference_doctype = doc.doctype,
+                			reference_name = doc.name
+                            now=False,
+                        )
+          
             # enqueue(method=frappe.sendmail, queue="short", timeout=300, async=True, email_args)
         if frappe.db.get_value("Supplier", doc.supplier, "custom_supplier_email_address") == None:
             frappe.throw("Please Set Email Address for this Supplier")
