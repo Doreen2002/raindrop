@@ -6,6 +6,37 @@ import pandas as pd
 import requests
 from frappe.utils import today
 
+def create_bank_supplier(bank, swift):
+    if not frappe.db.exists("Bank", {"bank_name": bank}):
+        doc = frappe.new_doc("Bank")
+        doc.bank_name = bank
+        doc.swift_number = swift
+        doc.insert()
+        frappe.db.commit()
+    return bank
+
+    
+
+def update_supplier_bank_details():
+    with open('/home/frappe/frappe-bench/apps/raindrop/HPL Vendor Master Bank Deatils - Sheet1.csv') as design_file:
+        reader_po = csv.reader(design_file, delimiter=',')
+        for value in reader_po:
+            try:
+                doc = frappe.new_doc("Bank Account")
+                doc.is_default = 1
+                doc.account_name  value[3]
+                doc.bank = create_bank_supplier(value[7], value[9])
+                doc.party_type ="Supplier"
+                doc.party = value[2]
+                doc.branch_code = value[6]
+                doc.bank_account_no = value[4]
+                doc.iban = value[8]
+                doc.insert(ignore_mandatory = True)
+                frappe.db.commit()
+            except Exception as e:
+                print(f"{e}")
+    
+
 def update_po():
     po = frappe.db.get_list('Purchase Order', filters={"workflow_state":"Approved"}, fields=['*']) 
     for p in po:
