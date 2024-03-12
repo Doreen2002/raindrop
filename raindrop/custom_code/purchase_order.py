@@ -23,6 +23,19 @@ def on_update(doc, method):
     # if purchase_approver == '' or purchase_approver == None or  "Administrator" not in frappe.get_roles()  or frappe.session.user != "om.pokharel@hpl.com.np":
     #     frappe.throw("Please ask Administrator to set Purchase Approver For you")
     if doc.workflow_state == "Approved":
+		if frappe.db.get_value("Supplier", doc.supplier, "custom_supplier_email_address") != None:
+			email_args = {
+			"recipients": frappe.db.get_value("Supplier", doc.supplier, "custom_supplier_email_address"),
+			"message": ("Purchase Order Approved"),
+			"subject": 'Purchase Order Approved From  {0} '.format(doc.company),
+			"attachments": [frappe.attach_print(doc.doctype, doc.name, file_name=doc.name)],
+			"reference_doctype": doc.doctype,
+			"reference_name": doc.name
+			}
+        	enqueue(method=frappe.sendmail, queue="short", timeout=300, async=True, **email_args)	
+		if frappe.db.get_value("Supplier", doc.supplier, "custom_supplier_email_address") == None:
+			frappe.throw("Please Set Email Address for this Supplier")
+			
         if frappe.db.get_value("Item",  doc.items[0].item_code, "is_stock_item")  == 1:
             create_notification("keshav.kc@hpl.com.np", doc.name, f"Create Purchase Receipt: {doc.name} {doc.workflow_sate}")
     #     if frappe.db.get_value("Supplier", doc.supplier, "custom_email") != None:
