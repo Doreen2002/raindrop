@@ -32,8 +32,8 @@ def on_update(doc, method):
                             subject= "Purchase Order Approved From  {0} ".format(doc.company),
                             message = "Purchase Order Approved",
                             attachments = [frappe.attach_print(doc.doctype, doc.name, file_name=doc.name)],
-                			reference_doctype = doc.doctype,
-                			reference_name = doc.name
+				reference_doctype = doc.doctype,
+				reference_name = doc.name,
                             now=True,
                         )
           
