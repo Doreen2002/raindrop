@@ -24,7 +24,7 @@ def update_supplier_bank_details():
             try:
                 doc = frappe.new_doc("Bank Account")
                 doc.is_default = 1
-                doc.account_name  value[3]
+                doc.account_name  = value[3]
                 doc.bank = create_bank_supplier(value[7], value[9])
                 doc.party_type ="Supplier"
                 doc.party = value[2]
