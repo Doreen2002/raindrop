@@ -1,10 +1,5 @@
 frappe.ui.form.on("Travel Request", {
-	// refresh: function(frm) {
-	// 	frm.add_custom_button(__('Expense Claim'), function(){
-	// 		console.log('Hai');
-	// 		// frappe.msgprint(frm.doc.email);
-	// 	}, __("Create"));
-	// }
+	
 
   onload_post_render: function(frm){
 	  frm.add_custom_button(__('Expense Claim'), function(){
@@ -14,48 +9,17 @@ frappe.ui.form.on("Travel Request", {
                 if(!items.length) {
                     items = frm.doc.costings;
                 }
-
                 mr.employee = frm.doc.employee;
-                // mr.custom_email_initiator = frm.doc.custom_email_initiator_;
-		// mr.custom_purpose = frm.doc.custom_purpose
 		mr.cost_center = frm.doc.cost_center;
-		// frappe.call({
-	 //            method: 'raindrop.custom_code.internal_transfer.add_approver',
-	 //            args: {
-	 //                owner: frm.doc.owner,
-		// 	cost_center: frm.doc.cost_center
-	 //            },
-	 //            freeze: true,
-	 //            callback: (r) => {
-	 //                mr.custom_purchase_request_manager = r.message
-	 //                frm.refresh_fields()
-	 //            },
-	 //            error: (r) => {
-	 //                console.log(r)
-	 //            }
-	            
-	 //        })
-		
                 items.forEach(function(item) {
                     var mr_item = frappe.model.add_child(mr, 'expenses');
                     mr_item.expense_type = item.expense_type;
                     mr_item.amount = item.total_amount;
-                    // mr_item.uom = item.uom;
-                    // mr_item.stock_uom = item.stock_uom;
-                    // mr_item.conversion_factor = item.conversion_factor;
-                    // mr_item.item_group = item.item_group;
-                    // mr_item.description = item.description;
-                    // mr_item.image = item.image;
-                    // mr_item.qty = item.qty;
-                    // mr_item.warehouse = item.s_warehouse;
                     mr_item.expense_date = frappe.datetime.nowdate();
                 });
                 frappe.set_route('Form', 'Expense Claim', mr.name);
 					  })
 	  }, __("Create"));
-	  // cur_frm.get_docfield('travel_type').options += '\nOffice Vehicles'
-	  // frm.fields_dict['mode_of_travel'].options += "\nOffice Vehicle";
-	  // cur_frm.refresh_fields()
 	  if (frm.doc.workflow_state != "Approved"  && !frappe.user.has_role("Administrator"))
 	  {
 		  $("button:contains('Create')").hide();
@@ -69,10 +33,7 @@ frappe.ui.form.on("Travel Request", {
 	  {
 		  $("button:contains('Create')").hide();
 	  }
-	  // if (frm.doc.workflow_state == "Pending" && frm.doc.custom_travel_request_approver != frappe.session.logged_in_user && !frappe.user.has_role("Administrator"))
-	  // {
-		 //  $('.actions-btn-group').hide()
-	  // }
+	 
     frappe.call({
             method: 'raindrop.custom_code.travel_request.get_approver',
             args: {
