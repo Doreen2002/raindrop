@@ -1364,7 +1364,7 @@ def create_missing_purchase_invoice_2020_from_po():
                         doc.custom_vendor = value[18]
                         doc.custom_line_id = value[33]
                         doc.disable_rounded_total = 1
-                        doc.submit() or doc.insert()
+                        doc.insert(ignore_mandatory=True)
                         frappe.db.commit()
             except Exception as e:
                 print(f' {e}  { value[52] } ')
