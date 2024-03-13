@@ -2118,7 +2118,7 @@ def delete_pur_inv():
             frappe.db.delete("Stock Ledger Entry", {"voucher_no":frappe.db.get_value("Purchase Invoice", {"custom_bill_number":value[1]}, "name")})
             frappe.db.commit()
    
-del gl_entries():
+def gl_entries():
     gl = frappe.db.get_list("GL Entry", filters={"voucher_type": "Purchase Invoice"}, pluck="voucher_no")
     for g in gl:
         if not frappe.db.exists("Purchase Invoice", g):
