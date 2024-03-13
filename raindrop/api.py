@@ -1292,7 +1292,7 @@ def create_missing_purchase_invoice_2020_from_po():
                                                     'rate':1.5,
                                                     "tax_amount":0,
                                                     "account_head":"2310 - TDS Payable - HPL",
-                                                    "description":row[15] or ""No Uom"
+                                                    "description":row[15] or "No Uom"
                                                 })
                      
                             
