@@ -1306,7 +1306,10 @@ def create_missing_purchase_invoice_2020_from_po():
                         doc.custom_document_number = value[3]
                         doc.custom_created_by = value[4]
                         doc.custom_subsidiary = value[5]
-                        doc.supplier = frappe.db.get_value("Purchase Order", {"custom_document_number":value[52]}, 'supplier') or value[52]
+                        supplier = value[32]
+                        if value[52] != '':
+                            supplier = frappe.db.get_value("Purchase Order", {"custom_document_number":value[52]}, 'supplier')
+                        doc.supplier = supplier
                         if items != []:
                             for item in items:
                                 doc.append('items', item)
