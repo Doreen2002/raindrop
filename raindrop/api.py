@@ -1237,36 +1237,36 @@ def create_missing_purchase_invoice_2020_from_po():
                                             }
                                         )
     
-                        if value[52] == '':
-                            with open('/home/frappe/frappe-bench/apps/raindrop/Correct purchase invoice 2024 06_03_24 - Sheet1 (1).csv') as templates:
-                                reader = csv.reader(templates, delimiter=',')
-                                for row in reader:
-                                    if row[39] != '':
-                                        items.append(
-                                                {
-                                                "item_code": frappe.db.get_value('Item', {'custom_name':row[39]}, 'name'),
-                                                "price_list_rate":row[40],
-                                                "qty":row[43],
-                                                "uom": row[42],
-                                                "cost_center": f"{row[45]} - HPL",
-                                                "expense_account":"49000 - OtherCostGoodSold - HPL",
-                                                "description":row[15],
-                                                "project":row[31]
-                                                }
-                                            )
-                                    if row[39] == '':
-                                        items.append(
-                                                {
-                                                "item_code": "Virtual Item",
-                                                "price_list_rate":row[58],
-                                                "qty":1,
-                                                "uom": row[42],
-                                                "cost_center": f"{row[45]} - HPL",
-                                                "expense_account":f"{row[35]} - HPL",
-                                                "description":row[15],
-                                                "project":row[31]
-                                                }
-                                            )
+                    if value[52] == '':
+                        with open('/home/frappe/frappe-bench/apps/raindrop/Correct purchase invoice 2024 06_03_24 - Sheet1 (1).csv') as templates:
+                            reader = csv.reader(templates, delimiter=',')
+                            for row in reader:
+                                if row[39] != '':
+                                    items.append(
+                                            {
+                                            "item_code": frappe.db.get_value('Item', {'custom_name':row[39]}, 'name'),
+                                            "price_list_rate":row[40],
+                                            "qty":row[43],
+                                            "uom": row[42],
+                                            "cost_center": f"{row[45]} - HPL",
+                                            "expense_account":"49000 - OtherCostGoodSold - HPL",
+                                            "description":row[15],
+                                            "project":row[31]
+                                            }
+                                        )
+                                if row[39] == '':
+                                    items.append(
+                                            {
+                                            "item_code": "Virtual Item",
+                                            "price_list_rate":row[58],
+                                            "qty":1,
+                                            "uom": row[42],
+                                            "cost_center": f"{row[45]} - HPL",
+                                            "expense_account":f"{row[35]} - HPL",
+                                            "description":row[15],
+                                            "project":row[31]
+                                            }
+                                        )
                             
                         po_taxes = frappe.db.get_all("Purchase Taxes and Charges", filters={"parent":po_name}, fields=["*"])
                         if po_taxes != []:
