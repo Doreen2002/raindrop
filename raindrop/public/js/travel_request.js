@@ -11,6 +11,7 @@ frappe.ui.form.on("Travel Request", {
                 }
                 mr.employee = frm.doc.employee;
 		mr.cost_center = frm.doc.cost_center;
+		mr.custom_travel_request = frm.doc.name;
                 items.forEach(function(item) {
                     var mr_item = frappe.model.add_child(mr, 'expenses');
                     mr_item.expense_type = item.expense_type;
