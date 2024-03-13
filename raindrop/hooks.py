@@ -153,7 +153,8 @@ doc_events = {
 		# "on_trash": "method"
 	},
 	"Expense Claim": {
-		"on_update": "raindrop.custom_code.expense_claim.on_update"
+		"on_update": "raindrop.custom_code.expense_claim.on_update",
+		"validate": "raindrop.custom_code.expense_claim.on_save"
 		# "on_cancel": "method",
 		# "on_trash": "method"
 	},
