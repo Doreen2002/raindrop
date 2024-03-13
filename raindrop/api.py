@@ -1247,7 +1247,7 @@ def create_missing_purchase_invoice_2020_from_po():
                                             "item_code": frappe.db.get_value('Item', {'custom_name':row[39]}, 'name'),
                                             "price_list_rate":row[40],
                                             "qty":row[43],
-                                            "uom": row[42],
+                                            "uom": row[42] or "No Uom",
                                             "cost_center": f"{row[45]} - HPL",
                                             "expense_account":"49000 - OtherCostGoodSold - HPL",
                                             "description":row[15],
@@ -1260,7 +1260,7 @@ def create_missing_purchase_invoice_2020_from_po():
                                             "item_code": "Virtual Item",
                                             "price_list_rate":row[58],
                                             "qty":1,
-                                            "uom": row[42],
+                                            "uom": row[42] or "No Uom",
                                             "cost_center": f"{row[45]} - HPL",
                                             "expense_account":f"{row[35]} - HPL",
                                             "description":row[15],
@@ -1292,7 +1292,7 @@ def create_missing_purchase_invoice_2020_from_po():
                                                     'rate':1.5,
                                                     "tax_amount":0,
                                                     "account_head":"2310 - TDS Payable - HPL",
-                                                    "description":row[15]
+                                                    "description":row[15] or ""No Uom"
                                                 })
                      
                             
