@@ -4,6 +4,7 @@ from frappe.utils import today
 def on_save(doc, method):
     if doc.custom_travel_request != None:
         frappe.db.set_value('Travel Request',doc.custom_travel_request , 'custom_expense_claim_link', doc.name)
+        frappe.db.commit()
 
 
 def on_update(doc, method):
