@@ -2123,11 +2123,11 @@ def gl_entries():
     pl = frappe.db.get_list("Payment Ledger Entry", filters={"voucher_type": "Purchase Invoice"}, pluck="voucher_no")
     for g in gl:
         if not frappe.db.exists("Purchase Invoice", g):
-            frappe.db.delete("GL Entry", g)
+            frappe.db.delete("GL Entry" , {"voucher_no":g})
             frappe.db.commit()
     for p in pl:
         if not frappe.db.exists("Purchase Invoice", p):
-            frappe.db.delete("Payment Ledger Entry", p)
+            frappe.db.delete("Payment Ledger Entry", {"voucher_no":p})
             frappe.db.commit()
         
         
