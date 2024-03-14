@@ -2672,18 +2672,18 @@ def salary_payment(file_url):
                             'user_remark':row[6],
                             'cost_center':cost_center
                         })
-                doc = frappe.new_doc('Journal Entry')
-                for item in items:
-                    doc.append('accounts', item)
-                doc.custom_posting = row[0]
-                doc.custom_memo = row[6]
-                doc.posting_date = salary_date_converter(row[1])
-                doc.custom_party = row[7]
-                doc.custom_created_from = row[8]
-                doc.custom_location = row[10]
-                doc.custom_period =  row[0]
-                doc.submit()
-                frappe.db.commit()
+            doc = frappe.new_doc('Journal Entry')
+            for item in items:
+                doc.append('accounts', item)
+            doc.custom_posting = row[0]
+            doc.custom_memo = row[6]
+            doc.posting_date = salary_date_converter(row[1])
+            doc.custom_party = row[7]
+            doc.custom_created_from = row[8]
+            doc.custom_location = row[10]
+            doc.custom_period =  row[0]
+            doc.submit()
+            frappe.db.commit()
         except Exception as e:
             frappe.throw(f'{e}')
       
