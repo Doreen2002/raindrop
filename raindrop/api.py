@@ -2639,54 +2639,55 @@ def salary_date_converter(date_str):
 import pandas as pd
 @frappe.whitelist()
 def salary_payment(file_url):
-    url = f"https://test.raindropinc.com{file_url}" 
-    headers=  {
-        'Authorization': 'token 51a737926ae7a4e:d87d7eef7fb79c3'
-    }
-    response = requests.get(url, headers=headers)
-    content = response.content.decode('utf-8')
-    reader = csv.reader(content.splitlines(), delimiter=',')
-    next(reader)
-    items = []
-    for row in reader:
-        try:
-            if row[3] != '' and  frappe.db.exists('Account', f"{row[3]} - HPL"):
-                cost_center = "Main - HPL"
+    pass
+    # url = f"https://test.raindropinc.com{file_url}" 
+    # headers=  {
+    #     'Authorization': 'token 51a737926ae7a4e:d87d7eef7fb79c3'
+    # }
+    # response = requests.get(url, headers=headers)
+    # content = response.content.decode('utf-8')
+    # reader = csv.reader(content.splitlines(), delimiter=',')
+    # next(reader)
+    # items = []
+    # for row in reader:
+    #     try:
+    #         if row[3] != '' and  frappe.db.exists('Account', f"{row[3]} - HPL"):
+    #             cost_center = "Main - HPL"
                 
-                if row[11] != '':
-                    cost_center = f'{row[11]} - HPL'
-                items.append(
-                        {
+    #             if row[11] != '':
+    #                 cost_center = f'{row[11]} - HPL'
+    #             items.append(
+    #                     {
                             
-                            'account': f'{row[3]} - HPL',
-                            'debit_in_account_currency':row[5].strip().replace('-', '0'),
-                            'credit_in_account_currency':row[4].strip().replace('-', '0'),
-                            'user_remark':row[6],
-                            'cost_center':cost_center
-                        })
-                items.append(
-                        {
+    #                         'account': f'{row[3]} - HPL',
+    #                         'debit_in_account_currency':row[5].strip().replace('-', '0'),
+    #                         'credit_in_account_currency':row[4].strip().replace('-', '0'),
+    #                         'user_remark':row[6],
+    #                         'cost_center':cost_center
+    #                     })
+    #             items.append(
+    #                     {
                             
-                            'account': '2120 - Payroll Payable - HPL',
-                            'debit_in_account_currency':row[4].strip().replace('-', '0'),
-                            'credit_in_account_currency':row[5].strip().replace('-', '0'),
-                            'user_remark':row[6],
-                            'cost_center':cost_center
-                        })
-    doc = frappe.new_doc('Journal Entry')
-    for item in items:
-        doc.append('accounts', item)
-    doc.custom_posting = row[0]
-    doc.custom_memo = row[6]
-    doc.posting_date = salary_date_converter(row[1])
-    doc.custom_party = row[7]
-    doc.custom_created_from = row[8]
-    doc.custom_location = row[10]
-    doc.custom_period =  row[0]
-    doc.submit()
-    frappe.db.commit()
-        except Exception as e:
-            frappe.throw(f'{e}')
+    #                         'account': '2120 - Payroll Payable - HPL',
+    #                         'debit_in_account_currency':row[4].strip().replace('-', '0'),
+    #                         'credit_in_account_currency':row[5].strip().replace('-', '0'),
+    #                         'user_remark':row[6],
+    #                         'cost_center':cost_center
+    #                     })
+    # doc = frappe.new_doc('Journal Entry')
+    # for item in items:
+    #     doc.append('accounts', item)
+    # doc.custom_posting = row[0]
+    # doc.custom_memo = row[6]
+    # doc.posting_date = salary_date_converter(row[1])
+    # doc.custom_party = row[7]
+    # doc.custom_created_from = row[8]
+    # doc.custom_location = row[10]
+    # doc.custom_period =  row[0]
+    # doc.submit()
+    # frappe.db.commit()
+    #     except Exception as e:
+    #         frappe.throw(f'{e}')
       
                             
                             
