@@ -2675,6 +2675,11 @@ def salary_payment(file_url):
                         })
         except Exception as e:
             frappe.throw(f'{e}')
+            
+    response = requests.get(url, headers=headers)
+    content = response.content.decode('utf-8')
+    reader = csv.reader(content.splitlines(), delimiter=',')
+    next(reader)
     try:
         row = next(reader)
         doc = frappe.new_doc('Journal Entry')
