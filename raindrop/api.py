@@ -2676,16 +2676,17 @@ def salary_payment(file_url):
         except Exception as e:
             frappe.throw(f'{e}')
     try:
+        row = next(reader)
         doc = frappe.new_doc('Journal Entry')
         for item in items:
             doc.append('accounts', item)
-        doc.custom_posting = reader[0][0]
-        doc.custom_memo = reader[0][6]
-        doc.posting_date = salary_date_converter(reader[0][1])
-        doc.custom_party = reader[0][7]
-        doc.custom_created_from = reader[0][8]
-        doc.custom_location = reader[0][10]
-        doc.custom_period =  reader[0][0]
+        doc.custom_posting = row[0]
+        doc.custom_memo = row[6]
+        doc.posting_date = salary_date_converter(row[1])
+        doc.custom_party = row[7]
+        doc.custom_created_from = row[8]
+        doc.custom_location = row[10]
+        doc.custom_period =  row[0]
         doc.submit()
         frappe.db.commit()
     except Exception as e:
