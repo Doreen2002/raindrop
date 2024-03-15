@@ -2685,7 +2685,7 @@ def salary_payment(file_url):
         doc.custom_party = reader[0][7]
         doc.custom_created_from = reader[0][8]
         doc.custom_location = reader[0][10]
-        doc.custom_period =  reader[0]0]
+        doc.custom_period =  reader[0][0]
         doc.submit()
         frappe.db.commit()
     except Exception as e:
