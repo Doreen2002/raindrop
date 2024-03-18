@@ -2698,11 +2698,11 @@ def salary_payment(file_url):
         doc.custom_created_from = row[8]
         doc.custom_location = row[10]
         doc.custom_period =  row[0]
-        doc.name = f'Salary-Payment-{get_month_name(salary_date_converter(row[1]))}'
         doc.submit()
         frappe.db.commit()
+        frappe.db.set_value('Journal Entry', doc.name, 'name', f'Salary-Payment-{get_month_name(salary_date_converter(row[1]))}')
         # frappe.rename_doc('Journal Entry', doc.name, f'Salary-Payment-{get_month_name(salary_date_converter(row[1]))}')
-        # frappe.db.commit()
+        frappe.db.commit()
     except Exception as e:
         frappe.throw(f'{e}')
       
