@@ -2638,7 +2638,7 @@ def salary_date_converter(date_str):
 
 def get_month_name(date_str):
     from datetime import datetime
-    date_obj = datetime.strptime(date_str, "%d-%m-%Y")
+    date_obj = datetime.strptime(date_str, "%Y-%m-%d")
     month_name = date_obj.strftime("%B")
     return month_name
 
