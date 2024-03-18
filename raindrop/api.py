@@ -2641,7 +2641,14 @@ def get_month_name(date_str):
     date_obj = datetime.strptime(date_str, "%Y-%m-%d")
     month_name = date_obj.strftime("%B")
     return month_name
-
+    
+def get_number_code(input_string):
+    matches = re.findall(r'\b\d+\.\d+\.\d+\b', input_string.strip())
+    for match in matches:
+        parts = match.split('.')
+        if len(parts) == 3 and all(part.isdigit() for part in parts):
+            return match
+    return ''
 import pandas as pd
 @frappe.whitelist()
 def salary_payment(file_url):
@@ -2700,7 +2707,7 @@ def salary_payment(file_url):
         doc.custom_period =  row[0]
         doc.submit()
         frappe.db.commit()
-        frappe.db.set_value('Journal Entry', doc.name, 'name', f'Salary-Payment-{get_month_name(salary_date_converter(row[1]))}')
+        frappe.db.set_value('Journal Entry', doc.name, 'name', f'Salary-Payment-{get_month_name(salary_date_converter(row[1]))}-{get_number_code(doc.name)}')
         # frappe.rename_doc('Journal Entry', doc.name, f'Salary-Payment-{get_month_name(salary_date_converter(row[1]))}')
         frappe.db.commit()
     except Exception as e:
