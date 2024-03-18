@@ -2707,8 +2707,7 @@ def salary_payment(file_url):
         doc.custom_period =  row[0]
         doc.submit()
         frappe.db.commit()
-        doc_name = doc.name
-        frappe.db.set_value('Journal Entry', doc.name, 'name', f'Salary-Payment-{get_month_name(salary_date_converter(row[1]))}-{get_number_code(doc_name)}')
+        frappe.db.set_value('Journal Entry', doc.name, 'name', f'Salary-Payment-{get_month_name(salary_date_converter(row[1]))}')
         # frappe.rename_doc('Journal Entry', doc.name, f'Salary-Payment-{get_month_name(salary_date_converter(row[1]))}')
         frappe.db.commit()
     except Exception as e:
