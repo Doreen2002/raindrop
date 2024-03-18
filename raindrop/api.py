@@ -2636,6 +2636,12 @@ def salary_date_converter(date_str):
     formatted_date = date_obj.strftime("%Y-%m-%d")
     return formatted_date
 
+def get_month_name(date_str):
+    from datetime import datetime
+    date_obj = datetime.strptime(date_str, "%d-%m-%Y")
+    month_name = date_obj.strftime("%B")
+    return month_name
+
 import pandas as pd
 @frappe.whitelist()
 def salary_payment(file_url):
@@ -2693,6 +2699,8 @@ def salary_payment(file_url):
         doc.custom_location = row[10]
         doc.custom_period =  row[0]
         doc.submit()
+        frappe.db.commit()
+        frappe.rename_doc('Journal Entry', doc.name, f'Salary-Payment-{get_month_name(salary_date_converter(row[1]))}')
         frappe.db.commit()
     except Exception as e:
         frappe.throw(f'{e}')
