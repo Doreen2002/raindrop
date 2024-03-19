@@ -68,7 +68,20 @@ def execute(filters=None):
 	message, opening_balance = check_opening_balance(asset, liability, equity)
 
 	data = []
+	# frappe.throw(f"{asset}")
+	data.extend([{'account': 'Financial Row', 'value': 'Amount'}])
+	data.extend([{'account': 'Intangible assets', 'value': 'Amount'}])
 	data.extend(asset or [])
+	data.extend([{'account': 'Investment in associated companies', 'value': 'Amount'}])
+	data.extend([{'account': 'Financial assets', 'value': 'Amount'}])
+	data.extend([{'account': '1390 Other long term receivables', 'value': 'Amount'}])
+	data.extend([{'account': 'Receivables', 'value': 'Amount'}])
+	data.extend([{'account': 'Investments', 'value': 'Amount'}])
+	data.extend([{'account': 'Bank Deposist Cash', 'value': 'Amount'}])
+	data.extend([{'account': 'Share Capital', 'value': 'Amount'}])
+	data.extend([{'account': 'Provisions for liabilities', 'value': 'Amount'}])
+	data.extend([{'account': 'Long term liabilities', 'value': 'Amount'}])
+	data.extend([{'account': 'Short Term Liabilities', 'value': 'Amount'}])
 	data.extend(liability or [])
 	data.extend(equity or [])
 	if opening_balance and round(opening_balance, 2) != 0:
@@ -202,6 +215,7 @@ def get_report_summary(
 			net_provisional_profit_loss += provisional_profit_loss.get(key)
 
 	return [
+
 		{"value": net_asset, "label": _("Total Asset"), "datatype": "Currency", "currency": currency},
 		{
 			"value": net_liability,
