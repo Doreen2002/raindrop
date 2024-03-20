@@ -102,10 +102,10 @@ frappe.call({
 				cur_frm.page.actions.find('[data-label="Recommend"]').parent().parent().remove(); 
 				
 			}
-			// if( amount >= r.message.custom_purchase_approval_limit)
-			// {
-			// 	 cur_frm.page.actions.find('[data-label="Approve"]').parent().parent().remove();
-			// }
+			if( amount > r.message.custom_purchase_approval_limit)
+			{
+				 cur_frm.page.actions.find('[data-label="Approve"]').parent().parent().remove();
+			}
 			
 		})
 
