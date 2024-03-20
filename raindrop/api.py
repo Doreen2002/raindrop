@@ -650,6 +650,8 @@ def create_purchase_order_2023():
                     reader = csv.reader(templates, delimiter=',')
                     items.clear()
                     for row in reader:
+                        rate = 0
+                        qty = 1
                         if  row[0].strip() == value[0].strip():
                             if row[38] == '0%':
                                 tax = ''
@@ -659,16 +661,18 @@ def create_purchase_order_2023():
                                 item = "Virtual Item"
                             elif row[43] != '':
                                 item = frappe.db.get_value('Item', {'custom_name':row[43]}, 'name')
-                            if row[43] != '' and float(row[43]) >= 0:
-                                qty = row[43]
+                            if row[43] != '' :
+                                if float(row[43]) > 0:
+                                    qty = row[43]
                             else:
                                 qty = 1
                                 rate = 0
-                            if row[40] != '' and (row[40] != '' and float(row[40]) >= 0):
-                                rate = row[40]
-                            elif row[40] == '':
+                            if row[40] != '':
+                                if float(row[40]) > 0:
+                                    rate = row[40]
+                            else:
                                 rate = 0
-                            if row[39] == '' and row[34] != '':
+                            if row[34] != '':
                                 if not frappe.db.exists('Account', f"{row[34].strip()} - HPL"):
                                     acc = frappe.new_doc('Account')
                                     acc.account_name = row[34].strip()
@@ -679,25 +683,13 @@ def create_purchase_order_2023():
                                     acc.is_group = 0
                                     acc.insert(ignore_mandatory=True)
                                     frappe.db.commit()
-                                    items.append(
-                                    {
-                                    "item_code":"Virtual Item",
-                                    "qty": 1,
-                                    "rate": row[54],
-                                    "schedule_date":date_converter(value[1]),
-                                    "description":row[14],
-                                    "custom_description":row[14],
-                                    "expense_account":f"{row[34].strip()} - HPL",
-                                    "custom_expense_category":value[33],
-                                    "cost_center":f'{row[12]} - HPL'
-                                        }
-                                        )
-
+                            if row[39] == '' :
                                 items.append(
                                 {
                                 "item_code":"Virtual Item",
-                                "qty": 1,
-                                "rate": row[54],
+                                "qty": qty,
+                                "rate": row[40],
+                                "price_list_rate": row[40],
                                 "schedule_date":date_converter(value[1]),
                                 "description":row[14],
                                  "custom_description":row[14],

@@ -22,7 +22,7 @@ def on_update(doc, method):
     purchase_approver = frappe.db.get_value("Employee Cost Center Manager", {"parent":employee, "cost_center":doc.cost_center}, "supervisor")
     # if purchase_approver == '' or purchase_approver == None or  "Administrator" not in frappe.get_roles()  or frappe.session.user != "om.pokharel@hpl.com.np":
     #     frappe.throw("Please ask Administrator to set Purchase Approver For you")
-    if doc.workflow_state == "Approved":
+    if doc.workflow_state == "Approved" and frappe.session.user != "Administrator":
         if frappe.db.get_value("Supplier", doc.supplier, "custom_supplier_email_address") != None:
             frappe.enqueue(
                             queue="short",
