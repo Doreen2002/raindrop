@@ -686,6 +686,7 @@ def create_purchase_order_2023():
                                     "rate": row[54],
                                     "schedule_date":date_converter(value[1]),
                                     "description":row[14],
+                                    "custom_description":row[14],
                                     "expense_account":f"{row[34].strip()} - HPL",
                                     "custom_expense_category":value[33],
                                     "cost_center":f'{row[12]} - HPL'
@@ -699,6 +700,7 @@ def create_purchase_order_2023():
                                 "rate": row[54],
                                 "schedule_date":date_converter(value[1]),
                                 "description":row[14],
+                                 "custom_description":row[14],
                                  "expense_account":f"{row[34].strip()} - HPL",
                                  "custom_expense_category":value[33],
                                  "cost_center":f'{row[12]} - HPL'
@@ -712,6 +714,7 @@ def create_purchase_order_2023():
                                 "rate": rate,
                                 "schedule_date":date_converter(value[1]),
                                 "description":row[14],
+                                 "custom_description":row[14],
                                 "expense_account":"49000 - OtherCostGoodSold - HPL",
                                 "custom_expense_category":value[33],
                                 "cost_center":f'{row[12]} - HPL'
