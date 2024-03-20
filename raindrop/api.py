@@ -790,7 +790,7 @@ def create_purchase_order_2023():
                     for item in items:
                         doc.append("items", item)
                     doc.docstatus = 1
-                    doc.db_insert()
+                    doc.submit()
                     frappe.db.commit()
             except Exception as e:
                 print(f'{e} {value[2]}')
