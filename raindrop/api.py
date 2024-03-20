@@ -483,12 +483,12 @@ def date_converter(date_str):
 
 
 def create_purchase_order():
-    with open('/home/frappe/frappe-bench/apps/raindrop/Number - backuppurchaseorderResults.csv') as design_file:
+    with open('/home/doreenalita/frappe-bench2/apps/raindrop/Number - backuppurchaseorderResults.csv') as design_file:
         reader_po = csv.reader(design_file, delimiter=',')
         for value in reader_po:
             try:
                 items = []
-                with open('/home/frappe/frappe-bench/apps/raindrop/Purchase order 2020 to 2023 Updated   - backuppurchaseorderResults.csv') as templates:
+                with open('/home/doreenalita/frappe-bench2/apps/raindrop/Purchase order 2020 to 2023 Updated   - backuppurchaseorderResults.csv') as templates:
                     reader = csv.reader(templates, delimiter=',')
                     items.clear()
                     for row in reader:
@@ -559,7 +559,7 @@ def create_purchase_order():
                                     }
                                     )
                
-                if len(items) > 0:
+                if len(items) > 0 and  not frappe.db.exists("Purchase Order", {"custom_internal_id":value[0]}):
                     doc = frappe.new_doc('Purchase Order')
                     if value[5] == "Nepalese Rupee":
                         doc.currency = "NPR"
@@ -718,7 +718,7 @@ def create_purchase_order_2023():
                                     }
                                     )
                
-                if len(items) > 0:
+                if len(items) > 0 and not frappe.db.exists("Purchase Order", {"custom_internal_id":value[0]}):
                     doc = frappe.new_doc('Purchase Order')
                     doc.supplier = value[31]
                     doc.custom_vendor_name = value[7]
@@ -790,7 +790,7 @@ def create_purchase_order_2023():
                     for item in items:
                         doc.append("items", item)
                     doc.docstatus = 1
-                    doc.submit()
+                    doc.db_insert()
                     frappe.db.commit()
             except Exception as e:
                 print(f'{e} {value[2]}')
