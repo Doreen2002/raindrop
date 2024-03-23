@@ -2712,8 +2712,34 @@ def salary_payment(file_url):
                             
                         
                        
-              
+def missing_stock_in():
+    with open('/home/frappe/frappe-bench/apps/raindrop/erpnext missing stock - Sheet1.csv') as design_file:
+        reader_po = csv.reader(design_file, delimiter=',')
+        for value in reader_po:
+            try:
+                items = []
+                frappe.db.set_value('Item', frappe.db.get_value('Item', {'custom_name': ['like', f'%{value[1]}%']}, 'name'), 'is_stock_item', 1)
+                frappe.db.commit()
+                items.append(  {
+                "t_warehouse": f"KIRNE - HPL",
+                "item_code":  frappe.db.get_value('Item', {'custom_name': ['like', f'%{value[1]}%']}, 'name') ,
+                "qty":value[2],
+                "allow_zero_valuation_rate":1,
+                "cost_center": "KHIM1 - HPL"
+
+            }
+                    )
+                doc = frappe.new_doc("Stock Entry")
+                doc.stock_entry_type = "Material Receipt"
+                for item in items:
+                    doc.append('items',item)
+                doc.docstatus = 1
+                doc.insert()
+                frappe.db.commit()
+            except Exception as e:
+                print(f'{e} {value[1]} ')        
                 
+
         
     
                              
