@@ -2729,8 +2729,7 @@ def missing_stock_in():
 
             }
                     )
-                doc = frappe.new_doc("Stock Entry Ledger")
-                doc.voucher_type = "Stock Entry"
+                doc = frappe.new_doc("Stock Entry")
                 doc.stock_entry_type = "Material Receipt"
                 for item in items:
                     doc.append('items',item)
