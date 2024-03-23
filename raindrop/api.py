@@ -2720,16 +2720,22 @@ def missing_stock_in():
                 items = []
                 frappe.db.set_value('Item', frappe.db.get_value('Item', {'custom_name': ['like', f'%{value[1]}%']}, 'name'), 'is_stock_item', 1)
                 frappe.db.commit()
-                doc = frappe.new_doc("Stock Ledger Entry")
-                doc.posting_date = "2020-01-01"
+                items.append(  {
+                "t_warehouse": f"KIRNE - HPL",
+                "item_code":  frappe.db.get_value('Item', {'custom_name': ['like', f'%{value[1]}%']}, 'name') ,
+                "qty":value[2],
+                "allow_zero_valuation_rate":1,
+                "cost_center": "KHIM1 - HPL"
+
+            }
+                    )
+                doc = frappe.new_doc("Stock Entry Ledger")
                 doc.voucher_type = "Stock Entry"
-                doc.warehouse = f"KIRNE - HPL"
-                doc.cost_center = "KHIM1 - HPL"
-                doc.qty = value[2]
-                doc.item_code = frappe.db.get_value('Item', {'custom_name': ['like', f'%{value[1]}%']}, 'name') ,
                 doc.stock_entry_type = "Material Receipt"
+                for item in items:
+                    doc.append('items',item)
                 doc.docstatus = 1
-                doc.db_insert()
+                doc.insert()
                 frappe.db.commit()
             except Exception as e:
                 print(f'{e} {value[1]} ')        
