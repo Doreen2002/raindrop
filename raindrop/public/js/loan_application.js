@@ -10,8 +10,8 @@ onload_post_render: function(frm){
 // 		$('.actions-btn-group').show()
 // 	}
   
-	cur_frm.set_df_property('approval_status', 'hidden', 1);
-  cur_frm.set_df_property('expense_approver', 'hidden', 1);
+	// cur_frm.set_df_property('approval_status', 'hidden', 1);
+ //  cur_frm.set_df_property('expense_approver', 'hidden', 1);
   cur_frm.refresh_fields();
 	
 
@@ -26,7 +26,7 @@ onload_post_render: function(frm){
             },
             freeze: true,
             callback: (r) => {
-                frm.doc.expense_approver = r.message;
+                frm.doc.custom_purchase_approver__id = r.message;
                 frm.refresh_fields();
             },
             error: (r) => {
