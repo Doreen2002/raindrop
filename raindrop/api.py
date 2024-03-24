@@ -2717,29 +2717,89 @@ def missing_stock_in():
         reader_po = csv.reader(design_file, delimiter=',')
         for value in reader_po:
             try:
+                rate = ''
+                with open('/home/frappe/frappe-bench/apps/raindrop/missing stock rate - Sheet1.csv') as templates:
+                    reader = csv.reader(templates, delimiter=',')
+                    for row in reader:
+                        if value[1] == row[0]:
+                            rate = row[4]
                 items = []
+               
                 frappe.db.set_value('Item', frappe.db.get_value('Item', {'custom_name': ['like', f'%{value[1]}%']}, 'name'), 'is_stock_item', 1)
                 frappe.db.commit()
-                items.append(  {
-                "t_warehouse": f"KIRNE - HPL",
-                "item_code":  frappe.db.get_value('Item', {'custom_name': ['like', f'%{value[1]}%']}, 'name') ,
-                "qty":value[2],
-                "allow_zero_valuation_rate":1,
-                "cost_center": "KHIM1 - HPL"
+                from erpnext.stock.stock_ledger import NegativeStockError, get_previous_sle
+                previous_sle = get_previous_sle({
+                'item_code':frappe.db.get_value('Item', {'custom_name': ['like', f'%{value[1]}%']}, 'name'),
+                'warehouse': f"KIRNE (N) - HPL",
+                'posting_date': "2023-12-31",
+                })
+                stock_after_transaction =previous_sle.get('qty_after_transaction') \
+                or 0
+                #stock_after_transaction = frappe.db.get_value('Stock Ledger Entry', {'item_code': ['like', f'%{value[1]}%'],  "warehouse":"KIRNE (N) - HPL ", "posting_date":['between', ['2019-01-01', '2023-12-31']]}, 'qty_after_transaction')
+                if frappe.db.exists('Stock Ledger Entry', {'item_code': ['like', f'%{value[1]}%'],  "warehouse":"KIRNE (N) - HPL "}):
+                    if stock_after_transaction   < float(value[2]):
+                        items.append(  {
+                        "t_warehouse": f"KIRNE (N) - HPL",
+                        "item_code":  frappe.db.get_value('Item', {'custom_name': ['like', f'%{value[1]}%']}, 'name') ,
+                        "qty":float(value[2]) - stock_after_transaction,
+                        "cost_center": "KHIM1 - HPL",
+                        "basic_rate": rate
 
-            }
+                    }
+                        )
+                        doc = frappe.new_doc("Stock Entry")
+                        doc.set_posting_time = 1
+                        doc.posting_date = "2023-12-31"
+                        doc.stock_entry_type = "Material Receipt"
+                        for item in items:
+                            doc.append('items',item)
+                        doc.docstatus = 1
+                        doc.insert()
+                        frappe.db.commit()
+                    if stock_after_transaction   > float(value[2]):
+                        items.append(  {
+                        "s_warehouse": f"KIRNE (N) - HPL",
+                        "item_code":  frappe.db.get_value('Item', {'custom_name': ['like', f'%{value[1]}%']}, 'name') ,
+                        "qty": stock_after_transaction  - float(value[2]) ,
+                        "cost_center": "KHIM1 - HPL",
+                        "basic_rate": rate
+
+                    }
+                        ) 
+                        doc = frappe.new_doc("Stock Entry")
+                        doc.set_posting_time = 1
+                        doc.posting_date = "2023-12-31"
+                        doc.stock_entry_type = "Material Issue"
+                        for item in items:
+                            doc.append('items',item)
+                        doc.docstatus = 1
+                        doc.insert()
+                        frappe.db.commit()
+                    
+                if not frappe.db.exists('Stock Ledger Entry', {'item_code': ['like', f'%{value[1]}%'],  "warehouse":"KIRNE (N) - HPL "}):
+                    items.append(  {
+                    "t_warehouse": f"KIRNE (N) - HPL",
+                    "item_code":  frappe.db.get_value('Item', {'custom_name': ['like', f'%{value[1]}%']}, 'name') ,
+                    "qty":float(value[2]),
+                    "cost_center": "KHIM1 - HPL",
+                    "basic_rate": rate
+                }
                     )
-                doc = frappe.new_doc("Stock Entry")
-                doc.stock_entry_type = "Material Receipt"
-                for item in items:
-                    doc.append('items',item)
-                doc.docstatus = 1
-                doc.insert()
-                frappe.db.commit()
+                    doc = frappe.new_doc("Stock Entry")
+                    doc.set_posting_time = 1
+                    doc.posting_date = "2023-12-31"
+                    doc.stock_entry_type = "Material Receipt"
+                    for item in items:
+                        doc.append('items',item)
+                    doc.docstatus = 1
+                    doc.insert()
+                    frappe.db.commit()
+                    
             except Exception as e:
-                print(f'{e} {value[1]} ')        
+                print(f'{e} {value[1]} {items}')        
                 
-
+    
+                
         
     
                              
