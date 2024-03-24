@@ -28,7 +28,6 @@ onload_post_render: function(frm){
             callback: (r) => {
                 frm.doc.custom_purchase_approver__id = r.message;
                 frm.refresh_fields();
-				consol.log("Hello")
             },
             error: (r) => {
                 console.log(r)
