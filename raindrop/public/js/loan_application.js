@@ -1,4 +1,4 @@
-frappe.ui.form.on("Expense Claim", {
+frappe.ui.form.on("Loan Application", {
 onload_post_render: function(frm){
 	
 // if (frm.doc.workflow_state == "Pending" && frm.doc.expense_approver != frappe.session.logged_in_user && !frappe.user.has_role("Administrator"))
@@ -20,7 +20,7 @@ onload_post_render: function(frm){
     before_save(frm)
         {
             frappe.call({
-            method: 'raindrop.custom_code.expense_claim.add_approver',
+            method: 'raindrop.custom_code.loan_application.add_approver',
             args: {
                 owner: frm.doc.owner
             },
