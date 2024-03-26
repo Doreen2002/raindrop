@@ -2670,7 +2670,9 @@ def salary_payment(file_url):
                             'debit_in_account_currency':row[5].strip().replace('-', '0'),
                             'credit_in_account_currency':row[4].strip().replace('-', '0'),
                             'user_remark':row[6],
-                            'cost_center':cost_center
+                            'cost_center':cost_center,
+                            'party_type':'Employee',
+                            'party':row[7]
                         })
                 items.append(
                         {
@@ -2679,7 +2681,9 @@ def salary_payment(file_url):
                             'debit_in_account_currency':row[4].strip().replace('-', '0'),
                             'credit_in_account_currency':row[5].strip().replace('-', '0'),
                             'user_remark':row[6],
-                            'cost_center':cost_center
+                            'cost_center':cost_center,
+                            'party_type':'Employee',
+                            'party':row[7]
                         })
         except Exception as e:
             frappe.throw(f'{e}')
