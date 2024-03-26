@@ -2672,7 +2672,7 @@ def salary_payment(file_url):
                             'user_remark':row[6],
                             'cost_center':cost_center,
                             'party_type':'Employee',
-                            'party':row[7]
+                            'party':row[7].strip()
                         })
                 items.append(
                         {
@@ -2683,7 +2683,7 @@ def salary_payment(file_url):
                             'user_remark':row[6],
                             'cost_center':cost_center,
                             'party_type':'Employee',
-                            'party':row[7]
+                            'party':row[7].strip()
                         })
         except Exception as e:
             frappe.throw(f'{e}')
