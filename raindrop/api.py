@@ -2663,7 +2663,31 @@ def salary_payment(file_url):
                 
                 if row[11] != '':
                     cost_center = f'{row[11]} - HPL'
-                items.append(
+                if row[7] != '':
+                    items.append(
+                            {
+                                
+                                'account': f'{row[3]} - HPL',
+                                'debit_in_account_currency':row[5].strip().replace('-', '0'),
+                                'credit_in_account_currency':row[4].strip().replace('-', '0'),
+                                'user_remark':row[6],
+                                'cost_center':cost_center,
+                                'party_type':'Employee',
+                                'party':row[7].strip()
+                            })
+                    items.append(
+                            {
+                                
+                                'account': '2120 - Payroll Payable - HPL',
+                                'debit_in_account_currency':row[4].strip().replace('-', '0'),
+                                'credit_in_account_currency':row[5].strip().replace('-', '0'),
+                                'user_remark':row[6],
+                                'cost_center':cost_center,
+                                'party_type':'Employee',
+                                'party':row[7].strip()
+                            })
+                if row[7] == '':
+                     items.append(
                         {
                             
                             'account': f'{row[3]} - HPL',
@@ -2671,8 +2695,6 @@ def salary_payment(file_url):
                             'credit_in_account_currency':row[4].strip().replace('-', '0'),
                             'user_remark':row[6],
                             'cost_center':cost_center,
-                            'party_type':'Employee',
-                            'party':row[7].strip()
                         })
                 items.append(
                         {
@@ -2682,8 +2704,6 @@ def salary_payment(file_url):
                             'credit_in_account_currency':row[5].strip().replace('-', '0'),
                             'user_remark':row[6],
                             'cost_center':cost_center,
-                            'party_type':'Employee',
-                            'party':row[7].strip()
                         })
         except Exception as e:
             frappe.throw(f'{e}')
